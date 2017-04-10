@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* *****************************************
+* CSCI205 - Software Engineering and Design
+* Spring 2017 - Final Project
+*
+* Name: Christian Ouellette, Keller Chambers, Stephen Haberle, Peyton Rumachik
+* Date: Apr 10, 2017
+* Time: 12:30:14 PM
+*
+* Project: warboats
+* Package: warboats
+* File: gar
+* Description:
+*
+* ****************************************
  */
 package warboats;
 

@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* *****************************************
+* CSCI205 - Software Engineering and Design
+* Spring 2017 - Final Project
+*
+* Name: Christian Ouellette, Keller Chambers, Stephen Haberle, Peyton Rumachik
+* Date: Apr 10, 2017
+* Time: 12:13:14 PM
+*
+* Project: warboats
+* Package: warboats
+* File: gar
+* Description:
+*
+* ****************************************
  */
 package warboats;
 
@@ -14,10 +24,13 @@ import java.util.Date;
  *
  * @author clo006
  */
-public class warboatsServer extends Listener {
+public class WarboatsServer extends Listener {
 
     static Server server;
     static int udpPort = 27960, tcpPort = 27960;
+
+    //a boolean value, going to use it to ensure turn based?
+    static boolean messageReceived = false;
 
     public static void run() throws Exception {
         System.out.println("Creating the server...");
@@ -35,7 +48,7 @@ public class warboatsServer extends Listener {
         server.start();
 
         //add the listener
-        server.addListener(new warboatsServer());
+        server.addListener(new WarboatsServer());
 
         System.out.println("Server is operational");
     }
@@ -58,8 +71,23 @@ public class warboatsServer extends Listener {
 
     //this is run when we receive a packet
     public void received(Connection c, Object p) {
-        //we will do nothing here
-        //we do not expect to receive any packets
+        if (p instanceof TestCoordinates) {
+            //cast it, so we can access the message within
+            TestCoordinates packet = (TestCoordinates) p;
+            System.out.println(
+                    "Received a message from the client: " + packet.message);
+            //we have now received the message
+            messageReceived = true;
+
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+                System.out.println("SLEEP DIDNT WORK");
+            }
+
+            packet.message = new Date().toString();
+            c.sendTCP(packet);
+        }
     }
 
     //this is run when a client has disconnected

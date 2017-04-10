@@ -1,9 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* *****************************************
+* CSCI205 - Software Engineering and Design
+* Spring 2017 - Final Project
+*
+* Name: Christian Ouellette, Keller Chambers, Stephen Haberle, Peyton Rumachik
+* Date: Apr 10, 2017
+* Time: 12:10:11 PM
+*
+* Project: warboats
+* Package: warboats
+* File: gar
+* Description:
+*
+* ****************************************
  */
 package warboats;
+
+import static java.lang.Thread.sleep;
 
 /**
  *
@@ -11,7 +23,8 @@ package warboats;
  */
 public class Warboats {
 
-    static int udpPort = 27960, tcpPort = 27960;
+    static WarboatsClient client;
+    static WarboatsServer server;
 
     /**
      * @param args the command line arguments
@@ -19,11 +32,22 @@ public class Warboats {
     public static void main(String[] args) throws Exception {
         try {
             System.out.println("Checking if server is online");
-            warboatsClient.run();
+            client = new WarboatsClient();
+            client.run();
+
         } catch (Exception e) {
             System.out.println(
                     "Connection failed. No existing server. Building server.");
-            warboatsServer.run();
+            server = new WarboatsServer();
+            server.run();
+        }
+
+        while (true) {
+            System.out.println("= \r");
+            sleep(1000);
+            System.out.println("% \r");
+            sleep(1000);
+
         }
     }
 

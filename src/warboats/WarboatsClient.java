@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* *****************************************
+* CSCI205 - Software Engineering and Design
+* Spring 2017 - Final Project
+*
+* Name: Christian Ouellette, Keller Chambers, Stephen Haberle, Peyton Rumachik
+* Date: Apr 10, 2017
+* Time: 12:17:28 PM
+*
+* Project: warboats
+* Package: warboats
+* File: gar
+* Description:
+*
+* ****************************************
  */
 package warboats;
 
@@ -9,18 +19,19 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import java.net.InetAddress;
+import java.util.Date;
 
 /**
  *
  * @author clo006
  */
-public class warboatsClient extends Listener {
+public class WarboatsClient extends Listener {
 
     static Client client;
     static String ip = "localhost";
     static int tcpPort = 27960, udpPort = 27960;
 
-    //a boolean value
+    //a boolean value, going to use it to ensure turn based?
     static boolean messageReceived = false;
 
     public static void run() throws Exception {
@@ -36,20 +47,24 @@ public class warboatsClient extends Listener {
         //the client MUST be started before connecting can take place
 
         //connect to the server - wait 5000ms before failing
+        //updated to use client's IP address, NOT YET TESTED WITH OTHER PC
         client.connect(5000, InetAddress.getLocalHost(), tcpPort, udpPort);
 
         //add a listener
-        client.addListener(new warboatsClient());
+        client.addListener(new WarboatsClient());
 
         System.out.println(
                 "Connected! The client program is now waiting for a packet...\n");
 
+        //test to see if client stays open
         //this is here to stop the program from closing before we received a messsage
+        /*
         while (!messageReceived) {
-            Thread.sleep(100);
+            Thread.sleep(1000);
         }
         System.out.println("Client will now exit.");
         System.exit(0);
+         */
     }
 
     //only method that needs to be implemented from listener class because this is the only one needed
@@ -61,7 +76,15 @@ public class warboatsClient extends Listener {
             System.out.println(
                     "Received a message from the host: " + packet.message);
             //we have now received the message
-            messageReceived = true;
+            //messageReceived = true;
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+                System.out.println("SLEEP DIDNT WORK");
+            }
+
+            packet.message = "some shit " + new Date().toString();
+            c.sendTCP(packet);
         }
     }
 }
