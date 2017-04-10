@@ -19,7 +19,6 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import java.net.InetAddress;
-import java.util.Date;
 
 /**
  *
@@ -56,7 +55,7 @@ public class WarboatsClient extends Listener {
         client.addListener(new WarboatsClient());
 
         System.out.println(
-                "Connected! The client program is now waiting for a packet...\n");
+                "Connected! The client program is now waiting for a packet...");
 
         //test to see if client stays open
         //this is here to stop the program from closing before we received a messsage
@@ -84,9 +83,6 @@ public class WarboatsClient extends Listener {
             } catch (Exception e) {
                 System.out.println("SLEEP DIDNT WORK");
             }
-
-            packet.message = "some shit " + new Date().toString();
-            c.sendTCP(packet);
         }
     }
 }

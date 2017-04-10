@@ -23,8 +23,8 @@ import java.util.Scanner;
  */
 public class Warboats {
 
-    static WarboatsClient activeClient;
-    static WarboatsServer activeServer;
+    static WarboatsClient activeClient = null;
+    static WarboatsServer activeServer = null;
     private boolean playerType = false;
 
     /**
@@ -56,7 +56,12 @@ public class Warboats {
                 TestCoordinates t = new TestCoordinates();
                 t.message = temp;
 
-                activeClient.client.sendTCP(t);
+                if (activeServer == null) {
+                    activeClient.client.sendTCP(t);
+                }
+                else {
+                    activeServer.server.sendToTCP(1, t); //1 is the connection number
+                }
 
             }
         }
