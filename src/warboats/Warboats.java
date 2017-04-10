@@ -25,7 +25,7 @@ public class Warboats {
 
     static WarboatsClient activeClient = null;
     static WarboatsServer activeServer = null;
-    private boolean playerType = false;
+    private boolean playerTurn = false;
 
     /**
      * @param args the command line arguments
@@ -48,23 +48,30 @@ public class Warboats {
             //this.playerType = false;
         }
 
-        if (true) {
-            while (true) {
-                System.out.print("Enter some shit: ");
-                Scanner in = new Scanner(System.in);
-                String temp = in.nextLine();
-                TestCoordinates t = new TestCoordinates();
-                t.message = temp;
+        while (true) {
+            System.out.print("Enter some shit: ");
+            Scanner in = new Scanner(System.in);
+            String temp = in.nextLine();
+            TestCoordinates t = new TestCoordinates();
+            t.message = temp;
 
-                if (activeServer == null) {
-                    activeClient.client.sendTCP(t);
-                }
-                else {
-                    activeServer.server.sendToTCP(1, t); //1 is the connection number
-                }
+            if (activeServer == null) {
+                activeClient.client.sendTCP(t);
+            }
+            else {
+                //Currently hardcoded to 1 connection
+                activeServer.server.sendToTCP(1, t);
 
             }
         }
+    }
+
+    public boolean isPlayerTurn() {
+        return playerTurn;
+    }
+
+    public void togglePlayerTurn() {
+        this.playerTurn = !(playerTurn);
     }
 
 }

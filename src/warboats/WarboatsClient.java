@@ -57,15 +57,6 @@ public class WarboatsClient extends Listener {
         System.out.println(
                 "Connected! The client program is now waiting for a packet...");
 
-        //test to see if client stays open
-        //this is here to stop the program from closing before we received a messsage
-        /*
-        while (!messageReceived) {
-            Thread.sleep(1000);
-        }
-        System.out.println("Client will now exit.");
-        System.exit(0);
-         */
     }
 
     //only method that needs to be implemented from listener class because this is the only one needed
