@@ -28,7 +28,7 @@ import java.util.Date;
 public class WarboatsClient extends Listener {
 
     static Client client;
-    static String ip = "localhost";
+    static InetAddress ip;
     static int tcpPort = 27960, udpPort = 27960;
 
     //a boolean value, going to use it to ensure turn based?
@@ -46,9 +46,11 @@ public class WarboatsClient extends Listener {
         client.start();
         //the client MUST be started before connecting can take place
 
+        //Sets "address" to address of first server found running on UDP port 27960
+        ip = client.discoverHost(27960, 5000);
+
         //connect to the server - wait 5000ms before failing
-        //updated to use client's IP address, NOT YET TESTED WITH OTHER PC
-        client.connect(5000, InetAddress.getLocalHost(), tcpPort, udpPort);
+        client.connect(5000, ip, tcpPort, udpPort);
 
         //add a listener
         client.addListener(new WarboatsClient());

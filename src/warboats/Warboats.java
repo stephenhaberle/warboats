@@ -15,7 +15,7 @@
  */
 package warboats;
 
-import static java.lang.Thread.sleep;
+import java.util.Scanner;
 
 /**
  *
@@ -23,8 +23,9 @@ import static java.lang.Thread.sleep;
  */
 public class Warboats {
 
-    static WarboatsClient client;
-    static WarboatsServer server;
+    static WarboatsClient activeClient;
+    static WarboatsServer activeServer;
+    private boolean playerType = false;
 
     /**
      * @param args the command line arguments
@@ -32,22 +33,32 @@ public class Warboats {
     public static void main(String[] args) throws Exception {
         try {
             System.out.println("Checking if server is online");
-            client = new WarboatsClient();
-            client.run();
+            activeClient = new WarboatsClient();
+            activeClient.run();
 
+            //indicates this instance is associated with activeClient
+            //this.playerType = true;
         } catch (Exception e) {
             System.out.println(
                     "Connection failed. No existing server. Building server.");
-            server = new WarboatsServer();
-            server.run();
+            activeServer = new WarboatsServer();
+            activeServer.run();
+
+            //indicates this instance is associated with activeServer
+            //this.playerType = false;
         }
 
-        while (true) {
-            System.out.println("= \r");
-            sleep(1000);
-            System.out.println("% \r");
-            sleep(1000);
+        if (true) {
+            while (true) {
+                System.out.print("Enter some shit: ");
+                Scanner in = new Scanner(System.in);
+                String temp = in.nextLine();
+                TestCoordinates t = new TestCoordinates();
+                t.message = temp;
 
+                activeClient.client.sendTCP(t);
+
+            }
         }
     }
 
