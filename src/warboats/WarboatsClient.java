@@ -30,16 +30,13 @@ public class WarboatsClient extends Listener {
     static InetAddress ip;
     static int tcpPort = 27960, udpPort = 27960;
 
-    //a boolean value, going to use it to ensure turn based?
-    static boolean myTurn = false;
-
     public static void run() throws Exception {
         System.out.println("Connecting to the server...");
         //create the client
         client = new Client();
 
         //register the packet object
-        client.getKryo().register(TestCoordinates.class);
+        client.getKryo().register(Coordinates.class);
 
         //start the client
         client.start();
@@ -55,25 +52,44 @@ public class WarboatsClient extends Listener {
         client.addListener(new WarboatsClient());
 
         System.out.println(
-                "Connected! The client program is now waiting for a packet...");
+                "CLIENT: Connected! The client program is now waiting for a packet...");
 
     }
 
     //only method that needs to be implemented from listener class because this is the only one needed
     public void received(Connection c, Object p) {
         //is the received packet the same class as PacketMessage.class?
-        if (p instanceof TestCoordinates) {
+        if (p instanceof Coordinates) {
             //cast it, so we can access the message within
-            TestCoordinates packet = (TestCoordinates) p;
-            System.out.println(
-                    "Received a message from the host: " + packet.message);
+            Coordinates packet = (Coordinates) p;
+            System.out.print("MESSAGE FROM SERVER  ");
+            System.out.print("X: " + packet.x);
+            System.out.println(" Y: " + packet.y);
             //we have now received the message
-            //messageReceived = true;
+
+            boolean hitIndicator = Warboats.getTheModel().getMyBoard().checkHit(
+                    packet.x, packet.y);
+
+            c.sendTCP(hitIndicator);
+
+            Warboats.togglePlayerTurn();
             try {
                 Thread.sleep(100);
             } catch (Exception e) {
                 System.out.println("SLEEP DIDNT WORK");
             }
+        }
+        //For receiving server connect confirmation
+        else if (p instanceof String) {
+            String packet = (String) p;
+            System.out.println(packet);
+        }
+        //For receiving hit/miss confirmation
+        else if (p instanceof Boolean) {
+            Boolean packet = (Boolean) p;
+            Warboats.getTheModel().getOpponentBoard().hitMiss(
+                    packet.booleanValue(),
+                    Warboats.getTheModel().getLastShot());
         }
     }
 }

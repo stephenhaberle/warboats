@@ -28,16 +28,13 @@ public class WarboatsServer extends Listener {
     static Server server;
     static int udpPort = 27960, tcpPort = 27960;
 
-    //a boolean value, going to use it to ensure turn based?
-    static boolean myTurn = false;
-
     public static void run() throws Exception {
         System.out.println("Creating the server...");
         //create the server
         server = new Server();
 
         //register a packet class
-        server.getKryo().register(TestCoordinates.class);
+        server.getKryo().register(Coordinates.class);
         //we can only send objects as packets if they are registered
 
         //bind to a port
@@ -55,28 +52,32 @@ public class WarboatsServer extends Listener {
     //this is run when a connection is received
     public void connected(Connection c) {
         System.out.println(
-                "Received a connection from " + c.getRemoteAddressTCP().getHostString());
+                "\nReceived a connection from " + c.getRemoteAddressTCP().getHostString() + "\n");
         //create a message packet
-        TestCoordinates packetMessage = new TestCoordinates();
+        String packetMessage = "";
         //assign the message text
-        packetMessage.message = "Connection to server established.";
+        packetMessage = "SERVER: Connection to server established.";
 
         //send the message
-//        c.sendTCP(packetMessage);
-        //alternatively, we could do:
-        //c.sendUDP(packetMessage);
-        //to send over UDP
+        c.sendTCP(packetMessage);
     }
 
     //this is run when we receive a packet
     public void received(Connection c, Object p) {
-        if (p instanceof TestCoordinates) {
+        if (p instanceof Coordinates) {
             //cast it, so we can access the message within
-            TestCoordinates packet = (TestCoordinates) p;
-            System.out.println(
-                    "Received a message from the client: " + packet.message);
+            Coordinates packet = (Coordinates) p;
+            System.out.print("MESSAGE FROM CLIENT  ");
+            System.out.print("X: " + packet.x);
+            System.out.println(" Y: " + packet.y);
             //we have now received the message
-            myTurn = true;
+
+            Boolean hitIndicator = Warboats.getTheModel().getMyBoard().checkHit(
+                    packet.x, packet.y);
+
+            c.sendTCP(hitIndicator);
+
+            Warboats.togglePlayerTurn();
 
             try {
                 Thread.sleep(100);
@@ -84,8 +85,13 @@ public class WarboatsServer extends Listener {
                 System.out.println("SLEEP DIDNT WORK");
             }
 
-//            packet.message = new Date().toString();
-//            c.sendTCP(packet);
+        }
+
+        else if (p instanceof Boolean) {
+            Boolean packet = (Boolean) p;
+            Warboats.getTheModel().getOpponentBoard().hitMiss(
+                    packet.booleanValue(),
+                    Warboats.getTheModel().getLastShot());
         }
     }
 

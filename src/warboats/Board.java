@@ -32,10 +32,10 @@ public class Board {
 
         markerArray = new ArrayList<ArrayList<Marker>>();
 
-        for (int i = 0; i < width; i++) {
+        for (int x = 0; x < width; x++) {
             markerArray.add(new ArrayList<Marker>());
-            for (int j = 0; j < height; j++) {
-                markerArray.get(i).add(new Marker(i, j));
+            for (int y = 0; y < height; y++) {
+                markerArray.get(x).add(new Marker(x, y));
             }
         }
 
@@ -45,18 +45,59 @@ public class Board {
     public String toString() {
         String board = "";
         String[] letterArray = {"A ", "B ", "C ", "D ", "E ", "F ", "G ", "H ", "I ", "J "};
-        board += "  12345678910";
+        board += "  1 2 3 4 5 6 7 8 9 10";
         board += "\n";
         for (int i = 0; i < 10; i++) {
             board += letterArray[i];
 
             for (int j = 0; j < 10; j++) {
 
-                board += markerArray.get(i).get(j).toString();
+                board += markerArray.get(i).get(j).toString() + " ";
             }
             board += "\n";
         }
         return board;
+    }
+
+    /**
+     * Check if chosen tile on board has a ship on it, if so, then hit, else
+     * miss.
+     *
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return boolean if hit or not
+     */
+    public boolean checkHit(int x, int y) {
+        Marker tile = markerArray.get(x - 1).get(y - 1);
+
+        if (tile.isShipOn()) {
+            //CHANGE MARKER TO HIT COLOR
+            return true;
+        }
+        else {
+            //CHANGE MARKER TO MISS COLOR
+            return false;
+        }
+    }
+
+    /**
+     * Based on reply from opponent, update opponent's board with hit or miss
+     * marker at specified coordinates
+     *
+     * @param x
+     * @param y
+     */
+    public void hitMiss(boolean isHit, Coordinates shot) {
+        Marker tile = markerArray.get(shot.x - 1).get(shot.y - 1);
+
+        if (isHit) {
+            System.out.println("HIT");
+            tile.setConsoleIndicator("H");
+        }
+        else {
+            System.out.println("MISS, EAT A DICk");
+            tile.setConsoleIndicator("M");
+        }
     }
 
     public ArrayList<ArrayList<Marker>> getBoard() {

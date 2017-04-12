@@ -19,8 +19,10 @@ package warboats;
  *
  * @author clo006
  */
-public class TestCoordinates {
+public class Coordinates {
 
     public String message;
+    public int x;
+    public int y;
 
 }

@@ -23,8 +23,12 @@ public class Marker {
 
     private int posX;
     private int posY;
-    private String color;
+    private String color; //can determine if tile has been shot at based on color
     private boolean shipOn = false;
+    private int boatType = 0;
+
+    //temporary tile indicator for console
+    private String consoleIndicator = "o";
 
     public Marker(int x, int y) {
         posX = x;
@@ -34,12 +38,7 @@ public class Marker {
 
     @Override
     public String toString() {
-        if (shipOn) {
-            return "x";
-        }
-        else {
-            return "o";
-        }
+        return this.consoleIndicator;
     }
 
     public int getPosX() {
@@ -64,6 +63,15 @@ public class Marker {
 
     public void toggleShipOn() {
         this.shipOn = !(this.shipOn);
+        this.consoleIndicator = "B";
+    }
+
+    public void setBoatType(int boatType) {
+        this.boatType = boatType;
+    }
+
+    public void setConsoleIndicator(String consoleIndicator) {
+        this.consoleIndicator = consoleIndicator;
     }
 
 }
