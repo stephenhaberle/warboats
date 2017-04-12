@@ -18,7 +18,6 @@ package warboats;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import java.util.Date;
 
 /**
  *
@@ -60,10 +59,10 @@ public class WarboatsServer extends Listener {
         //create a message packet
         TestCoordinates packetMessage = new TestCoordinates();
         //assign the message text
-        packetMessage.message = "Hello friend! The time is: " + new Date().toString();
+        packetMessage.message = "Connection to server established.";
 
         //send the message
-        c.sendTCP(packetMessage);
+//        c.sendTCP(packetMessage);
         //alternatively, we could do:
         //c.sendUDP(packetMessage);
         //to send over UDP
@@ -85,8 +84,8 @@ public class WarboatsServer extends Listener {
                 System.out.println("SLEEP DIDNT WORK");
             }
 
-            packet.message = new Date().toString();
-            c.sendTCP(packet);
+//            packet.message = new Date().toString();
+//            c.sendTCP(packet);
         }
     }
 

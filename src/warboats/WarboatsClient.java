@@ -55,7 +55,8 @@ public class WarboatsClient extends Listener {
         client.addListener(new WarboatsClient());
 
         System.out.println(
-                "Connected! The client program is now waiting for a packet...\n");
+                "Connected! The client program is now waiting for a packet...");
+
     }
 
     //only method that needs to be implemented from listener class because this is the only one needed
