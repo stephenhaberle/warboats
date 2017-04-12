@@ -31,7 +31,7 @@ public class WarboatsClient extends Listener {
     static int tcpPort = 27960, udpPort = 27960;
 
     //a boolean value, going to use it to ensure turn based?
-    static boolean messageReceived = false;
+    static boolean myTurn = false;
 
     public static void run() throws Exception {
         System.out.println("Connecting to the server...");

@@ -30,7 +30,7 @@ public class WarboatsServer extends Listener {
     static int udpPort = 27960, tcpPort = 27960;
 
     //a boolean value, going to use it to ensure turn based?
-    static boolean messageReceived = false;
+    static boolean myTurn = false;
 
     public static void run() throws Exception {
         System.out.println("Creating the server...");
@@ -77,7 +77,7 @@ public class WarboatsServer extends Listener {
             System.out.println(
                     "Received a message from the client: " + packet.message);
             //we have now received the message
-            messageReceived = true;
+            myTurn = true;
 
             try {
                 Thread.sleep(100);

@@ -16,6 +16,7 @@
 package warboats;
 
 import java.util.Scanner;
+import warboats.boats.Boat;
 
 /**
  *
@@ -47,6 +48,12 @@ public class Warboats {
             //indicates this instance is associated with activeServer
             //this.playerType = false;
         }
+
+        Board test = new Board();
+        System.out.println(test);
+
+        Boat testBoat = new Boat(2, 2, 3, 5, test);
+        System.out.println(test);
 
         while (true) {
             System.out.print("Enter some shit: ");
