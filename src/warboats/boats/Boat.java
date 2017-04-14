@@ -54,9 +54,15 @@ public class Boat {
                                                                            this.startY - this.endY) == this.size - 1)) {
 
                 //Assign markers from board to Boat based off user input
-                for (int i = startY; i <= endY; i++) {
-                    for (int j = startX; j <= endX; j++) {
+                System.out.println("START X " + this.startX);
+                System.out.println("END X " + this.endX);
+                System.out.println("START Y " + this.startY);
+                System.out.println("END Y " + this.endY);
+                for (int i = startX; i <= endX; i++) {
+                    for (int j = startY; j <= endY; j++) {
                         Marker temp = currentBoard.getBoard().get(i).get(j);
+                        System.out.println("MARKER X" + temp.getPosX());
+                        System.out.println("MARKER Y" + temp.getPosY());
                         if (temp.isShipOn()) {
                             throw new Exception("SHIP ALREADY ON TILE");
                         }

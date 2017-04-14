@@ -52,7 +52,9 @@ public class Board {
 
             for (int j = 0; j < 10; j++) {
 
-                board += markerArray.get(i).get(j).toString() + " ";
+                //arrayList is setup in columns of markers but since printing
+                //is row by row this must be reversed 
+                board += markerArray.get(j).get(i).toString() + " ";
             }
             board += "\n";
         }
