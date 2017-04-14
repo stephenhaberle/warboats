@@ -4,66 +4,59 @@
 *
 * Name: Christian Ouellette, Keller Chambers, Stephen Haberle, Peyton Rumachik
 * Date: Apr 10, 2017
-* Time: 12:13:14 PM
+* Time: 12:17:28 PM
 *
 * Project: warboats
 * Package: warboats
-* File: WarboatsServer
-* Description: Class that handles running the server side of the program.
-*               Uses kryonet which threads this process.
+* File: WarboatsClient
+* Description: Handles running the client side of the program. Connect to
+*               available server. Uses kryonet which threads this process.
 *
 * ****************************************
  */
-package warboats;
+package warboats.network;
 
+import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import com.esotericsoftware.kryonet.Server;
+import java.net.InetAddress;
+import warboats.Warboats;
 
 /**
  *
  * @author clo006
  */
-public class WarboatsServer extends Listener {
+public class WarboatsClient extends Listener {
 
-    static Server server;
-    static int udpPort = 27960, tcpPort = 27960;
+    //ONLY MADE PUBLIC SO IT CAN BE READ BY WARBOATS PACKAGE, REMEDY THIS AND CHANGE BACK TO DEFAULT
+    public static Client client;
+    static InetAddress ip;
+    static int tcpPort = 27960, udpPort = 27960;
 
     public static void run() throws Exception {
-        System.out.println("Creating the server...");
-        //create the server
-        server = new Server();
+        System.out.println("Connecting to the server...");
+        //create the client
+        client = new Client();
 
-        //register a packet class
-        server.getKryo().register(Coordinates.class);
-        //we can only send objects as packets if they are registered
+        //register the packet object
+        client.getKryo().register(Coordinates.class);
 
-        //bind to a port
-        server.bind(tcpPort, udpPort);
+        //start the client
+        client.start();
+        //the client MUST be started before connecting can take place
 
-        //start the server
-        server.start();
+        //Sets "address" to address of first server found running on UDP port 27960
+        ip = client.discoverHost(27960, 5000);
 
-        //add the listener
-        server.addListener(new WarboatsServer());
+        //connect to the server - wait 5000ms before failing
+        client.connect(5000, ip, tcpPort, udpPort);
 
-        System.out.println("Server is operational");
-    }
+        //add a listener
+        client.addListener(new WarboatsClient());
 
-    /**
-     * Runs when a client connects to a port assigned to the server.
-     *
-     * @param c connection used by client
-     */
-    public void connected(Connection c) {
         System.out.println(
-                "\nReceived a connection from " + c.getRemoteAddressTCP().getHostString() + "\n");
+                "CLIENT: Connected! The client program is now waiting for a packet...");
 
-        //create verification message
-        String packetMessage = "SERVER: Connection to server established.";
-
-        //send the message
-        c.sendTCP(packetMessage);
     }
 
     /**
@@ -74,15 +67,16 @@ public class WarboatsServer extends Listener {
      * @param p object received from sender
      */
     public void received(Connection c, Object p) {
+        //is the received packet the same class as PacketMessage.class?
         if (p instanceof Coordinates) {
             //cast it, so we can access the message within
             Coordinates packet = (Coordinates) p;
-            System.out.print("MESSAGE FROM CLIENT  ");
+            System.out.print("MESSAGE FROM SERVER  ");
             System.out.print("X: " + packet.x);
             System.out.println(" Y: " + packet.y);
             //we have now received the message
 
-            Boolean hitIndicator = Warboats.getTheModel().getMyBoard().checkHit(
+            boolean hitIndicator = Warboats.getTheModel().getMyBoard().checkHit(
                     packet.x, packet.y, Warboats.getTheModel());
 
             c.sendTCP(hitIndicator);
@@ -92,20 +86,18 @@ public class WarboatsServer extends Listener {
             }
 
             Warboats.togglePlayerTurn();
-
             try {
                 Thread.sleep(1000);
             } catch (Exception e) {
                 System.out.println("SLEEP DIDNT WORK");
             }
-
         }
-        //For receiving win confirmation
+        //For receiving server connect or win confirmation
         else if (p instanceof String) {
             String packet = (String) p;
             System.out.println(packet);
         }
-
+        //For receiving hit/miss confirmation
         else if (p instanceof Boolean) {
             Boolean packet = (Boolean) p;
             Warboats.getTheModel().getOpponentBoard().hitMiss(
@@ -117,14 +109,4 @@ public class WarboatsServer extends Listener {
             System.out.println(Warboats.getTheModel().getMyBoard());
         }
     }
-
-    /**
-     * Runs when a client disconnects.
-     *
-     * @param c connection which the client used to be running on
-     */
-    public void disconnected(Connection c) {
-        System.out.println("A client disconnected!");
-    }
-
 }

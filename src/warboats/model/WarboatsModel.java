@@ -13,8 +13,10 @@
 *
 * ****************************************
  */
-package warboats;
+package warboats.model;
 
+import warboats.network.Coordinates;
+import warboats.model.Board;
 import java.util.ArrayList;
 import warboats.boats.Battleship;
 import warboats.boats.Boat;

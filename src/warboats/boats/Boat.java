@@ -17,8 +17,8 @@ package warboats.boats;
 
 import static java.lang.Math.abs;
 import java.util.ArrayList;
-import warboats.Board;
-import warboats.Marker;
+import warboats.model.Board;
+import warboats.model.Marker;
 
 /**
  *

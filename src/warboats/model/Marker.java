@@ -13,7 +13,7 @@
 *
 * ****************************************
  */
-package warboats;
+package warboats.model;
 
 import warboats.boats.Boat;
 

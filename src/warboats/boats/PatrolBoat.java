@@ -15,7 +15,7 @@
  */
 package warboats.boats;
 
-import warboats.Board;
+import warboats.model.Board;
 
 /**
  *

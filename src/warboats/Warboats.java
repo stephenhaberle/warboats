@@ -16,6 +16,10 @@
 package warboats;
 
 import java.util.Scanner;
+import warboats.model.WarboatsModel;
+import warboats.network.Coordinates;
+import warboats.network.WarboatsClient;
+import warboats.network.WarboatsServer;
 
 /**
  *
@@ -57,6 +61,7 @@ public class Warboats {
         Scanner in = new Scanner(System.in);
         in.nextLine();
 
+        //TODO: MOVE PLAY/MOVE LOGIC TO WARBOATS MODEL 
         //automatic play
         int xCounter = 0;
         int yCounter = 0;

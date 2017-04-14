@@ -3,26 +3,22 @@
 * Spring 2017 - Final Project
 *
 * Name: Christian Ouellette, Keller Chambers, Stephen Haberle, Peyton Rumachik
-* Date: Apr 10, 2017
-* Time: 12:30:14 PM
+* Date: Apr 14, 2017
+* Time: 1:25:33 PM
 *
 * Project: warboats
-* Package: warboats
-* File: Coordinates
-* Description: Class used to send provided coordinates between client and server. 
+* Package: warboats.controller
+* File: ControllerMain
+* Description:
 *
 * ****************************************
  */
-package warboats;
+package warboats.controller;
 
 /**
  *
  * @author clo006
  */
-public class Coordinates {
-
-    public String message;
-    public int x;
-    public int y;
+public class ControllerMain {
 
 }

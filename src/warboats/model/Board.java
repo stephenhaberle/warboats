@@ -13,9 +13,10 @@
 *
 * ****************************************
  */
-package warboats;
+package warboats.model;
 
 import java.util.ArrayList;
+import warboats.network.Coordinates;
 import warboats.boats.Boat;
 
 /**
