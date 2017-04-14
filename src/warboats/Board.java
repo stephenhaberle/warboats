@@ -9,13 +9,14 @@
 * Project: warboats
 * Package: warboats
 * File: Board
-* Description:
+* Description: Class that represents the game board by storing an ArrayList of Markers. 
 *
 * ****************************************
  */
 package warboats;
 
 import java.util.ArrayList;
+import warboats.boats.Boat;
 
 /**
  *
@@ -53,7 +54,7 @@ public class Board {
             for (int j = 0; j < 10; j++) {
 
                 //arrayList is setup in columns of markers but since printing
-                //is row by row this must be reversed 
+                //is row by row this must be reversed
                 board += markerArray.get(j).get(i).toString() + " ";
             }
             board += "\n";
@@ -69,11 +70,18 @@ public class Board {
      * @param y y coordinate
      * @return boolean if hit or not
      */
-    public boolean checkHit(int x, int y) {
+    public boolean checkHit(int x, int y, WarboatsModel theModel) {
         Marker tile = markerArray.get(x - 1).get(y - 1);
 
         if (tile.isShipOn()) {
             //CHANGE MARKER TO HIT COLOR
+            tile.setColor("H");
+            Boat boat = tile.getBoat();
+
+            if (boat.checkSunk()) {
+                theModel.checkLoss();
+            }
+
             return true;
         }
         else {
@@ -94,11 +102,11 @@ public class Board {
 
         if (isHit) {
             System.out.println("HIT");
-            tile.setConsoleIndicator("H");
+            tile.setColor("H");
         }
         else {
             System.out.println("MISS, EAT A DICk");
-            tile.setConsoleIndicator("M");
+            tile.setColor("M");
         }
     }
 

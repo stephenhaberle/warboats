@@ -9,7 +9,7 @@
 * Project: warboats
 * Package: warboats.boats
 * File: Battleship
-* Description:
+* Description: Specifically represents the battleship boat type
 *
 * ****************************************
  */
@@ -26,9 +26,7 @@ public class Battleship extends Boat {
     public Battleship(int xStart, int yStart, int xEnd, int yEnd, Board curBoard) {
         super(xStart, yStart, xEnd, yEnd, curBoard);
         this.setSize(4);
-        //battleship is type 4
-        this.setType(4);
-        this.placeBoat();
+        this.placeBoat(this);
     }
 
 }

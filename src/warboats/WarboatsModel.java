@@ -9,7 +9,7 @@
 * Project: warboats
 * Package: warboats
 * File: WarboatsModel
-* Description:
+* Description: Handles creation of game boards and ships and stores them in fields.
 *
 * ****************************************
  */
@@ -29,10 +29,15 @@ import warboats.boats.Submarine;
  */
 public class WarboatsModel {
 
+    //Board with all of player's ships on it along with necessary hit indicators
     private Board myBoard;
+    //Board keeping track of shots taken at opponent's board (hits/misses)
     private Board opponentBoard;
+
+    //ArrayList of all ships placed on myBoard
     private ArrayList<Boat> navy;
     private Coordinates lastShot;
+    private boolean lost = false;
 
     public WarboatsModel() {
 
@@ -43,7 +48,13 @@ public class WarboatsModel {
     }
 
     /**
-     * Takes in ship type and adds ship to navy
+     * Takes in ship type and adds ship to navy.
+     *
+     * @param boatType indicates type of ship to be built
+     * @param x1 starting x coordinate
+     * @param y1 starting y coordinate
+     * @param x2 ending x coordinate
+     * @param y2 ending y coordinate
      *
      * PT = 1, sub = 2, breaker = 3, battle = 4, carrier = 5
      */
@@ -70,7 +81,10 @@ public class WarboatsModel {
     }
 
     /**
-     * Only used when playing game in console so players can manually build navy
+     * Only used when playing game in console so players can manually build
+     * navy.
+     *
+     * Can be setup to auto-construct navy for testing purposes.
      */
     public void getConsolePlacements() {
         System.out.println("BUILD YOUR NAVY");
@@ -112,6 +126,23 @@ public class WarboatsModel {
 
     }
 
+    /**
+     * Checks if all ships in navy have been sunk, if so, sets lost field to
+     * true.
+     */
+    public void checkLoss() {
+        int shipsLeft = navy.size();
+        for (Boat temp : navy) {
+            if (!(temp.isAlive())) {
+                shipsLeft--;
+            }
+        }
+
+        if (shipsLeft == 0) {
+            this.lost = true;
+        }
+    }
+
     public Board getMyBoard() {
         return myBoard;
     }
@@ -126,6 +157,14 @@ public class WarboatsModel {
 
     public void setLastShot(Coordinates lastShot) {
         this.lastShot = lastShot;
+    }
+
+    public ArrayList<Boat> getNavy() {
+        return navy;
+    }
+
+    public boolean isLost() {
+        return lost;
     }
 
 }

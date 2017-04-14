@@ -9,7 +9,7 @@
 * Project: warboats
 * Package: warboats.boats
 * File: Carrier
-* Description:
+* Description: Specifically represents the carrier boat type
 *
 * ****************************************
  */
@@ -26,9 +26,7 @@ public class Carrier extends Boat {
     public Carrier(int xStart, int yStart, int xEnd, int yEnd, Board curBoard) {
         super(xStart, yStart, xEnd, yEnd, curBoard);
         this.setSize(5);
-        //carrier is type 5
-        this.setType(5);
-        this.placeBoat();
+        this.placeBoat(this);
     }
 
 }

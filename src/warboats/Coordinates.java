@@ -8,8 +8,8 @@
 *
 * Project: warboats
 * Package: warboats
-* File: gar
-* Description:
+* File: Coordinates
+* Description: Class used to send provided coordinates between client and server. 
 *
 * ****************************************
  */

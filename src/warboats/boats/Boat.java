@@ -9,7 +9,7 @@
 * Project: warboats
 * Package: warboats.boats
 * File: Boat
-* Description:
+* Description: Generic parent class to represent boats and their attributes.
 *
 * ****************************************
  */
@@ -34,7 +34,6 @@ public class Boat {
     private int endX;
     private int endY; //converted from letter representation
     private int size;
-    private int boatType;
 
     public Boat(int xStart, int yStart, int xEnd, int yEnd, Board curBoard) {
         alive = true;
@@ -47,29 +46,29 @@ public class Boat {
         positionTiles = new ArrayList<Marker>();
     }
 
-    public void placeBoat() {
+    /**
+     * Places a boat at the coordinates at which it was initialized and assigns
+     * that boat object to every marker on which the boat is placed.
+     *
+     * @param boatObjectType type of boat being placed
+     */
+    public void placeBoat(Boat boatObject) {
         try {
             if ((this.startX == this.endX || this.startY == this.endY) && (abs(
                                                                            this.startX - this.endX) == this.size - 1 || abs(
                                                                            this.startY - this.endY) == this.size - 1)) {
 
                 //Assign markers from board to Boat based off user input
-                System.out.println("START X " + this.startX);
-                System.out.println("END X " + this.endX);
-                System.out.println("START Y " + this.startY);
-                System.out.println("END Y " + this.endY);
                 for (int i = startX; i <= endX; i++) {
                     for (int j = startY; j <= endY; j++) {
                         Marker temp = currentBoard.getBoard().get(i).get(j);
-                        System.out.println("MARKER X" + temp.getPosX());
-                        System.out.println("MARKER Y" + temp.getPosY());
                         if (temp.isShipOn()) {
                             throw new Exception("SHIP ALREADY ON TILE");
                         }
                         else {
                             positionTiles.add(temp);
                             temp.toggleShipOn();
-                            temp.setBoatType(boatType);
+                            temp.setBoat(boatObject);
                         }
                     }
                 }
@@ -83,7 +82,38 @@ public class Boat {
         }
     }
 
-    public void setSize(int size) {
+    /**
+     * Checks if a boat is sunk by seeing if all Markers on which that boat sits
+     * are indicated to be hit. Sets alive field of Boat object appropriately
+     * afterwards.
+     *
+     * @return boolean of whether or not the boat has been sunk
+     */
+    public boolean checkSunk() {
+        int hitCount = 0;
+        for (Marker temp : positionTiles) {
+            if (temp.getColor().equals("H")) {
+                hitCount++;
+            }
+        }
+
+        if (hitCount == this.size) {
+            this.alive = false;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * Sets size of boats. Set to be package private so people cannot make boats
+     * of custom size. Since boats cannot be placed on a board without a valid
+     * size this prevents tampering with the game.
+     *
+     * @param size
+     */
+    void setSize(int size) {
         this.size = size;
     }
 
@@ -109,10 +139,6 @@ public class Boat {
 
     public int getEndY() {
         return endY;
-    }
-
-    public void setType(int boatType) {
-        this.boatType = boatType;
     }
 
 }

@@ -8,8 +8,8 @@
 *
 * Project: warboats
 * Package: warboats
-* File: gar
-* Description:
+* File: Warboats
+* Description: Main class to test Warboats using console IO
 *
 * ****************************************
  */
@@ -53,31 +53,56 @@ public class Warboats {
 
         System.out.println(theModel.getMyBoard());
 
+        System.out.print("Begin play?");
+        Scanner in = new Scanner(System.in);
+        in.nextLine();
+
+        //automatic play
+        int xCounter = 0;
+        int yCounter = 0;
+        Integer[] xMoves = {2, 3, 4, 5, 6, 2, 3, 4, 5, 3, 3, 3, 8, 8, 8, 9, 9};
+        Integer[] yMoves = {1, 1, 1, 1, 1, 3, 3, 3, 3, 5, 6, 7, 5, 6, 7, 9, 10};
+
         while (true) {
-            System.out.print("Enter coordinates [x] [y]: ");
-            Scanner in = new Scanner(System.in);
-            int x = in.nextInt();
-            int y = in.nextInt();
+            //System.out.println("CYCLE ");
+            //in.nextLine();
+            int x = xMoves[xCounter];
+            int y = yMoves[yCounter];
             Coordinates t = new Coordinates();
             t.x = x;
             t.y = y;
+            Thread.sleep(1000);
 
             if (activeServer == null) {
                 if (playerTurn) {
+                    System.out.println("CLIENT ");
                     theModel.setLastShot(t);
                     activeClient.client.sendTCP(t);
                     Warboats.togglePlayerTurn();
+                    Thread.sleep(100);
+                    xCounter++;
+                    yCounter++;
+                    System.out.println("CLIENT SENT");
                 }
             }
             else {
                 if (playerTurn) {
+                    System.out.println("SERVER ");
                     theModel.setLastShot(t);
                     //Currently hardcoded to 1 connection
                     activeServer.server.sendToTCP(1, t);
                     Warboats.togglePlayerTurn();
+                    Thread.sleep(100);
+                    xCounter++;
+                    yCounter++;
+                    System.out.println("SERVER SENT");
                 }
 
             }
+            if (xCounter == xMoves.length) {
+                break;
+            }
+
         }
     }
 

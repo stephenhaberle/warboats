@@ -9,11 +9,13 @@
 * Project: warboats
 * Package: warboats
 * File: Marker
-* Description:
+* Description: Class meant to represent tiles on the boards. 
 *
 * ****************************************
  */
 package warboats;
+
+import warboats.boats.Boat;
 
 /**
  *
@@ -23,22 +25,23 @@ public class Marker {
 
     private int posX;
     private int posY;
-    private String color; //can determine if tile has been shot at based on color
-    private boolean shipOn = false;
-    private int boatType = 0;
+    private String color = "o"; //can determine if tile has been shot at based on color
 
-    //temporary tile indicator for console
-    private String consoleIndicator = "o";
+    //simple boolean value to determine if a boat is placed on the tile
+    private boolean isShipOn = false;
+
+    //field pointing to the instance of boat placed on this marker, if one exists
+    private Boat boatOn;
 
     public Marker(int x, int y) {
         posX = x;
         posY = y;
-        color = "blue";
+        color = "o";
     }
 
     @Override
     public String toString() {
-        return this.consoleIndicator;
+        return this.color;
     }
 
     public int getPosX() {
@@ -58,20 +61,20 @@ public class Marker {
     }
 
     public boolean isShipOn() {
-        return shipOn;
+        return isShipOn;
     }
 
     public void toggleShipOn() {
-        this.shipOn = !(this.shipOn);
-        this.consoleIndicator = "B";
+        this.isShipOn = !(this.isShipOn);
+        this.color = "B";
     }
 
-    public void setBoatType(int boatType) {
-        this.boatType = boatType;
+    public void setBoat(Boat boatType) {
+        this.boatOn = boatType;
     }
 
-    public void setConsoleIndicator(String consoleIndicator) {
-        this.consoleIndicator = consoleIndicator;
+    public Boat getBoat() {
+        return boatOn;
     }
 
 }

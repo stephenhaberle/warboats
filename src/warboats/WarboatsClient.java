@@ -8,8 +8,9 @@
 *
 * Project: warboats
 * Package: warboats
-* File: gar
-* Description:
+* File: WarboatsClient
+* Description: Handles running the client side of the program. Connect to
+*               available server. Uses kryonet which threads this process.
 *
 * ****************************************
  */
@@ -56,7 +57,13 @@ public class WarboatsClient extends Listener {
 
     }
 
-    //only method that needs to be implemented from listener class because this is the only one needed
+    /**
+     * Receives sent objects/packets from specified connection and casts them to
+     * appropriate objects. Overridden from Listener class.
+     *
+     * @param c Connection from which object was received
+     * @param p object received from sender
+     */
     public void received(Connection c, Object p) {
         //is the received packet the same class as PacketMessage.class?
         if (p instanceof Coordinates) {
@@ -68,18 +75,22 @@ public class WarboatsClient extends Listener {
             //we have now received the message
 
             boolean hitIndicator = Warboats.getTheModel().getMyBoard().checkHit(
-                    packet.x, packet.y);
+                    packet.x, packet.y, Warboats.getTheModel());
 
             c.sendTCP(hitIndicator);
 
+            if (Warboats.getTheModel().isLost()) {
+                c.sendTCP(new String("YOU WIN"));
+            }
+
             Warboats.togglePlayerTurn();
             try {
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } catch (Exception e) {
                 System.out.println("SLEEP DIDNT WORK");
             }
         }
-        //For receiving server connect confirmation
+        //For receiving server connect or win confirmation
         else if (p instanceof String) {
             String packet = (String) p;
             System.out.println(packet);

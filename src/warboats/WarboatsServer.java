@@ -8,8 +8,9 @@
 *
 * Project: warboats
 * Package: warboats
-* File: gar
-* Description:
+* File: WarboatsServer
+* Description: Class that handles running the server side of the program.
+*               Uses kryonet which threads this process.
 *
 * ****************************************
  */
@@ -49,20 +50,29 @@ public class WarboatsServer extends Listener {
         System.out.println("Server is operational");
     }
 
-    //this is run when a connection is received
+    /**
+     * Runs when a client connects to a port assigned to the server.
+     *
+     * @param c connection used by client
+     */
     public void connected(Connection c) {
         System.out.println(
                 "\nReceived a connection from " + c.getRemoteAddressTCP().getHostString() + "\n");
-        //create a message packet
-        String packetMessage = "";
-        //assign the message text
-        packetMessage = "SERVER: Connection to server established.";
+
+        //create verification message
+        String packetMessage = "SERVER: Connection to server established.";
 
         //send the message
         c.sendTCP(packetMessage);
     }
 
-    //this is run when we receive a packet
+    /**
+     * Receives sent objects/packets from specified connection and casts them to
+     * appropriate objects. Overridden from Listener class.
+     *
+     * @param c Connection from which object was received
+     * @param p object received from sender
+     */
     public void received(Connection c, Object p) {
         if (p instanceof Coordinates) {
             //cast it, so we can access the message within
@@ -73,18 +83,27 @@ public class WarboatsServer extends Listener {
             //we have now received the message
 
             Boolean hitIndicator = Warboats.getTheModel().getMyBoard().checkHit(
-                    packet.x, packet.y);
+                    packet.x, packet.y, Warboats.getTheModel());
 
             c.sendTCP(hitIndicator);
+
+            if (Warboats.getTheModel().isLost()) {
+                c.sendTCP(new String("YOU WIN"));
+            }
 
             Warboats.togglePlayerTurn();
 
             try {
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } catch (Exception e) {
                 System.out.println("SLEEP DIDNT WORK");
             }
 
+        }
+        //For receiving win confirmation
+        else if (p instanceof String) {
+            String packet = (String) p;
+            System.out.println(packet);
         }
 
         else if (p instanceof Boolean) {
@@ -99,7 +118,11 @@ public class WarboatsServer extends Listener {
         }
     }
 
-    //this is run when a client has disconnected
+    /**
+     * Runs when a client disconnects.
+     *
+     * @param c connection which the client used to be running on
+     */
     public void disconnected(Connection c) {
         System.out.println("A client disconnected!");
     }
