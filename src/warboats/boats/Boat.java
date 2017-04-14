@@ -57,9 +57,14 @@ public class Boat {
                 for (int i = startY; i <= endY; i++) {
                     for (int j = startX; j <= endX; j++) {
                         Marker temp = currentBoard.getBoard().get(i).get(j);
-                        positionTiles.add(temp);
-                        temp.toggleShipOn();
-                        temp.setBoatType(boatType);
+                        if (temp.isShipOn()) {
+                            throw new Exception("SHIP ALREADY ON TILE");
+                        }
+                        else {
+                            positionTiles.add(temp);
+                            temp.toggleShipOn();
+                            temp.setBoatType(boatType);
+                        }
                     }
                 }
             }

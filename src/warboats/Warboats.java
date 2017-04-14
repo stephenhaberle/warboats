@@ -67,10 +67,6 @@ public class Warboats {
                     theModel.setLastShot(t);
                     activeClient.client.sendTCP(t);
                     Warboats.togglePlayerTurn();
-                    System.out.println("THEIR BOARD");
-                    System.out.println(theModel.getOpponentBoard());
-                    System.out.println("MY BOARD");
-                    System.out.println(theModel.getMyBoard());
                 }
             }
             else {
@@ -79,10 +75,6 @@ public class Warboats {
                     //Currently hardcoded to 1 connection
                     activeServer.server.sendToTCP(1, t);
                     Warboats.togglePlayerTurn();
-                    System.out.println("THEIR BOARD");
-                    System.out.println(theModel.getOpponentBoard());
-                    System.out.println("MY BOARD");
-                    System.out.println(theModel.getMyBoard());
                 }
 
             }

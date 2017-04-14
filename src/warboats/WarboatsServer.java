@@ -92,6 +92,10 @@ public class WarboatsServer extends Listener {
             Warboats.getTheModel().getOpponentBoard().hitMiss(
                     packet.booleanValue(),
                     Warboats.getTheModel().getLastShot());
+            System.out.println("THEIR BOARD");
+            System.out.println(Warboats.getTheModel().getOpponentBoard());
+            System.out.println("MY BOARD");
+            System.out.println(Warboats.getTheModel().getMyBoard());
         }
     }
 
