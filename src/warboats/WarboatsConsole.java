@@ -8,16 +8,14 @@
 *
 * Project: warboats
 * Package: warboats
-* File: Warboats
-* Description: Main class to test Warboats using console IO
+* File: WarboatsConsole
+* Description: Main class to test WarboatsConsole using console IO
 *
 * ****************************************
  */
 package warboats;
 
-import java.util.Scanner;
 import warboats.model.WarboatsModel;
-import warboats.network.Coordinates;
 import warboats.network.WarboatsClient;
 import warboats.network.WarboatsServer;
 
@@ -25,11 +23,10 @@ import warboats.network.WarboatsServer;
  *
  * @author clo006
  */
-public class Warboats {
+public class WarboatsConsole {
 
     static WarboatsClient activeClient = null;
     static WarboatsServer activeServer = null;
-    private static boolean playerTurn = false;
     private static WarboatsModel theModel;
 
     /**
@@ -46,22 +43,30 @@ public class Warboats {
                     "Connection failed. No existing server. Building server.");
             activeServer = new WarboatsServer();
             activeServer.run();
-            //sets server's playerTurn as true so host always goes first
-            Warboats.togglePlayerTurn();
+            WarboatsModel.togglePlayerTurn();
 
         }
 
-        theModel = new WarboatsModel();
+        //does not begin playing until client connected, there may be a more
+        //elegant way to accomplish this
+        if (activeServer != null) {
+            while (activeServer.server.getConnections().length == 0) {
+                Thread.sleep(50);
+            }
+        }
+
+        theModel = new WarboatsModel(activeClient, activeServer);
 
         theModel.getConsolePlacements();
 
         System.out.println(theModel.getMyBoard());
 
+        /*
         System.out.print("Begin play?");
         Scanner in = new Scanner(System.in);
         in.nextLine();
-
-        //TODO: MOVE PLAY/MOVE LOGIC TO WARBOATS MODEL 
+         */
+        //TODO: MOVE PLAY/MOVE LOGIC TO MAIN CLASS IN ModelViewController
         //automatic play
         int xCounter = 0;
         int yCounter = 0;
@@ -69,54 +74,41 @@ public class Warboats {
         Integer[] yMoves = {1, 1, 1, 1, 1, 3, 3, 3, 3, 5, 6, 7, 5, 6, 7, 9, 10};
 
         while (true) {
-            //System.out.println("CYCLE ");
-            //in.nextLine();
-            int x = xMoves[xCounter];
-            int y = yMoves[yCounter];
-            Coordinates t = new Coordinates();
-            t.x = x;
-            t.y = y;
-            Thread.sleep(1000);
-
-            if (activeServer == null) {
-                if (playerTurn) {
-                    System.out.println("CLIENT ");
-                    theModel.setLastShot(t);
-                    activeClient.client.sendTCP(t);
-                    Warboats.togglePlayerTurn();
-                    Thread.sleep(100);
+            try {
+                if (theModel.isLost()) {
+                    throw new Exception("YOU LOSE, NO MORE TURNS");
+                }
+                else if (theModel.isWon()) {
+                    throw new Exception("YOU WIN, NO MORE TURNS");
+                }
+                else if (WarboatsModel.isPlayerTurn()) {
+                    int x = xMoves[xCounter];
+                    int y = yMoves[yCounter];
+                    theModel.sendPlayerMove(x, y);
+                    Thread.sleep(1000);
                     xCounter++;
                     yCounter++;
-                    System.out.println("CLIENT SENT");
                 }
-            }
-            else {
-                if (playerTurn) {
-                    System.out.println("SERVER ");
-                    theModel.setLastShot(t);
-                    //Currently hardcoded to 1 connection
-                    activeServer.server.sendToTCP(1, t);
-                    Warboats.togglePlayerTurn();
+                else {
                     Thread.sleep(100);
-                    xCounter++;
-                    yCounter++;
-                    System.out.println("SERVER SENT");
                 }
 
-            }
-            if (xCounter == xMoves.length) {
+                /*
+                if (xCounter == xMoves.length) {
+                    break;
+                }
+                 */
+            } catch (Exception e) {
+                System.out.println("GAME OVER");
+                System.out.println(e);
                 break;
             }
 
         }
-    }
-
-    public static boolean isPlayerTurn() {
-        return playerTurn;
-    }
-
-    public static void togglePlayerTurn() {
-        Warboats.playerTurn = !(playerTurn);
+        /*
+        System.out.println("new game?");
+        in.nextLine();
+         */
     }
 
     public static WarboatsModel getTheModel() {
