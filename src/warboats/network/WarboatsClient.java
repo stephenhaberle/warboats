@@ -8,17 +8,20 @@
 *
 * Project: warboats
 * Package: warboats
-* File: gar
-* Description:
+* File: WarboatsClient
+* Description: Handles running the client side of the program. Connect to
+*               available server. Uses kryonet which threads this process.
 *
 * ****************************************
  */
-package warboats;
+package warboats.network;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import java.net.InetAddress;
+import warboats.WarboatsConsole;
+import warboats.model.WarboatsModel;
 
 /**
  *
@@ -26,7 +29,8 @@ import java.net.InetAddress;
  */
 public class WarboatsClient extends Listener {
 
-    static Client client;
+    //ONLY MADE PUBLIC SO IT CAN BE READ BY WARBOATS PACKAGE, REMEDY THIS AND CHANGE BACK TO DEFAULT
+    public static Client client;
     static InetAddress ip;
     static int tcpPort = 27960, udpPort = 27960;
 
@@ -37,6 +41,7 @@ public class WarboatsClient extends Listener {
 
         //register the packet object
         client.getKryo().register(Coordinates.class);
+        client.getKryo().register(GameOver.class);
 
         //start the client
         client.start();
@@ -56,7 +61,13 @@ public class WarboatsClient extends Listener {
 
     }
 
-    //only method that needs to be implemented from listener class because this is the only one needed
+    /**
+     * Receives sent objects/packets from specified connection and casts them to
+     * appropriate objects. Overridden from Listener class.
+     *
+     * @param c Connection from which object was received
+     * @param p object received from sender
+     */
     public void received(Connection c, Object p) {
         //is the received packet the same class as PacketMessage.class?
         if (p instanceof Coordinates) {
@@ -67,33 +78,39 @@ public class WarboatsClient extends Listener {
             System.out.println(" Y: " + packet.y);
             //we have now received the message
 
-            boolean hitIndicator = Warboats.getTheModel().getMyBoard().checkHit(
-                    packet.x, packet.y);
+            boolean hitIndicator = WarboatsConsole.getTheModel().getMyBoard().checkHit(packet.x, packet.y, WarboatsConsole.getTheModel());
 
             c.sendTCP(hitIndicator);
 
-            Warboats.togglePlayerTurn();
+            if (WarboatsConsole.getTheModel().isLost()) {
+                c.sendTCP(new GameOver());
+            }
+
+            WarboatsModel.togglePlayerTurn();
             try {
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } catch (Exception e) {
                 System.out.println("SLEEP DIDNT WORK");
             }
         }
-        //For receiving server connect confirmation
+        //For receiving server connect or win confirmation
         else if (p instanceof String) {
             String packet = (String) p;
             System.out.println(packet);
         }
+        else if (p instanceof GameOver) {
+            GameOver packet = (GameOver) p;
+            WarboatsConsole.getTheModel().setWon(packet.winFlag);
+        }
         //For receiving hit/miss confirmation
         else if (p instanceof Boolean) {
             Boolean packet = (Boolean) p;
-            Warboats.getTheModel().getOpponentBoard().hitMiss(
-                    packet.booleanValue(),
-                    Warboats.getTheModel().getLastShot());
+            WarboatsConsole.getTheModel().getOpponentBoard().hitMiss(packet.booleanValue(),
+                    WarboatsConsole.getTheModel().getLastShot());
             System.out.println("THEIR BOARD");
-            System.out.println(Warboats.getTheModel().getOpponentBoard());
+            System.out.println(WarboatsConsole.getTheModel().getOpponentBoard());
             System.out.println("MY BOARD");
-            System.out.println(Warboats.getTheModel().getMyBoard());
+            System.out.println(WarboatsConsole.getTheModel().getMyBoard());
         }
     }
 }

@@ -9,13 +9,13 @@
 * Project: warboats
 * Package: warboats.boats
 * File: Destroyer
-* Description:
+* Description: Specifically represents the destroyer boat type
 *
 * ****************************************
  */
 package warboats.boats;
 
-import warboats.Board;
+import warboats.model.Board;
 
 /**
  *
@@ -26,9 +26,7 @@ public class Destroyer extends Boat {
     public Destroyer(int xStart, int yStart, int xEnd, int yEnd, Board curBoard) {
         super(xStart, yStart, xEnd, yEnd, curBoard);
         this.setSize(3);
-        //destroyer is type 3
-        this.setType(3);
-        this.placeBoat();
+        this.placeBoat(this);
     }
 
 }

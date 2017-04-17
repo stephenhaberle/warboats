@@ -9,13 +9,13 @@
 * Project: warboats
 * Package: warboats.boats
 * File: Submarine
-* Description:
+* Description: Specifically represents the submarine boat type
 *
 * ****************************************
  */
 package warboats.boats;
 
-import warboats.Board;
+import warboats.model.Board;
 
 /**
  *
@@ -26,9 +26,7 @@ public class Submarine extends Boat {
     public Submarine(int xStart, int yStart, int xEnd, int yEnd, Board curBoard) {
         super(xStart, yStart, xEnd, yEnd, curBoard);
         this.setSize(3);
-        //sub is type 2
-        this.setType(2);
-        this.placeBoat();
+        this.placeBoat(this);
     }
 
 }

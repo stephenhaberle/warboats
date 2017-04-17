@@ -8,12 +8,12 @@
 *
 * Project: warboats
 * Package: warboats
-* File: gar
-* Description:
+* File: Coordinates
+* Description: Class used to send provided coordinates between client and server.
 *
 * ****************************************
  */
-package warboats;
+package warboats.network;
 
 /**
  *
@@ -24,5 +24,14 @@ public class Coordinates {
     public String message;
     public int x;
     public int y;
+
+    public Coordinates() {
+
+    }
+
+    public Coordinates(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 
 }

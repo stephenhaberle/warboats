@@ -8,16 +8,19 @@
 *
 * Project: warboats
 * Package: warboats
-* File: gar
-* Description:
+* File: WarboatsServer
+* Description: Class that handles running the server side of the program.
+*               Uses kryonet which threads this process.
 *
 * ****************************************
  */
-package warboats;
+package warboats.network;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import warboats.WarboatsConsole;
+import warboats.model.WarboatsModel;
 
 /**
  *
@@ -25,7 +28,8 @@ import com.esotericsoftware.kryonet.Server;
  */
 public class WarboatsServer extends Listener {
 
-    static Server server;
+    //ONLY MADE PUBLIC SO IT CAN BE READ BY WARBOATS PACKAGE, REMEDY THIS AND CHANGE BACK TO DEFAULT
+    public static Server server;
     static int udpPort = 27960, tcpPort = 27960;
 
     public static void run() throws Exception {
@@ -35,6 +39,7 @@ public class WarboatsServer extends Listener {
 
         //register a packet class
         server.getKryo().register(Coordinates.class);
+        server.getKryo().register(GameOver.class);
         //we can only send objects as packets if they are registered
 
         //bind to a port
@@ -49,20 +54,29 @@ public class WarboatsServer extends Listener {
         System.out.println("Server is operational");
     }
 
-    //this is run when a connection is received
+    /**
+     * Runs when a client connects to a port assigned to the server.
+     *
+     * @param c connection used by client
+     */
     public void connected(Connection c) {
         System.out.println(
                 "\nReceived a connection from " + c.getRemoteAddressTCP().getHostString() + "\n");
-        //create a message packet
-        String packetMessage = "";
-        //assign the message text
-        packetMessage = "SERVER: Connection to server established.";
+
+        //create verification message
+        String packetMessage = "SERVER: Connection to server established.";
 
         //send the message
         c.sendTCP(packetMessage);
     }
 
-    //this is run when we receive a packet
+    /**
+     * Receives sent objects/packets from specified connection and casts them to
+     * appropriate objects. Overridden from Listener class.
+     *
+     * @param c Connection from which object was received
+     * @param p object received from sender
+     */
     public void received(Connection c, Object p) {
         if (p instanceof Coordinates) {
             //cast it, so we can access the message within
@@ -72,34 +86,50 @@ public class WarboatsServer extends Listener {
             System.out.println(" Y: " + packet.y);
             //we have now received the message
 
-            Boolean hitIndicator = Warboats.getTheModel().getMyBoard().checkHit(
-                    packet.x, packet.y);
+            Boolean hitIndicator = WarboatsConsole.getTheModel().getMyBoard().checkHit(packet.x, packet.y, WarboatsConsole.getTheModel());
 
             c.sendTCP(hitIndicator);
 
-            Warboats.togglePlayerTurn();
+            if (WarboatsConsole.getTheModel().isLost()) {
+                c.sendTCP(new GameOver());
+            }
+
+            WarboatsModel.togglePlayerTurn();
 
             try {
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } catch (Exception e) {
                 System.out.println("SLEEP DIDNT WORK");
             }
 
         }
+        //For receiving win confirmation
+        else if (p instanceof String) {
+            String packet = (String) p;
+            System.out.println(packet);
+        }
+        //For receiving win confirmation object
+        else if (p instanceof GameOver) {
+            GameOver packet = (GameOver) p;
+            WarboatsConsole.getTheModel().setWon(packet.winFlag);
+        }
 
         else if (p instanceof Boolean) {
             Boolean packet = (Boolean) p;
-            Warboats.getTheModel().getOpponentBoard().hitMiss(
-                    packet.booleanValue(),
-                    Warboats.getTheModel().getLastShot());
+            WarboatsConsole.getTheModel().getOpponentBoard().hitMiss(packet.booleanValue(),
+                    WarboatsConsole.getTheModel().getLastShot());
             System.out.println("THEIR BOARD");
-            System.out.println(Warboats.getTheModel().getOpponentBoard());
+            System.out.println(WarboatsConsole.getTheModel().getOpponentBoard());
             System.out.println("MY BOARD");
-            System.out.println(Warboats.getTheModel().getMyBoard());
+            System.out.println(WarboatsConsole.getTheModel().getMyBoard());
         }
     }
 
-    //this is run when a client has disconnected
+    /**
+     * Runs when a client disconnects.
+     *
+     * @param c connection which the client used to be running on
+     */
     public void disconnected(Connection c) {
         System.out.println("A client disconnected!");
     }

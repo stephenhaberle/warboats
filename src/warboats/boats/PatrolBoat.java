@@ -9,13 +9,13 @@
 * Project: warboats
 * Package: warboats.boats
 * File: PatrolBoat
-* Description:
+* Description: Specifically represents the PT boat type
 *
 * ****************************************
  */
 package warboats.boats;
 
-import warboats.Board;
+import warboats.model.Board;
 
 /**
  *
@@ -26,9 +26,7 @@ public class PatrolBoat extends Boat {
     public PatrolBoat(int xStart, int yStart, int xEnd, int yEnd, Board curBoard) {
         super(xStart, yStart, xEnd, yEnd, curBoard);
         this.setSize(2);
-        //PT is type 1
-        this.setType(1);
-        this.placeBoat();
+        this.placeBoat(this);
     }
 
 }
