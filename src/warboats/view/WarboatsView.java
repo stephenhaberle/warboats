@@ -4,21 +4,21 @@
 *
 * Name: Christian Ouellette, Keller Chambers, Stephen Haberle, Peyton Rumachik
 * Date: Apr 14, 2017
-* Time: 1:25:33 PM
+* Time: 1:25:40 PM
 *
 * Project: warboats
-* Package: warboats.controller
-* File: ControllerMain
+* Package: warboats.view
+* File: WarboatsView
 * Description:
 *
 * ****************************************
  */
-package warboats.controller;
+package warboats.view;
 
 /**
  *
  * @author clo006
  */
-public class ControllerMain {
+public class WarboatsView {
 
 }

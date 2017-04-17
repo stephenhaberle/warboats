@@ -22,12 +22,33 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import warboats.controller.WarboatsController;
+import warboats.model.WarboatsModel;
+import warboats.network.WarboatsNetwork;
+import warboats.view.WarboatsView;
 
 /**
  *
  * @author clo006
  */
 public class WarboatsGUI extends Application {
+
+    private WarboatsNetwork theNetwork;
+    private WarboatsView theView;
+    private WarboatsController theCtrl;
+    private WarboatsModel theModel;
+
+    @Override
+    public void init() throws Exception {
+        super.init();
+        theNetwork = new WarboatsNetwork();
+
+        theView = new WarboatsView();
+        theCtrl = new WarboatsController();
+        theModel = new WarboatsModel(WarboatsNetwork.getActiveClient(),
+                                     WarboatsNetwork.getActiveServer());
+
+    }
 
     @Override
     public void start(Stage primaryStage) {
