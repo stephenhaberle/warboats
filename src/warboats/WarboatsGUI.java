@@ -40,6 +40,7 @@ public class WarboatsGUI extends Application {
         theNetwork = new WarboatsNetwork();
         theModel = new WarboatsModel(WarboatsNetwork.getActiveClient(),
                                      WarboatsNetwork.getActiveServer());
+        theModel.getConsolePlacements();
         theView = new WarboatsView(this.theModel);
         theCtrl = new WarboatsController();
 

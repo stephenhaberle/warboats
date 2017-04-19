@@ -20,12 +20,15 @@ import java.util.ArrayList;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -54,6 +57,12 @@ public class WarboatsView {
     private Label hitsTextField;
     private Label missesTextField;
     private ArrayList<ShipNode> placedShipNodes;
+    private ArrayList<TextField> carrierCoordinates;
+    private ArrayList<TextField> battleshipCoordinates;
+    private ArrayList<TextField> destroyerCoordinates;
+    private ArrayList<TextField> submarineCoordinates;
+    private ArrayList<TextField> patrolBoatCoordinates;
+    private Button placeShips;
 
     public WarboatsView(WarboatsModel theModel) {
         this.theModel = theModel;
@@ -68,15 +77,6 @@ public class WarboatsView {
         root.setCenter(boardPane);
         root.setLeft(shipPane);
         placeShips();
-
-        //PEYTON: What we need to do is loop through the "navy" arraylist in the model and for each ship place a ShipNode
-        //at each index where there is a shit. The ShipNode extends from Rectangle so it'll basically just placing a rectangle over
-        //the empty label that is in the grid right now.\
-        //makrers should be placed on top lof shipnodes
-        //
-        //CHRIS: I know we talked about filling the grid with markers, but I don't think that makes sense because markers
-        //are only used to indicate if there is a hit, miss, or ship on that index. I suppose we can make three new classes
-        //that extend from MarkerNode: HitNode, MissNode, and EmptyNode, but I'm not sure it's necessary. Thoughts?
         //
         //PEYTON: Peyton would like to refactor the code so that the method names are more easily understandable
     }
@@ -88,17 +88,125 @@ public class WarboatsView {
         shipsRemainingTextField = new Label();
         shipPane.getChildren().add(shipsRemainingTextField);
         shipPane.getChildren().add(new Label("Number of Hits"));
+
         hitsTextField = new Label();
         shipPane.getChildren().add(hitsTextField);
         shipPane.getChildren().add(new Label("Number of Misses"));
         missesTextField = new Label();
         shipPane.getChildren().add(missesTextField);
+
         Label shipLabel = new Label("Ships");
         shipLabel.setFont(new Font("Ariel", 32));
         shipPane.getChildren().add(shipLabel);
         shipPane.setPadding(new Insets(10, 10, 10, 10));
         shipLabel.setAlignment(Pos.CENTER);
 
+        carrierCoordinates = new ArrayList<>();
+        Label carrier = new Label("Carrier");
+        TextField carrierx1 = new TextField("x1");
+        TextField carrierx2 = new TextField("x2");
+        TextField carriery1 = new TextField("y1");
+        TextField carriery2 = new TextField("y2");
+        carrierCoordinates.add(carrierx1);
+        carrierCoordinates.add(carriery1);
+        carrierCoordinates.add(carrierx2);
+        carrierCoordinates.add(carriery2);
+
+        battleshipCoordinates = new ArrayList<>();
+        Label battleship = new Label("Battleship");
+        TextField battlex1 = new TextField("x1");
+        TextField battlex2 = new TextField("x2");
+        TextField battley1 = new TextField("y1");
+        TextField battley2 = new TextField("y2");
+        battleshipCoordinates.add(battlex1);
+        battleshipCoordinates.add(battley1);
+        battleshipCoordinates.add(battlex2);
+        battleshipCoordinates.add(battley2);
+
+        destroyerCoordinates = new ArrayList<>();
+        Label destroyer = new Label("Destroyer");
+        TextField destroyerx1 = new TextField("x1");
+        TextField destroyerx2 = new TextField("x2");
+        TextField destroyery1 = new TextField("y1");
+        TextField destroyery2 = new TextField("y2");
+        destroyerCoordinates.add(destroyerx1);
+        destroyerCoordinates.add(destroyery1);
+        destroyerCoordinates.add(destroyerx2);
+        destroyerCoordinates.add(destroyery2);
+
+        submarineCoordinates = new ArrayList<>();
+        Label submarine = new Label("Submarine");
+        TextField subx1 = new TextField("x1");
+        TextField subx2 = new TextField("x2");
+        TextField suby1 = new TextField("y1");
+        TextField suby2 = new TextField("y2");
+        submarineCoordinates.add(subx1);
+        submarineCoordinates.add(suby1);
+        submarineCoordinates.add(subx2);
+        submarineCoordinates.add(suby2);
+
+        patrolBoatCoordinates = new ArrayList<>();
+        Label patrol = new Label("Patrol Boat");
+        TextField patrolx1 = new TextField("x1");
+        TextField patrolx2 = new TextField("x2");
+        TextField patroly1 = new TextField("y1");
+        TextField patroly2 = new TextField("y2");
+        patrolBoatCoordinates.add(patrolx1);
+        patrolBoatCoordinates.add(patroly1);
+        patrolBoatCoordinates.add(patrolx2);
+        patrolBoatCoordinates.add(patroly2);
+
+        for (TextField field : carrierCoordinates) {
+            field.setPrefWidth(40);
+        }
+
+        for (TextField field : battleshipCoordinates) {
+            field.setPrefWidth(40);
+        }
+
+        for (TextField field : destroyerCoordinates) {
+            field.setPrefWidth(40);
+        }
+
+        for (TextField field : submarineCoordinates) {
+            field.setPrefWidth(40);
+        }
+        for (TextField field : patrolBoatCoordinates) {
+            field.setPrefWidth(40);
+        }
+
+        HBox carrierB = new HBox();
+        carrierB.getChildren().addAll(carrierCoordinates);
+
+        HBox battleshipB = new HBox();
+        battleshipB.getChildren().addAll(battleshipCoordinates);
+
+        HBox destroyerB = new HBox();
+        destroyerB.getChildren().addAll(destroyerCoordinates);
+
+        HBox submarineB = new HBox();
+        submarineB.getChildren().addAll(submarineCoordinates);
+
+        HBox patrolB = new HBox();
+        patrolB.getChildren().addAll(patrolBoatCoordinates);
+
+        shipPane.getChildren().add(carrier);
+        shipPane.getChildren().add(carrierB);
+
+        shipPane.getChildren().add(battleship);
+        shipPane.getChildren().add(battleshipB);
+
+        shipPane.getChildren().add(destroyer);
+        shipPane.getChildren().add(destroyerB);
+
+        shipPane.getChildren().add(submarine);
+        shipPane.getChildren().add(submarineB);
+
+        shipPane.getChildren().add(patrol);
+        shipPane.getChildren().add(patrolB);
+
+        placeShips = new Button("Place Ships");
+        shipPane.getChildren().add(placeShips);
     }
 
     private void generateOpponentBoardPane() {
@@ -339,7 +447,7 @@ public class WarboatsView {
 
             }
             else { //boat is horizontal. Only care about X values
-                if (boat.getStartX() > boat.getEndX()) {//this is normal
+                if (boat.getStartX() < boat.getEndX()) {//this is normal
                     for (int i = boat.getStartX(); i <= boat.getEndX(); i++) { //i is an X
                         ShipNode ship = new ShipNode(new Marker(i,
                                                                 boat.getStartY()));
