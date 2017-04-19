@@ -15,6 +15,7 @@
  */
 package warboats.view;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import warboats.model.Marker;
 
@@ -27,7 +28,9 @@ public class ShipNode extends Rectangle {
     private Marker marker;
 
     public ShipNode(Marker marker) {
-
+        super(30, 30, Color.GREY);
+        this.marker = marker;
+        this.marker.toggleShipOn();
     }
 
 }

@@ -15,6 +15,7 @@
  */
 package warboats.view;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import warboats.model.Marker;
 
@@ -27,7 +28,7 @@ public class MarkerNode extends Circle {
     private Marker marker;
 
     public MarkerNode(Marker marker) {
+        super(15, Color.BLUE);
         this.marker = marker;
-
     }
 }

@@ -63,6 +63,13 @@ public class WarboatsView {
         root.setCenter(boardPane);
         root.setLeft(shipPane);
 
+        //PEYTON: What we need to do is loop through the "navy" arraylist in the model and for each ship place a ShipNode
+        //at each index where there is a shit. The ShipNode extends from Rectangle so it'll basically just placing a rectangle over
+        //the empty label that is in the grid right now.
+        //
+        //CHRIS: I know we talked about filling the grid with markers, but I don't think that makes sense because markers
+        //are only used to indicate if there is a hit, miss, or ship on that index. I suppose we can make three new classes
+        //that extend from MarkerNode: HitNode, MissNode, and EmptyNode, but I'm not sure it's necessary. Thoughts?
     }
 
     private void generateShipPane() {
