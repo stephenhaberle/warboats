@@ -16,6 +16,7 @@
 //fill board with custom marker object
 package warboats.view;
 
+import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -27,6 +28,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import warboats.boats.Boat;
+import warboats.model.Marker;
 import warboats.model.WarboatsModel;
 
 /**
@@ -62,6 +65,7 @@ public class WarboatsView {
         generateShipPane();
         root.setCenter(boardPane);
         root.setLeft(shipPane);
+        placeShips();
 
         //PEYTON: What we need to do is loop through the "navy" arraylist in the model and for each ship place a ShipNode
         //at each index where there is a shit. The ShipNode extends from Rectangle so it'll basically just placing a rectangle over
@@ -70,6 +74,8 @@ public class WarboatsView {
         //CHRIS: I know we talked about filling the grid with markers, but I don't think that makes sense because markers
         //are only used to indicate if there is a hit, miss, or ship on that index. I suppose we can make three new classes
         //that extend from MarkerNode: HitNode, MissNode, and EmptyNode, but I'm not sure it's necessary. Thoughts?
+        //
+        //PEYTON: Peyton would like to refactor the code so that the method names are more easily understandable
     }
 
     private void generateShipPane() {
@@ -211,6 +217,7 @@ public class WarboatsView {
                     }
                 }
                 else {
+                    //TODO: add marker objects instead of labels.
                     playerBoard.add(new Label(" "), j, i);
                 }
             }
@@ -227,6 +234,50 @@ public class WarboatsView {
         helpItem = new Menu("Help");
         menuBar.getMenus().addAll(fileItem, editItem, helpItem);
         root.setTop(menuBar);
+
+    }
+
+    private void placeShips() {
+        ArrayList<Boat> playersPlacedBoats = this.theModel.getNavy(); //gets players placed ships
+
+        for (Boat boat : playersPlacedBoats) {
+            if (boat.getStartX() == boat.getEndX()) {//boat is vertical. only care about Y values
+                //TODO: figure out code here to place ShipNode objects into gridpane
+                //NEED TO MAKE SURE THAT START Y IS LESS THAN END Y
+                if (boat.getStartY() < boat.getEndY()) {//this is normal
+                    for (int i = boat.getStartY(); i <= boat.getEndY(); i++) { //can we use the better version of add? http://tutorials.jenkov.com/javafx/gridpane.html
+                        playerBoard.add(new ShipNode(
+                                new Marker(boat.getStartX(), i)),
+                                        boat.getStartX(), i); //issues with Marker. What the hell is this?
+                    }
+                }
+                else { //wonkyness achieved. End > Start
+                    for (int i = boat.getEndY(); i <= boat.getStartY(); i++) {
+                        playerBoard.add(new ShipNode(
+                                new Marker(boat.getStartX(), i)),
+                                        boat.getStartX(), i); //issues with Marker. What the hell is this?
+                    }
+                }
+
+            }
+            else { //boat is horizontal. Only care about X values
+                if (boat.getStartX() > boat.getEndX()) {//this is normal
+                    for (int i = boat.getStartX(); i <= boat.getEndX(); i++) {
+                        playerBoard.add(new ShipNode(new Marker(i,
+                                                                boat.getStartY())),
+                                        i, boat.getStartY()); //issues with Marker. What the hell is this?
+                    }
+                }
+                else { //wonkyness achieved. End > Start
+                    for (int i = boat.getEndX(); i <= boat.getStartX(); i++) {
+                        playerBoard.add(new ShipNode(new Marker(i,
+                                                                boat.getStartY())),
+                                        i, boat.getStartY()); //issues with Marker. What the hell is this?
+                    }
+                }
+
+            }
+        }
 
     }
 
