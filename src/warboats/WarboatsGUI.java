@@ -16,11 +16,7 @@
 package warboats;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import warboats.controller.WarboatsController;
 import warboats.model.WarboatsModel;
@@ -42,32 +38,19 @@ public class WarboatsGUI extends Application {
     public void init() throws Exception {
         super.init();
         theNetwork = new WarboatsNetwork();
-
-        theView = new WarboatsView();
-        theCtrl = new WarboatsController();
         theModel = new WarboatsModel(WarboatsNetwork.getActiveClient(),
                                      WarboatsNetwork.getActiveServer());
+        theView = new WarboatsView(this.theModel);
+        theCtrl = new WarboatsController();
 
     }
 
     @Override
     public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
 
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
+        Scene scene = new Scene(this.theView.getRootNode());
 
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-
-        Scene scene = new Scene(root, 300, 250);
-
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("WARBOATS");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
