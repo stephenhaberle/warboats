@@ -52,6 +52,7 @@ public class WarboatsView {
     private Label shipsRemainingTextField;
     private Label hitsTextField;
     private Label missesTextField;
+    private ArrayList<ShipNode> placedShipNodes;
 
     public WarboatsView(WarboatsModel theModel) {
         this.theModel = theModel;
@@ -69,7 +70,8 @@ public class WarboatsView {
 
         //PEYTON: What we need to do is loop through the "navy" arraylist in the model and for each ship place a ShipNode
         //at each index where there is a shit. The ShipNode extends from Rectangle so it'll basically just placing a rectangle over
-        //the empty label that is in the grid right now.
+        //the empty label that is in the grid right now.\
+        //makrers should be placed on top lof shipnodes
         //
         //CHRIS: I know we talked about filling the grid with markers, but I don't think that makes sense because markers
         //are only used to indicate if there is a hit, miss, or ship on that index. I suppose we can make three new classes
@@ -217,8 +219,7 @@ public class WarboatsView {
                     }
                 }
                 else {
-                    //TODO: add marker objects instead of labels.
-                    playerBoard.add(new Label(" "), j, i);
+                    playerBoard.add(new MarkerNode(new Marker(j, i)), j, i);
                 }
             }
         }
@@ -239,40 +240,43 @@ public class WarboatsView {
 
     private void placeShips() {
         ArrayList<Boat> playersPlacedBoats = this.theModel.getNavy(); //gets players placed ships
+        placedShipNodes = new ArrayList<>();
 
         for (Boat boat : playersPlacedBoats) {
             if (boat.getStartX() == boat.getEndX()) {//boat is vertical. only care about Y values
-                //TODO: figure out code here to place ShipNode objects into gridpane
-                //NEED TO MAKE SURE THAT START Y IS LESS THAN END Y
                 if (boat.getStartY() < boat.getEndY()) {//this is normal
-                    for (int i = boat.getStartY(); i <= boat.getEndY(); i++) { //can we use the better version of add? http://tutorials.jenkov.com/javafx/gridpane.html
-                        playerBoard.add(new ShipNode(
-                                new Marker(boat.getStartX(), i)),
-                                        boat.getStartX(), i); //issues with Marker. What the hell is this?
+                    for (int i = boat.getStartY(); i <= boat.getEndY(); i++) { // i is a Y
+                        ShipNode ship = new ShipNode(
+                                new Marker(boat.getStartX(), i));
+                        playerBoard.add(ship, boat.getStartX(), i);
+                        placedShipNodes.add(ship);
                     }
                 }
                 else { //wonkyness achieved. End > Start
-                    for (int i = boat.getEndY(); i <= boat.getStartY(); i++) {
-                        playerBoard.add(new ShipNode(
-                                new Marker(boat.getStartX(), i)),
-                                        boat.getStartX(), i); //issues with Marker. What the hell is this?
+                    for (int i = boat.getEndY(); i <= boat.getStartY(); i++) { //i is a Y
+                        ShipNode ship = new ShipNode(
+                                new Marker(boat.getStartX(), i));
+                        playerBoard.add(ship, boat.getStartX(), i);
+                        placedShipNodes.add(ship);
                     }
                 }
 
             }
             else { //boat is horizontal. Only care about X values
                 if (boat.getStartX() > boat.getEndX()) {//this is normal
-                    for (int i = boat.getStartX(); i <= boat.getEndX(); i++) {
-                        playerBoard.add(new ShipNode(new Marker(i,
-                                                                boat.getStartY())),
-                                        i, boat.getStartY()); //issues with Marker. What the hell is this?
+                    for (int i = boat.getStartX(); i <= boat.getEndX(); i++) { //i is an X
+                        ShipNode ship = new ShipNode(new Marker(i,
+                                                                boat.getStartY()));
+                        playerBoard.add(ship, i, boat.getStartY());
+                        placedShipNodes.add(ship);
                     }
                 }
                 else { //wonkyness achieved. End > Start
-                    for (int i = boat.getEndX(); i <= boat.getStartX(); i++) {
-                        playerBoard.add(new ShipNode(new Marker(i,
-                                                                boat.getStartY())),
-                                        i, boat.getStartY()); //issues with Marker. What the hell is this?
+                    for (int i = boat.getEndX(); i <= boat.getStartX(); i++) { //i is an X
+                        ShipNode ship = new ShipNode(new Marker(i,
+                                                                boat.getStartY()));
+                        playerBoard.add(ship, i, boat.getStartY());
+                        placedShipNodes.add(ship);
                     }
                 }
 

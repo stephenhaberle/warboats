@@ -28,7 +28,8 @@ public class MarkerNode extends Circle {
     private Marker marker;
 
     public MarkerNode(Marker marker) {
-        super(15, Color.BLUE);
+        super(15, Color.TRANSPARENT);
         this.marker = marker;
     }
+
 }
