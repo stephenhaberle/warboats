@@ -211,189 +211,46 @@ public class WarboatsView {
 
     private void generateOpponentBoardPane() {
         boardPane = new VBox(10);
-        opponentBoard = new GridPane();
-        opponentBoard.setGridLinesVisible(true);
-        opponentBoard.setAlignment(Pos.TOP_CENTER);
-        ArrayList<Label> labels = new ArrayList<>();
+        boardPane.setAlignment(Pos.CENTER);
 
-        //maybe fill with rectangles instead?
-        for (int i = 0; i <= 10; i++) {
-            opponentBoard.getColumnConstraints().add(new ColumnConstraints(30));
-            opponentBoard.getRowConstraints().add(new RowConstraints(30));
+        opponentBoard = generateBoardPane();
 
-            for (int j = 0; j <= 10; j++) {
-                if (j == 0) {
-                    Label numLabel = new Label(String.format("%d", i));
-                    opponentBoard.add(numLabel, j, i);
-                    GridPane.setHalignment(numLabel, HPos.CENTER);
-                }
-                else if (i == 0) {
-                    switch (j) {
-                        case 0:
-                            opponentBoard.add(new Label(" "), j, i);
-                            break;
-
-                        case 1:
-                            Label aLabel = new Label("A");
-                            opponentBoard.add(aLabel, j, i);
-                            labels.add(aLabel);
-                            break;
-
-                        case 2:
-                            Label bLabel = new Label("B");
-                            opponentBoard.add(bLabel, j, i);
-                            labels.add(bLabel);
-                            break;
-
-                        case 3:
-                            Label cLabel = new Label("C");
-                            opponentBoard.add(cLabel, j, i);
-                            labels.add(cLabel);
-                            break;
-
-                        case 4:
-                            Label dLabel = new Label("D");
-                            opponentBoard.add(dLabel, j, i);
-                            labels.add(dLabel);
-                            break;
-
-                        case 5:
-                            Label eLabel = new Label("E");
-                            opponentBoard.add(eLabel, j, i);
-                            labels.add(eLabel);
-                            break;
-
-                        case 6:
-                            Label fLabel = new Label("F");
-                            opponentBoard.add(fLabel, j, i);
-                            labels.add(fLabel);
-                            break;
-
-                        case 7:
-                            Label gLabel = new Label("G");
-                            opponentBoard.add(gLabel, j, i);
-                            labels.add(gLabel);
-                            break;
-
-                        case 8:
-                            Label hLabel = new Label("H");
-                            opponentBoard.add(hLabel, j, i);
-                            labels.add(hLabel);
-                            break;
-
-                        case 9:
-                            Label iLabel = new Label("I");
-                            opponentBoard.add(iLabel, j, i);
-                            labels.add(iLabel);
-                            break;
-
-                        case 10:
-                            Label jLabel = new Label("J");
-                            opponentBoard.add(jLabel, j, i);
-                            labels.add(jLabel);
-                            break;
-                    }
-
-                    for (Label label : labels) {
-                        GridPane.setHalignment(label, HPos.CENTER);
-                    }
-                }
-                else {
-                    MarkerNode node = new MarkerNode(new Marker(j, i));
-                    opponentBoard.add(node, j, i);
-                    GridPane.setHalignment(node, HPos.CENTER);
-                }
-            }
-        }
         opponentBoard.setAlignment(Pos.CENTER);
         boardPane.getChildren().add(new Label("Opponent's Fleet"));
         boardPane.getChildren().add(opponentBoard);
-        boardPane.setAlignment(Pos.CENTER);
     }
 
     private void generatePlayerBoardPane() {
-        playerBoard = new GridPane();
-        playerBoard.setGridLinesVisible(true);
-        playerBoard.setAlignment(Pos.TOP_CENTER);
+        playerBoard = generateBoardPane();
+
+        playerBoard.setAlignment(Pos.CENTER);
+        boardPane.getChildren().add(new Label("Your Fleet"));
+        boardPane.getChildren().add(playerBoard);
+    }
+
+    private GridPane generateBoardPane() {
+        GridPane genBoard = new GridPane();
+        genBoard.setGridLinesVisible(true);
+        genBoard.setAlignment(Pos.TOP_CENTER);
         ArrayList<Label> labels = new ArrayList<>();
 
         //maybe fill with rectangles instead?
         for (int i = 0; i <= 10; i++) {
-            playerBoard.getColumnConstraints().add(new ColumnConstraints(30));
-            playerBoard.getRowConstraints().add(new RowConstraints(30));
+            genBoard.getColumnConstraints().add(new ColumnConstraints(30));
+            genBoard.getRowConstraints().add(new RowConstraints(30));
+
+            String[] boardLetters = {" ", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 
             for (int j = 0; j <= 10; j++) {
                 if (j == 0) {
                     Label numLabel = new Label(String.format("%d", i));
-                    playerBoard.add(numLabel, j, i);
+                    genBoard.add(numLabel, j, i);
                     GridPane.setHalignment(numLabel, HPos.CENTER);
                 }
                 else if (i == 0) {
-                    switch (j) {
-                        case 0:
-                            playerBoard.add(new Label(" "), j, i);
-                            break;
-
-                        case 1:
-                            Label aLabel = new Label("A");
-                            playerBoard.add(aLabel, j, i);
-                            labels.add(aLabel);
-                            break;
-
-                        case 2:
-                            Label bLabel = new Label("B");
-                            playerBoard.add(bLabel, j, i);
-                            labels.add(bLabel);
-                            break;
-
-                        case 3:
-                            Label cLabel = new Label("C");
-                            playerBoard.add(cLabel, j, i);
-                            labels.add(cLabel);
-                            break;
-
-                        case 4:
-                            Label dLabel = new Label("D");
-                            playerBoard.add(dLabel, j, i);
-                            labels.add(dLabel);
-                            break;
-
-                        case 5:
-                            Label eLabel = new Label("E");
-                            playerBoard.add(eLabel, j, i);
-                            labels.add(eLabel);
-                            break;
-
-                        case 6:
-                            Label fLabel = new Label("F");
-                            playerBoard.add(fLabel, j, i);
-                            labels.add(fLabel);
-                            break;
-
-                        case 7:
-                            Label gLabel = new Label("G");
-                            playerBoard.add(gLabel, j, i);
-                            labels.add(gLabel);
-                            break;
-
-                        case 8:
-                            Label hLabel = new Label("H");
-                            playerBoard.add(hLabel, j, i);
-                            labels.add(hLabel);
-                            break;
-
-                        case 9:
-                            Label iLabel = new Label("I");
-                            playerBoard.add(iLabel, j, i);
-                            labels.add(iLabel);
-                            break;
-
-                        case 10:
-                            Label jLabel = new Label("J");
-                            playerBoard.add(jLabel, j, i);
-                            labels.add(jLabel);
-                            break;
-                    }
+                    Label tempLabel = new Label(boardLetters[j]);
+                    genBoard.add(tempLabel, j, i);
+                    labels.add(tempLabel);
 
                     for (Label label : labels) {
                         GridPane.setHalignment(label, HPos.CENTER);
@@ -401,14 +258,14 @@ public class WarboatsView {
                 }
                 else {
                     MarkerNode node = new MarkerNode(new Marker(j, i));
-                    playerBoard.add(node, j, i);
+                    genBoard.add(node, j, i);
                     GridPane.setHalignment(node, HPos.CENTER);
                 }
             }
         }
-        playerBoard.setAlignment(Pos.CENTER);
-        boardPane.getChildren().add(new Label("Your Fleet"));
-        boardPane.getChildren().add(playerBoard);
+
+        return genBoard;
+
     }
 
     private void generateMenuBar() {

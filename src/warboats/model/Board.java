@@ -106,7 +106,7 @@ public class Board {
             tile.setColor("H");
         }
         else {
-            System.out.println("MISS, EAT A DICk");
+            System.out.println("MISS");
             tile.setColor("M");
         }
     }
