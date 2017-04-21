@@ -72,10 +72,10 @@ public class BoardTest extends TestCase {
 
         testBoard.hitMiss(true, testCoord);
         Marker testTile = testBoard.getBoard().get(x - 1).get(y - 1);
-        assertEquals("H", testTile.getColor());
+        assertEquals("H", testTile.getConsoleRepresentation());
 
         testBoard.hitMiss(false, testCoord);
-        assertEquals("M", testTile.getColor());
+        assertEquals("M", testTile.getConsoleRepresentation());
     }
 
 }
