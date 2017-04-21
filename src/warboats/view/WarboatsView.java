@@ -31,10 +31,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
-import warboats.boats.Boat;
 import warboats.model.Marker;
 import warboats.model.WarboatsModel;
+import warboats.view.boatsView.BattleshipView;
+import warboats.view.boatsView.CarrierView;
+import warboats.view.boatsView.DestroyerView;
+import warboats.view.boatsView.PatrolBoatView;
+import warboats.view.boatsView.ShipNode;
+import warboats.view.boatsView.SubmarineView;
 
 /**
  *
@@ -57,12 +64,19 @@ public class WarboatsView {
     private Label hitsTextField;
     private Label missesTextField;
     private ArrayList<ShipNode> placedShipNodes;
+    private ArrayList<ArrayList<TextField>> shipCoordinates;
     private ArrayList<TextField> carrierCoordinates;
     private ArrayList<TextField> battleshipCoordinates;
     private ArrayList<TextField> destroyerCoordinates;
     private ArrayList<TextField> submarineCoordinates;
     private ArrayList<TextField> patrolBoatCoordinates;
     private Button placeShips;
+    private CarrierView carrierView;
+    private BattleshipView bshipView;
+    private DestroyerView destroyView;
+    private PatrolBoatView ptView;
+    private SubmarineView subView;
+    public Circle testDrag;
 
     public WarboatsView(WarboatsModel theModel) {
         this.theModel = theModel;
@@ -70,13 +84,15 @@ public class WarboatsView {
         root = new BorderPane();
         root.setPrefSize(800, 800);
 
+        shipCoordinates = new ArrayList<>();
+        placedShipNodes = new ArrayList<>();
+
         generateMenuBar();
         generateOpponentBoardPane();
         generatePlayerBoardPane();
         generateShipPane();
         root.setCenter(boardPane);
         root.setLeft(shipPane);
-        placeShips();
         //
         //PEYTON: Peyton would like to refactor the code so that the method names are more easily understandable
     }
@@ -101,60 +117,86 @@ public class WarboatsView {
         shipPane.setPadding(new Insets(10, 10, 10, 10));
         shipLabel.setAlignment(Pos.CENTER);
 
+        //carrier get coordinates
         carrierCoordinates = new ArrayList<>();
+        shipCoordinates.add(carrierCoordinates);
         Label carrier = new Label("Carrier");
         TextField carrierx1 = new TextField("x1");
         TextField carrierx2 = new TextField("x2");
         TextField carriery1 = new TextField("y1");
         TextField carriery2 = new TextField("y2");
-        carrierCoordinates.add(carrierx1);
-        carrierCoordinates.add(carriery1);
-        carrierCoordinates.add(carrierx2);
-        carrierCoordinates.add(carriery2);
 
+        carrierView = new CarrierView();
+        /*
+        carrierView.getInitializedCoordinates().add(carrierx1);
+        carrierView.getInitializedCoordinates().add(carriery1);
+        carrierView.getInitializedCoordinates().add(carrierx2);
+        carrierView.getInitializedCoordinates().add(carriery2);
+        placedShipNodes.add(carrierView);
+         */
+        //battleship get coordinates
         battleshipCoordinates = new ArrayList<>();
+        shipCoordinates.add(battleshipCoordinates);
         Label battleship = new Label("Battleship");
         TextField battlex1 = new TextField("x1");
         TextField battlex2 = new TextField("x2");
         TextField battley1 = new TextField("y1");
         TextField battley2 = new TextField("y2");
-        battleshipCoordinates.add(battlex1);
-        battleshipCoordinates.add(battley1);
-        battleshipCoordinates.add(battlex2);
-        battleshipCoordinates.add(battley2);
 
+        bshipView = new BattleshipView();
+        bshipView.getInitializedCoordinates().add(battlex1);
+        bshipView.getInitializedCoordinates().add(battley1);
+        bshipView.getInitializedCoordinates().add(battlex2);
+        bshipView.getInitializedCoordinates().add(battley2);
+        placedShipNodes.add(bshipView);
+
+        //destroyer get coordinates
         destroyerCoordinates = new ArrayList<>();
+        shipCoordinates.add(destroyerCoordinates);
         Label destroyer = new Label("Destroyer");
         TextField destroyerx1 = new TextField("x1");
         TextField destroyerx2 = new TextField("x2");
         TextField destroyery1 = new TextField("y1");
         TextField destroyery2 = new TextField("y2");
-        destroyerCoordinates.add(destroyerx1);
-        destroyerCoordinates.add(destroyery1);
-        destroyerCoordinates.add(destroyerx2);
-        destroyerCoordinates.add(destroyery2);
 
+        destroyView = new DestroyerView();
+        destroyView.getInitializedCoordinates().add(destroyerx1);
+        destroyView.getInitializedCoordinates().add(destroyery1);
+        destroyView.getInitializedCoordinates().add(destroyerx2);
+        destroyView.getInitializedCoordinates().add(destroyery2);
+        placedShipNodes.add(destroyView);
+
+        //submarine get coordinates
         submarineCoordinates = new ArrayList<>();
+        shipCoordinates.add(submarineCoordinates);
         Label submarine = new Label("Submarine");
         TextField subx1 = new TextField("x1");
         TextField subx2 = new TextField("x2");
         TextField suby1 = new TextField("y1");
         TextField suby2 = new TextField("y2");
-        submarineCoordinates.add(subx1);
-        submarineCoordinates.add(suby1);
-        submarineCoordinates.add(subx2);
-        submarineCoordinates.add(suby2);
 
+        subView = new SubmarineView();
+        subView.getInitializedCoordinates().add(subx1);
+        subView.getInitializedCoordinates().add(suby1);
+        subView.getInitializedCoordinates().add(subx2);
+        subView.getInitializedCoordinates().add(suby2);
+        placedShipNodes.add(subView);
+
+        //patrol boat get coordinates
         patrolBoatCoordinates = new ArrayList<>();
+        shipCoordinates.add(patrolBoatCoordinates);
         Label patrol = new Label("Patrol Boat");
         TextField patrolx1 = new TextField("x1");
         TextField patrolx2 = new TextField("x2");
         TextField patroly1 = new TextField("y1");
         TextField patroly2 = new TextField("y2");
-        patrolBoatCoordinates.add(patrolx1);
-        patrolBoatCoordinates.add(patroly1);
-        patrolBoatCoordinates.add(patrolx2);
-        patrolBoatCoordinates.add(patroly2);
+
+        ptView = new PatrolBoatView();
+        ptView.getInitializedCoordinates().add(patrolx1);
+        ptView.getInitializedCoordinates().add(patroly1);
+        ptView.getInitializedCoordinates().add(patrolx2);
+        ptView.getInitializedCoordinates().add(patroly2);
+        placedShipNodes.add(ptView);
 
         for (TextField field : carrierCoordinates) {
             field.setPrefWidth(40);
@@ -207,6 +249,16 @@ public class WarboatsView {
 
         placeShips = new Button("Place Ships");
         shipPane.getChildren().add(placeShips);
+
+        //create drag/drop circle
+        testDrag = new Circle(10, Color.RED);
+        shipPane.getChildren().add(testDrag);
+
+        //drag/drop ship test
+        shipPane.getChildren().add(carrierView.view);
+        for (int i = 0; i < 5; i++) {
+            shipPane.getChildren().add(carrierView.nodes.get(i));
+        }
     }
 
     private void generateOpponentBoardPane() {
@@ -278,56 +330,56 @@ public class WarboatsView {
 
     }
 
-    private void placeShips() {
-        ArrayList<Boat> playersPlacedBoats = this.theModel.getNavy(); //gets players placed ships
-        System.out.println(playersPlacedBoats.toString());
-        placedShipNodes = new ArrayList<>();
-
-        for (Boat boat : playersPlacedBoats) {
-            if (boat.getStartX() == boat.getEndX()) {//boat is vertical. only care about Y values
-                if (boat.getStartY() < boat.getEndY()) {//this is normal
-                    for (int i = boat.getStartY(); i <= boat.getEndY(); i++) { // i is a Y
-                        ShipNode ship = new ShipNode(
-                                new Marker(boat.getStartX(), i));
-                        playerBoard.add(ship, boat.getStartX(), i);
-                        placedShipNodes.add(ship);
-                    }
-                }
-                else { //wonkyness achieved. End > Start
-                    for (int i = boat.getEndY(); i <= boat.getStartY(); i++) { //i is a Y
-                        ShipNode ship = new ShipNode(
-                                new Marker(boat.getStartX(), i));
-                        playerBoard.add(ship, boat.getStartX(), i);
-                        placedShipNodes.add(ship);
-                    }
-                }
-
-            }
-            else { //boat is horizontal. Only care about X values
-                if (boat.getStartX() < boat.getEndX()) {//this is normal
-                    for (int i = boat.getStartX(); i <= boat.getEndX(); i++) { //i is an X
-                        ShipNode ship = new ShipNode(new Marker(i,
-                                                                boat.getStartY()));
-                        playerBoard.add(ship, i, boat.getStartY());
-                        placedShipNodes.add(ship);
-                    }
-                }
-                else { //wonkyness achieved. End > Start
-                    for (int i = boat.getEndX(); i <= boat.getStartX(); i++) { //i is an X
-                        ShipNode ship = new ShipNode(new Marker(i,
-                                                                boat.getStartY()));
-                        playerBoard.add(ship, i, boat.getStartY());
-                        placedShipNodes.add(ship);
-                    }
-                }
-
-            }
-        }
-
-    }
-
     public BorderPane getRootNode() {
         return root;
+    }
+
+    public ArrayList<ShipNode> getPlacedShipNodes() {
+        return placedShipNodes;
+    }
+
+    public ArrayList<TextField> getCarrierCoordinates() {
+        return carrierCoordinates;
+    }
+
+    public ArrayList<TextField> getBattleshipCoordinates() {
+        return battleshipCoordinates;
+    }
+
+    public ArrayList<TextField> getDestroyerCoordinates() {
+        return destroyerCoordinates;
+    }
+
+    public ArrayList<TextField> getSubmarineCoordinates() {
+        return submarineCoordinates;
+    }
+
+    public ArrayList<TextField> getPatrolBoatCoordinates() {
+        return patrolBoatCoordinates;
+    }
+
+    public Button getPlaceShips() {
+        return placeShips;
+    }
+
+    public GridPane getPlayerBoard() {
+        return playerBoard;
+    }
+
+    public GridPane getOpponentBoard() {
+        return opponentBoard;
+    }
+
+    public ArrayList<ArrayList<TextField>> getShipCoordinates() {
+        return shipCoordinates;
+    }
+
+    public VBox getShipPane() {
+        return shipPane;
+    }
+
+    public CarrierView getCarrierView() {
+        return carrierView;
     }
 
 }

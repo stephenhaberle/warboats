@@ -40,9 +40,10 @@ public class WarboatsGUI extends Application {
         theNetwork = new WarboatsNetwork();
         theModel = new WarboatsModel(WarboatsNetwork.getActiveClient(),
                                      WarboatsNetwork.getActiveServer());
-        theModel.getConsolePlacements();
+        //only for when we want preset placements
+        //theModel.getConsolePlacements();
         theView = new WarboatsView(this.theModel);
-        theCtrl = new WarboatsController();
+        theCtrl = new WarboatsController(theModel, theView);
 
     }
 

@@ -76,7 +76,7 @@ public class Board {
 
         if (tile.isShipOn()) {
             //CHANGE MARKER TO HIT COLOR
-            tile.setColor("H");
+            tile.setConsoleRepresentation("H");
             Boat boat = tile.getBoat();
 
             if (boat.checkSunk()) {
@@ -103,11 +103,11 @@ public class Board {
 
         if (isHit) {
             System.out.println("HIT");
-            tile.setColor("H");
+            tile.setConsoleRepresentation("H");
         }
         else {
             System.out.println("MISS");
-            tile.setColor("M");
+            tile.setConsoleRepresentation("M");
         }
     }
 

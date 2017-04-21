@@ -25,7 +25,7 @@ public class Marker {
 
     private int posX;
     private int posY;
-    private String color = "o"; //can determine if tile has been shot at based on color
+    private String consoleRepresentation = "o"; //can determine if tile has been shot at based on consoleRepresentation
 
     //simple boolean value to determine if a boat is placed on the tile
     private boolean isShipOn = false;
@@ -36,12 +36,12 @@ public class Marker {
     public Marker(int x, int y) {
         posX = x;
         posY = y;
-        color = "o";
+        consoleRepresentation = "o";
     }
 
     @Override
     public String toString() {
-        return this.color;
+        return this.consoleRepresentation;
     }
 
     public int getPosX() {
@@ -52,12 +52,12 @@ public class Marker {
         return posY;
     }
 
-    public String getColor() {
-        return color;
+    public String getConsoleRepresentation() {
+        return consoleRepresentation;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setConsoleRepresentation(String consoleRepresentation) {
+        this.consoleRepresentation = consoleRepresentation;
     }
 
     public boolean isShipOn() {
@@ -66,7 +66,7 @@ public class Marker {
 
     public void toggleShipOn() {
         this.isShipOn = !(this.isShipOn);
-        this.color = "B";
+        this.consoleRepresentation = "B";
     }
 
     public void setBoat(Boat boatType) {

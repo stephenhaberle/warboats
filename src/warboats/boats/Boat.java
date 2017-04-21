@@ -93,7 +93,7 @@ public class Boat {
     public boolean checkSunk() {
         int hitCount = 0;
         for (Marker temp : positionTiles) {
-            if (temp.getColor().equals("H")) {
+            if (temp.getConsoleRepresentation().equals("H")) {
                 hitCount++;
             }
         }
