@@ -29,6 +29,7 @@ dist/
 nbdist/
 nbactions.xml
 .nb-gradle/
+nbproject/project.properties
 
 # Eclipse configuration files
 # NOTE: If you want to use the Git plugin for Eclipse, then 
