@@ -23,7 +23,6 @@ public class ModelSuite extends TestCase {
         TestSuite suite = new TestSuite("ModelSuite");
         suite.addTest(WarboatsModelTest.suite());
         suite.addTest(BoardTest.suite());
-        suite.addTest(MarkerTest.suite());
         return suite;
     }
 
