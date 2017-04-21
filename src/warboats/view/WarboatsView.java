@@ -25,6 +25,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -40,7 +42,7 @@ import warboats.view.boatsView.BattleshipView;
 import warboats.view.boatsView.CarrierView;
 import warboats.view.boatsView.DestroyerView;
 import warboats.view.boatsView.PatrolBoatView;
-import warboats.view.boatsView.ShipNode;
+import warboats.view.boatsView.ShipView;
 import warboats.view.boatsView.SubmarineView;
 
 /**
@@ -63,7 +65,7 @@ public class WarboatsView {
     private Label shipsRemainingTextField;
     private Label hitsTextField;
     private Label missesTextField;
-    private ArrayList<ShipNode> placedShipNodes;
+    private ArrayList<ShipView> placedShipNodes;
     private ArrayList<ArrayList<TextField>> shipCoordinates;
     private ArrayList<TextField> carrierCoordinates;
     private ArrayList<TextField> battleshipCoordinates;
@@ -93,6 +95,7 @@ public class WarboatsView {
         generateShipPane();
         root.setCenter(boardPane);
         root.setLeft(shipPane);
+
         //
         //PEYTON: Peyton would like to refactor the code so that the method names are more easily understandable
     }
@@ -254,11 +257,18 @@ public class WarboatsView {
         testDrag = new Circle(10, Color.RED);
         shipPane.getChildren().add(testDrag);
 
+        Image img = new Image("file:ships/carrierH.png");
+        carrierView.image = new ImageView();
+        carrierView.image.setImage(img);
+        carrierView.image.setFitWidth(150);
+        carrierView.image.setFitHeight(30);
+        shipPane.getChildren().add(carrierView.image);
+
         //drag/drop ship test
-        shipPane.getChildren().add(carrierView.view);
-        for (int i = 0; i < 5; i++) {
-            shipPane.getChildren().add(carrierView.nodes.get(i));
-        }
+        //shipPane.getChildren().add(carrierView.view);
+        //for (int i = 0; i < 5; i++) {
+        //  shipPane.getChildren().add(carrierView.nodes.get(i));
+        //}
     }
 
     private void generateOpponentBoardPane() {
@@ -334,7 +344,7 @@ public class WarboatsView {
         return root;
     }
 
-    public ArrayList<ShipNode> getPlacedShipNodes() {
+    public ArrayList<ShipView> getPlacedShipNodes() {
         return placedShipNodes;
     }
 

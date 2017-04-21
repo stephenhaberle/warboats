@@ -8,7 +8,7 @@
 *
 * Project: warboats
 * Package: warboats.view
-* File: ShipNode
+* File: ShipView
 * Description:
 *
 * ****************************************
@@ -17,28 +17,26 @@ package warboats.view.boatsView;
 
 import java.util.ArrayList;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import warboats.model.Marker;
 
 /**
  *
  * @author StephenHaberle
  */
-public class ShipNode extends Rectangle {
+public class ShipView {
 
     private Marker marker;
     private ArrayList<TextField> initializedCoordinates;
     private int shipType;
 
-    public ShipNode() {
-        super(30, 30, Color.GREY);
+    public ShipView() {
+        //super(30, 30, Color.GREY);
         initializedCoordinates = new ArrayList<>();
 
     }
 
-    public ShipNode(Marker marker) {
-        super(30, 30, Color.GREY);
+    public ShipView(Marker marker) {
+        //super(30, 30, Color.GREY);
         this.marker = marker;
         this.marker.toggleShipOn();
         initializedCoordinates = new ArrayList<>();

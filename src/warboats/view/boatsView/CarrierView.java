@@ -6,23 +6,21 @@
 package warboats.view.boatsView;
 
 import java.util.ArrayList;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.image.ImageView;
 
 /**
  *
  * @author clo006
  */
-public class CarrierView {
+public class CarrierView extends ShipView {
 
-    public ArrayList<ShipNode> nodes;
-    public Rectangle view;
+    public ArrayList<ShipView> nodes;
+    public ImageView image;
 
     public CarrierView() {
-        view = new Rectangle(30, 150, Color.GREY);
         nodes = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            ShipNode temp = new ShipNode();
+            ShipView temp = new ShipView();
             temp.setShipType(5);
             nodes.add(temp);
         }

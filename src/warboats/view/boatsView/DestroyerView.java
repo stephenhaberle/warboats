@@ -9,7 +9,7 @@ package warboats.view.boatsView;
  *
  * @author clo006
  */
-public class DestroyerView extends ShipNode {
+public class DestroyerView extends ShipView {
 
     public DestroyerView() {
         this.setShipType(3);
