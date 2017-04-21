@@ -9,15 +9,15 @@
 * Project: warboats
 * Package: warboats
 * File: Board
-* Description: Class that represents the game board by storing an ArrayList of Markers. 
+* Description: Class that represents the game board by storing an ArrayList of Markers.
 *
 * ****************************************
  */
 package warboats.model;
 
 import java.util.ArrayList;
-import warboats.network.Coordinates;
 import warboats.boats.Boat;
+import warboats.network.Coordinates;
 
 /**
  *

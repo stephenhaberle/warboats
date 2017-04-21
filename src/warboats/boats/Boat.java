@@ -37,10 +37,10 @@ public class Boat {
 
     public Boat(int xStart, int yStart, int xEnd, int yEnd, Board curBoard) {
         alive = true;
-        startX = xStart - 1;
-        startY = yStart - 1;
-        endX = xEnd - 1;
-        endY = yEnd - 1;
+        startX = xStart;
+        startY = yStart;
+        endX = xEnd;
+        endY = yEnd;
         currentBoard = curBoard;
 
         positionTiles = new ArrayList<Marker>();
@@ -61,7 +61,8 @@ public class Boat {
                 //Assign markers from board to Boat based off user input
                 for (int i = startX; i <= endX; i++) {
                     for (int j = startY; j <= endY; j++) {
-                        Marker temp = currentBoard.getBoard().get(i).get(j);
+                        Marker temp = currentBoard.getBoard().get(i - 1).get(
+                                j - 1);
                         if (temp.isShipOn()) {
                             throw new Exception("SHIP ALREADY ON TILE");
                         }
