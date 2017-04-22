@@ -89,7 +89,7 @@ public class DragDropController {
 
         target.setOnDragOver(new EventHandler<DragEvent>() {
             public void handle(DragEvent event) {
-                System.out.println("Event on Target: mouse drag over");
+                //System.out.println("Event on Target: mouse drag over");
                 if (event.getGestureSource() != target && event.getDragboard().hasImage()) {
                     //allow for moving
                     event.acceptTransferModes(TransferMode.MOVE);
@@ -105,7 +105,7 @@ public class DragDropController {
     }
 
     public void handleSetOnDragEntered(DragEvent event) {
-        System.out.println("Event on Target: mouse dragged");
+        //System.out.println("Event on Target: mouse dragged");
         if (event.getGestureSource() != target && event.getDragboard().hasImage()) {
             source.setVisible(false);
             target.setOpacity(0.7);
@@ -180,12 +180,14 @@ public class DragDropController {
                 throw new ClassCastException("SHIP CANT BE OFF BOARD");
             }
             else {
+                System.out.println("ID " + id);
+                Integer[] shipLengths = {2, 3, 3, 4, 5};
 
                 //only support horizontal carrier for now
-                theModel.addShip(id, x, y, x + (id - 1), y);
+                theModel.addShip(id, x, y, x + (shipLengths[id - 1] - 1), y);
                 System.out.println(theModel.getMyBoard());
 
-                board.add(image, x, y, 5, 1);
+                board.add(image, x, y, shipLengths[id - 1], 1);
 
                 success = true;
             }
@@ -200,22 +202,6 @@ public class DragDropController {
             throw new ClassCastException("RESET POS");
         }
 
-        /*
-                MarkerNode node = (MarkerNode) event.getPickResult().getIntersectedNode();
-                System.out.println(node.getMarker());
-                ((VBox) source.getParent()).getChildren().remove(source);
-
-                //testCircle.setCenterX(node.getCenterX());
-                //testCircle.setCenterY(node.getCenterY());
-                int x = GridPane.getColumnIndex(node);
-                int y = GridPane.getRowIndex(node);
-
-                ((GridPane) node.getParent()).add(source, x, y);
-                //System.out.println(source.getCenterX());
-                //System.out.println(source.getCenterY());
-                System.out.println("Event on Target: mouse drag released");
-                System.out.println(event.getPickResult().getIntersectedNode());
-         */
     }
 
 }

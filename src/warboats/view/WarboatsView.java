@@ -30,11 +30,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import warboats.model.Marker;
 import warboats.model.WarboatsModel;
@@ -78,7 +75,6 @@ public class WarboatsView {
     private DestroyerView destroyView;
     private PatrolBoatView ptView;
     private SubmarineView subView;
-    public Circle testDrag;
 
     public WarboatsView(WarboatsModel theModel) {
         this.theModel = theModel;
@@ -120,6 +116,7 @@ public class WarboatsView {
         shipPane.setPadding(new Insets(10, 10, 10, 10));
         shipLabel.setAlignment(Pos.CENTER);
 
+        /*
         //carrier get coordinates
         carrierCoordinates = new ArrayList<>();
         shipCoordinates.add(carrierCoordinates);
@@ -130,13 +127,13 @@ public class WarboatsView {
         TextField carriery2 = new TextField("y2");
 
         carrierView = new CarrierView();
-        /*
+
         carrierView.getInitializedCoordinates().add(carrierx1);
         carrierView.getInitializedCoordinates().add(carriery1);
         carrierView.getInitializedCoordinates().add(carrierx2);
         carrierView.getInitializedCoordinates().add(carriery2);
         placedShipNodes.add(carrierView);
-         */
+
         //battleship get coordinates
         battleshipCoordinates = new ArrayList<>();
         shipCoordinates.add(battleshipCoordinates);
@@ -252,10 +249,13 @@ public class WarboatsView {
 
         placeShips = new Button("Place Ships");
         shipPane.getChildren().add(placeShips);
-
-        //create drag/drop circle
-        testDrag = new Circle(10, Color.RED);
-        shipPane.getChildren().add(testDrag);
+         */
+        //drag and drop
+        carrierView = new CarrierView();
+        bshipView = new BattleshipView();
+        destroyView = new DestroyerView();
+        subView = new SubmarineView();
+        ptView = new PatrolBoatView();
 
         Image img = new Image("file:ships/carrierH.png");
         carrierView.image = new ImageView();
@@ -297,11 +297,6 @@ public class WarboatsView {
         ptView.image.setId("1");
         shipPane.getChildren().add(ptView.image);
 
-        //drag/drop ship test
-        //shipPane.getChildren().add(carrierView.view);
-        //for (int i = 0; i < 5; i++) {
-        //  shipPane.getChildren().add(carrierView.nodes.get(i));
-        //}
     }
 
     private void generateOpponentBoardPane() {
