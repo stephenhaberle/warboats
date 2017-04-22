@@ -6,7 +6,6 @@
 package warboats.view.boatsView;
 
 import java.util.ArrayList;
-import javafx.scene.image.ImageView;
 
 /**
  *
@@ -15,7 +14,6 @@ import javafx.scene.image.ImageView;
 public class CarrierView extends ShipView {
 
     public ArrayList<ShipView> nodes;
-    public ImageView image;
 
     public CarrierView() {
         nodes = new ArrayList<>();

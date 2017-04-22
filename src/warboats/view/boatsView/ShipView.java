@@ -17,17 +17,19 @@ package warboats.view.boatsView;
 
 import java.util.ArrayList;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import warboats.model.Marker;
 
 /**
  *
  * @author StephenHaberle
  */
-public class ShipView {
+public class ShipView extends ImageView {
 
     private Marker marker;
     private ArrayList<TextField> initializedCoordinates;
     private int shipType;
+    public ImageView image;
 
     public ShipView() {
         //super(30, 30, Color.GREY);

@@ -262,7 +262,40 @@ public class WarboatsView {
         carrierView.image.setImage(img);
         carrierView.image.setFitWidth(150);
         carrierView.image.setFitHeight(30);
+        carrierView.image.setId("5");
         shipPane.getChildren().add(carrierView.image);
+
+        img = new Image("file:ships/battleshipH.png");
+        bshipView.image = new ImageView();
+        bshipView.image.setImage(img);
+        bshipView.image.setFitWidth(120);
+        bshipView.image.setFitHeight(30);
+        bshipView.image.setId("4");
+        shipPane.getChildren().add(bshipView.image);
+
+        img = new Image("file:ships/destroyerH.png");
+        destroyView.image = new ImageView();
+        destroyView.image.setImage(img);
+        destroyView.image.setFitWidth(90);
+        destroyView.image.setFitHeight(30);
+        destroyView.image.setId("3");
+        shipPane.getChildren().add(destroyView.image);
+
+        img = new Image("file:ships/subH.png");
+        subView.image = new ImageView();
+        subView.image.setImage(img);
+        subView.image.setFitWidth(90);
+        subView.image.setFitHeight(30);
+        subView.image.setId("2");
+        shipPane.getChildren().add(subView.image);
+
+        img = new Image("file:ships/ptH.png");
+        ptView.image = new ImageView();
+        ptView.image.setImage(img);
+        ptView.image.setFitWidth(60);
+        ptView.image.setFitHeight(30);
+        ptView.image.setId("1");
+        shipPane.getChildren().add(ptView.image);
 
         //drag/drop ship test
         //shipPane.getChildren().add(carrierView.view);
@@ -390,6 +423,22 @@ public class WarboatsView {
 
     public CarrierView getCarrierView() {
         return carrierView;
+    }
+
+    public BattleshipView getBshipView() {
+        return bshipView;
+    }
+
+    public DestroyerView getDestroyView() {
+        return destroyView;
+    }
+
+    public PatrolBoatView getPtView() {
+        return ptView;
+    }
+
+    public SubmarineView getSubView() {
+        return subView;
     }
 
 }

@@ -100,7 +100,7 @@ public class WarboatsModel {
      *
      * PT = 1, sub = 2, breaker = 3, battle = 4, carrier = 5
      */
-    public void addShip(int boatType, int x1, int y1, int x2, int y2) {
+    public void addShip(int boatType, int x1, int y1, int x2, int y2) throws ClassCastException {
         switch (boatType) {
             case 1:
                 navy.add(new PatrolBoat(x1, y1, x2, y2, this.myBoard));

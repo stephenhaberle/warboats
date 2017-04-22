@@ -52,7 +52,7 @@ public class Boat {
      *
      * @param boatObjectType type of boat being placed
      */
-    public void placeBoat(Boat boatObject) {
+    public void placeBoat(Boat boatObject) throws ClassCastException {
         try {
             if ((this.startX == this.endX || this.startY == this.endY) && (abs(
                                                                            this.startX - this.endX) == this.size - 1 || abs(
@@ -64,7 +64,7 @@ public class Boat {
                         Marker temp = currentBoard.getBoard().get(i - 1).get(
                                 j - 1);
                         if (temp.isShipOn()) {
-                            throw new Exception("SHIP ALREADY ON TILE");
+                            throw new ClassCastException("SHIP ALREADY ON TILE");
                         }
                         else {
                             positionTiles.add(temp);
@@ -75,9 +75,10 @@ public class Boat {
                 }
             }
             else {
-                throw new Exception("BOATS MUST BE ALONG A SINGLE AXIS");
+                throw new IllegalArgumentException(
+                        "BOATS MUST BE ALONG A SINGLE AXIS");
             }
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             System.out.println("INVALID BOAT PLACEMENT COORDINATES");
             System.out.println(e);
         }

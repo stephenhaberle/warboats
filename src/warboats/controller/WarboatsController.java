@@ -15,15 +15,7 @@
  */
 package warboats.controller;
 
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import warboats.model.WarboatsModel;
 import warboats.view.WarboatsView;
@@ -38,14 +30,17 @@ public class WarboatsController {
     private WarboatsModel theModel;
     private ImageView source;
     private GridPane target;
+    private final DragDropController dragCtrl;
 
     public WarboatsController(WarboatsModel theModel, WarboatsView theView) {
         this.theModel = theModel;
         this.theView = theView;
+        this.dragCtrl = new DragDropController(this.theView, this.theModel, this);
 
         //this.theView.getPlaceShips().setOnAction((this::handlePlaceShips));
-        source = this.theView.getCarrierView().image;
-        target = this.theView.getPlayerBoard();
+        //source = this.theView.getCarrierView().image;
+        //target = this.theView.getPlayerBoard();
+        //cImg.setOnMouseReleased(this::handleSetOnMouseReleased);
 
         /*
         source.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -59,12 +54,8 @@ public class WarboatsController {
         //TODO: boat can still disappear sometimes when dragged to incorrect place instead of resetting it's position
         // add keypress gesture that changes boat direction
         // http://stackoverflow.com/questions/23399283/javafx-keyevent-not-raised-when-dragging-gesture-active
-        source.setOnMouseReleased(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                source.setMouseTransparent(false);
-                System.out.println("Event on Source: mouse released");
-            }
-        });
+        //source.setOnMouseReleased(this::handleSetOnMouseReleased);
+
         /*
         source.setOnMouseDragged(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
@@ -72,28 +63,16 @@ public class WarboatsController {
                 event.setDragDetect(false);
             }
         });
-         */
+
         source.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent event) {
                 System.out.println("FLIP");
             }
         });
 
-        source.setOnDragDetected(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                Dragboard db = source.startDragAndDrop(TransferMode.ANY);
-                //source.startFullDrag();
-                System.out.println("Event on Source: drag detected");
-                //Put ImageView on dragboard
-                ClipboardContent cbContent = new ClipboardContent();
-                cbContent.putImage(source.getImage());
-                //cbContent.put(DataFormat.)
-                db.setContent(cbContent);
-                source.setVisible(false);
-                event.consume();
+        source.setOnDragDone(this::handleSetOnDragDone);
 
-            }
-        });
+        source.setOnDragDetected(this::handleSetOnDragDetected);
 
         // Add mouse event handlers for the target
         target.setOnDragEntered(new EventHandler<DragEvent>() {
@@ -130,82 +109,9 @@ public class WarboatsController {
                 event.consume();
             }
         });
-
-        source.setOnDragDone(new EventHandler<DragEvent>() {
-            public void handle(DragEvent event) {
-                //the drag and drop gesture has ended
-                //if the data was successfully moved, clear it
-                if (event.getTransferMode() == TransferMode.MOVE) {
-                    source.setVisible(false);
-                }
-                event.consume();
-            }
-        });
-
-    }
-
-    public void handleDragShips(DragEvent event) {
-        Dragboard db = event.getDragboard();
-
-        boolean success = false;
-
-        Node node = event.getPickResult().getIntersectedNode();
-
-        GridPane board = (GridPane) node.getParent();
-
-        if (node != target && db.hasImage()) {
-
-            Integer cIndex = GridPane.getColumnIndex(node);
-            Integer rIndex = GridPane.getRowIndex(node);
-
-            int x = cIndex == null ? 0 : cIndex;
-            int y = rIndex == null ? 0 : rIndex;
-
-            ImageView image = new ImageView(db.getImage());
-
-            // TODO: set image size; use correct column/row span
-            // need to do this check based on if piece or horizontal or vertical
-            // currently only capable of
-            if (cIndex + 5 > 11 || cIndex == 0 || rIndex == 0) {
-                throw new ClassCastException("SHIP CANT BE OFF BOARD");
-            }
-            else {
-                board.add(image, x, y, 5, 1);
-
-                success = true;
-
-                //only support horizontal carrier for now
-                theModel.addShip(5, x, y, x + 4, y);
-                System.out.println(theModel.getMyBoard());
-            }
-
-        }
-        //let the source know whether the image was successfully transferred and used
-        event.setDropCompleted(success);
-
-        event.consume();
-
-        if (!success) {
-            throw new ClassCastException("RESET POS");
-        }
-
-        /*
-                MarkerNode node = (MarkerNode) event.getPickResult().getIntersectedNode();
-                System.out.println(node.getMarker());
-                ((VBox) source.getParent()).getChildren().remove(source);
-
-                //testCircle.setCenterX(node.getCenterX());
-                //testCircle.setCenterY(node.getCenterY());
-                int x = GridPane.getColumnIndex(node);
-                int y = GridPane.getRowIndex(node);
-
-                ((GridPane) node.getParent()).add(source, x, y);
-                //System.out.println(source.getCenterX());
-                //System.out.println(source.getCenterY());
-                System.out.println("Event on Target: mouse drag released");
-                System.out.println(event.getPickResult().getIntersectedNode());
          */
     }
+
     /*
     public void handlePlaceShips(ActionEvent event) {
         //assign inputs to boats
