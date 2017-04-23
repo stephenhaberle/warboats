@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* *****************************************
+* CSCI205 - Software Engineering and Design
+* Spring 2017 - Final Project
+*
+* Name: Christian Ouellette, Keller Chambers, Stephen Haberle, Peyton Rumachik
+* Date: Apr 12, 2017
+* Time: 10:37:26 AM
+*
+* Project: warboats
+* Package: warboats.model
+* File: BoardTest
+* Description: Tests the functionality of Board class methods.
+*
+* ****************************************
  */
 package warboats.model;
 
@@ -49,8 +59,7 @@ public class BoardTest extends TestCase {
      */
     public void testCheckHit() {
         System.out.println("checkHit");
-        int x = 0;
-        int y = 0;
+
         Board testBoard = testModel.getMyBoard();
         boolean result = testBoard.checkHit(5, 5, testModel);
         assertEquals(false, result);

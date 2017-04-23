@@ -119,6 +119,10 @@ public class Boat {
         this.size = size;
     }
 
+    public int getSize() {
+        return this.size;
+    }
+
     public boolean isAlive() {
         return alive;
     }
