@@ -59,9 +59,9 @@ public class WarboatsView {
     private GridPane playerBoard;
     private GridPane opponentBoard;
     private VBox shipPane;
-    private Label shipsRemainingTextField;
-    private Label hitsTextField;
-    private Label missesTextField;
+    private Label shipRemainingLabel;
+    private Label hitsLabel;
+    private Label missesLabel;
     private ArrayList<ArrayList<MarkerNode>> placedShipNodes;
     private ArrayList<ShipView> placedShips;
     private ArrayList<ArrayList<TextField>> shipCoordinates;
@@ -103,15 +103,15 @@ public class WarboatsView {
         shipPane = new VBox();
         shipPane.setPrefSize(150, 200);
         shipPane.getChildren().add(new Label("Ships Remaining"));
-        shipsRemainingTextField = new Label();
-        shipPane.getChildren().add(shipsRemainingTextField);
+        shipRemainingLabel = new Label();
+        shipPane.getChildren().add(shipRemainingLabel);
         shipPane.getChildren().add(new Label("Number of Hits"));
 
-        hitsTextField = new Label();
-        shipPane.getChildren().add(hitsTextField);
+        hitsLabel = new Label();
+        shipPane.getChildren().add(hitsLabel);
         shipPane.getChildren().add(new Label("Number of Misses"));
-        missesTextField = new Label();
-        shipPane.getChildren().add(missesTextField);
+        missesLabel = new Label();
+        shipPane.getChildren().add(missesLabel);
 
         Label shipLabel = new Label("Ships");
         shipLabel.setFont(new Font("Ariel", 32));
@@ -455,6 +455,18 @@ public class WarboatsView {
 
     public SubmarineView getSubView() {
         return subView;
+    }
+
+    public Label getShipRemainingLabel() {
+        return shipRemainingLabel;
+    }
+
+    public Label getHitsLabel() {
+        return hitsLabel;
+    }
+
+    public Label getMissesLabel() {
+        return missesLabel;
     }
 
 }

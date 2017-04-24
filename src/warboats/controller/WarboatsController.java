@@ -15,6 +15,8 @@
  */
 package warboats.controller;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -22,6 +24,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import warboats.model.WarboatsModel;
+import warboats.utility.ValueUpdateUtility;
 import warboats.view.WarboatsView;
 
 /**
@@ -58,7 +61,31 @@ public class WarboatsController {
             }
         });
 
+        Thread updateLabelsThread = new Thread(new updateStatsTask());
+        updateLabelsThread.setDaemon(true);
+        updateLabelsThread.start();
+
         //this.theView.getOpponentBoard().setOnMouseClicked(this::handleFireShot);
+    }
+
+    class updateStatsTask extends Task<Void> {
+
+        protected Void call() throws Exception {
+            while (true) {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        ValueUpdateUtility.updateStatsLabels(theModel, theView);
+                    }
+                });
+
+                Thread.sleep(100);
+
+                if (theModel.isLost() || theModel.isWon()) {
+                    break;
+                }
+            }
+            return null;
+        }
     }
     /*
     public void handleFireShot(MouseEvent event) {

@@ -26,6 +26,8 @@ import warboats.network.Coordinates;
 public class Board {
 
     private ArrayList<ArrayList<Marker>> markerArray;
+    private int numHits = 0;
+    private int numMisses = 0;
 
     public Board() {
         //Board length and width
@@ -103,16 +105,26 @@ public class Board {
 
         if (isHit) {
             System.out.println("HIT");
+            this.numHits++;
             tile.setConsoleRepresentation("H");
         }
         else {
             System.out.println("MISS");
+            this.numMisses++;
             tile.setConsoleRepresentation("M");
         }
     }
 
     public ArrayList<ArrayList<Marker>> getBoard() {
         return markerArray;
+    }
+
+    public int getNumHits() {
+        return numHits;
+    }
+
+    public int getNumMisses() {
+        return numMisses;
     }
 
 }

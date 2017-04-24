@@ -52,6 +52,7 @@ public class WarboatsModel {
     private boolean lost = false;
     private boolean won = false;
     private boolean play = false;
+    private int shipsRemaining;
 
     public WarboatsModel(WarboatsClient theClient, WarboatsServer theServer) {
 
@@ -133,6 +134,7 @@ public class WarboatsModel {
             default:
                 System.out.println("INVALID BOAT TYPE NUMBER");
         }
+        shipsRemaining = navy.size();
     }
 
     public void updateShip(int boatType, int x1, int y1, int x2, int y2) throws ClassCastException {
@@ -217,7 +219,9 @@ public class WarboatsModel {
             }
         }
 
-        if (shipsLeft == 0) {
+        shipsRemaining = shipsLeft;
+
+        if (shipsRemaining == 0) {
             this.lost = true;
         }
     }
@@ -282,8 +286,16 @@ public class WarboatsModel {
         return patrolBoat;
     }
 
+    public boolean isPlay() {
+        return play;
+    }
+
     public void togglePlay() {
         this.play = !play;
+    }
+
+    public int getShipsRemaining() {
+        return shipsRemaining;
     }
 
 }
