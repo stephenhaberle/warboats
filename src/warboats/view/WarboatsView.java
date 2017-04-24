@@ -381,8 +381,15 @@ public class WarboatsView {
                     else {
                         SquareMarkerNode node = new SquareMarkerNode(new Marker(
                                 j, i));
-                        genBoard.add(node, j, i);
-                        GridPane.setHalignment(node, HPos.CENTER);
+
+                        Image img = new Image("file:markers/water.png");
+                        node.image = new ImageView();
+                        node.image.setImage(img);
+                        node.image.setFitWidth(38);
+                        node.image.setFitHeight(38);
+
+                        genBoard.add(node.image, j, i);
+                        GridPane.setHalignment(node.image, HPos.CENTER);
                     }
                 }
             }

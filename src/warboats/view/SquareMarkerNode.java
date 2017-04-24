@@ -15,6 +15,7 @@
  */
 package warboats.view;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import warboats.model.Marker;
@@ -27,9 +28,10 @@ import warboats.model.Marker;
 public class SquareMarkerNode extends Rectangle {
 
     private Marker marker;
+    public ImageView image;
 
     public SquareMarkerNode(Marker marker) {
-        super(38, 38, Color.ORANGE); // MAKE THIS ORANGE TO VIEW CIRCLES
+        super(38, 38, Color.ORANGE); // MAKE THIS ORANGE TO VIEW SQUARES
         this.marker = marker;
     }
 
