@@ -38,11 +38,13 @@ public class WarboatsController {
     private ImageView source;
     private GridPane target;
     private final DragDropController dragCtrl;
+    private final sendShotController shotCtrl;
 
     public WarboatsController(WarboatsModel theModel, WarboatsView theView) {
         this.theModel = theModel;
         this.theView = theView;
         this.dragCtrl = new DragDropController(this.theView, this.theModel, this);
+        this.shotCtrl = new sendShotController(this.theView, this.theModel, this);
 
         theView.getBeginGame().setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
