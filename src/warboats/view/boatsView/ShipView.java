@@ -16,7 +16,6 @@
 package warboats.view.boatsView;
 
 import java.util.ArrayList;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import warboats.model.Marker;
 
@@ -27,7 +26,7 @@ import warboats.model.Marker;
 public class ShipView extends ImageView {
 
     private Marker marker;
-    private ArrayList<TextField> initializedCoordinates;
+    private ArrayList<Integer> initializedCoordinates;
     private int shipType;
     public ImageView image;
 
@@ -44,7 +43,7 @@ public class ShipView extends ImageView {
         initializedCoordinates = new ArrayList<>();
     }
 
-    public ArrayList<TextField> getInitializedCoordinates() {
+    public ArrayList<Integer> getInitializedCoordinates() {
         return initializedCoordinates;
     }
 
@@ -54,6 +53,11 @@ public class ShipView extends ImageView {
 
     public void setShipType(int shipType) {
         this.shipType = shipType;
+    }
+
+    public void setInitializedCoordinates(
+            ArrayList<Integer> initializedCoordinates) {
+        this.initializedCoordinates = initializedCoordinates;
     }
 
 }

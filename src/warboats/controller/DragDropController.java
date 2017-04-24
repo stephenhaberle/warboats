@@ -5,17 +5,21 @@
  */
 package warboats.controller;
 
+import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import warboats.model.WarboatsModel;
 import warboats.view.WarboatsView;
+import warboats.view.boatsView.ShipView;
 
 /**
  *
@@ -33,6 +37,8 @@ public class DragDropController {
     private ImageView pImg;
     private GridPane target;
     private ImageView source;
+    private ImageView tempShipImage = new ImageView();
+    private boolean vImage = false;
 
     public DragDropController(WarboatsView theView, WarboatsModel theModel,
                               WarboatsController theCtrl) {
@@ -54,6 +60,7 @@ public class DragDropController {
         cImg.setOnDragDone(this::handleSetOnDragDone);
         cImg.setOnDragExited(this::handleSetOnDragExited);
         cImg.setOnDragDropped(this::handleDragShips);
+        cImg.setOnMousePressed(this::handleSetOnMouseClicked);
 
         //battleship
         bImg.setOnDragEntered(this::handleSetOnDragEntered);
@@ -62,6 +69,7 @@ public class DragDropController {
         bImg.setOnDragDone(this::handleSetOnDragDone);
         bImg.setOnDragExited(this::handleSetOnDragExited);
         bImg.setOnDragDropped(this::handleDragShips);
+        bImg.setOnMousePressed(this::handleSetOnMouseClicked);
 
         //destroyer
         dImg.setOnDragEntered(this::handleSetOnDragEntered);
@@ -70,6 +78,7 @@ public class DragDropController {
         dImg.setOnDragDone(this::handleSetOnDragDone);
         dImg.setOnDragExited(this::handleSetOnDragExited);
         dImg.setOnDragDropped(this::handleDragShips);
+        dImg.setOnMousePressed(this::handleSetOnMouseClicked);
 
         //submarine
         sImg.setOnDragEntered(this::handleSetOnDragEntered);
@@ -78,6 +87,7 @@ public class DragDropController {
         sImg.setOnDragDone(this::handleSetOnDragDone);
         sImg.setOnDragExited(this::handleSetOnDragExited);
         sImg.setOnDragDropped(this::handleDragShips);
+        sImg.setOnMousePressed(this::handleSetOnMouseClicked);
 
         //patrol boat
         pImg.setOnDragEntered(this::handleSetOnDragEntered);
@@ -86,6 +96,7 @@ public class DragDropController {
         pImg.setOnDragDone(this::handleSetOnDragDone);
         pImg.setOnDragExited(this::handleSetOnDragExited);
         pImg.setOnDragDropped(this::handleDragShips);
+        pImg.setOnMousePressed(this::handleSetOnMouseClicked);
 
         target.setOnDragOver(new EventHandler<DragEvent>() {
             public void handle(DragEvent event) {
@@ -97,11 +108,31 @@ public class DragDropController {
                 event.consume();
             }
         });
-
         target.setOnDragEntered(this::handleSetOnDragEntered);
         target.setOnDragDropped(this::handleDragShips);
         target.setOnDragExited(this::handleSetOnDragExited);
+        target.setOnMouseClicked(this::targetSetMouseClicked);
 
+    }
+
+    public void targetSetMouseClicked(MouseEvent event) {
+        try {
+            if (event.getButton().equals(MouseButton.PRIMARY)) {
+                if (event.getClickCount() == 2) {
+                    System.out.println("target");
+                    ImageView target = (ImageView) event.getPickResult().getIntersectedNode();
+                    System.out.println(target);
+                    this.placePlayerShip(target);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid click");
+        }
+    }
+
+    public void handleSetOnMouseClicked(MouseEvent event) {
+        ImageView source = (ImageView) event.getSource();
+        this.source = source;
     }
 
     public void handleSetOnDragEntered(DragEvent event) {
@@ -111,6 +142,7 @@ public class DragDropController {
             target.setOpacity(0.7);
             System.out.println("Drag entered");
         }
+
         event.consume();
     }
 
@@ -120,8 +152,6 @@ public class DragDropController {
     }
 
     public void handleSetOnDragDetected(MouseEvent event) {
-        ImageView source = (ImageView) event.getSource();
-        this.source = source;
         Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
         //source.startFullDrag();
         System.out.println("Event on Source: drag detected");
@@ -169,25 +199,36 @@ public class DragDropController {
             int x = cIndex == null ? 0 : cIndex;
             int y = rIndex == null ? 0 : rIndex;
 
-            ImageView image = new ImageView(db.getImage());
+            tempShipImage = new ImageView(db.getImage());
 
             int id = Integer.parseInt(source.getId());
+            tempShipImage.setId(source.getId());
+
+            Integer[] shipLengths = {2, 3, 3, 4, 5};
 
             // TODO: set image size; use correct column/row span
             // need to do this check based on if piece or horizontal or vertical
             // currently only capable of
-            if (cIndex + id > 11 || cIndex == 0 || rIndex == 0) {
+            if (cIndex + shipLengths[id - 1] - 1 > 10 || cIndex == 0 || rIndex == 0) {
                 throw new ClassCastException("SHIP CANT BE OFF BOARD");
             }
             else {
                 System.out.println("ID " + id);
-                Integer[] shipLengths = {2, 3, 3, 4, 5};
 
-                //only support horizontal carrier for now
-                theModel.addShip(id, x, y, x + (shipLengths[id - 1] - 1), y);
-                System.out.println(theModel.getMyBoard());
+                ShipView ship = theView.getPlacedShips().get(id - 1);
 
-                board.add(image, x, y, shipLengths[id - 1], 1);
+                //only support for horizontal placement, place ships handles vertical conversion
+                //theModel.addShip(id, x, y, x + (shipLengths[id - 1] - 1), y);
+                //System.out.println(theModel.getMyBoard());
+                board.add(tempShipImage, x, y, shipLengths[id - 1], 1);
+                ArrayList<Integer> coords = new ArrayList<>();
+                coords.add(x);
+                coords.add(y);
+                coords.add(x + shipLengths[id - 1] - 1);
+                coords.add(y);
+
+                ship.setInitializedCoordinates(coords);
+                System.out.println(coords);
 
                 success = true;
             }
@@ -200,6 +241,61 @@ public class DragDropController {
 
         if (!success) {
             throw new ClassCastException("RESET POS");
+        }
+
+    }
+
+    public void placePlayerShip(ImageView image) {
+        Integer[] shipLengths = {2, 3, 3, 4, 5};
+        int id = Integer.parseInt(image.getId());
+        int row = GridPane.getRowIndex(image);
+        int col = GridPane.getColumnIndex(image);
+        System.out.println(col);
+        System.out.println(row);
+        GridPane board = (GridPane) image.getParent();
+
+        String orientation = vImage ? "H" : "V";
+        String boatFile = "";
+
+        switch (id) {
+            case 5:
+                boatFile = "carrier";
+                break;
+            case 4:
+                boatFile = "battleship";
+                break;
+            case 3:
+                boatFile = "destroyer";
+                break;
+            case 2:
+                boatFile = "sub";
+                break;
+            case 1:
+                boatFile = "pt";
+                break;
+        }
+
+        String filename = String.format("file:ships/%s%s.png", boatFile,
+                                        orientation);
+
+        Image img;
+        if (vImage) {
+            if (col + shipLengths[id - 1] - 1 <= 10) {
+                board.getChildren().remove(image);
+                img = new Image(filename);
+                vImage = false;
+                image.setImage(img);
+                board.add(image, col, row, shipLengths[id - 1], 1);
+            }
+        }
+        else {
+            if (row + shipLengths[id - 1] - 1 <= 10) {
+                board.getChildren().remove(image);
+                img = new Image(filename);
+                vImage = true;
+                image.setImage(img);
+                board.add(image, col, row, 1, shipLengths[id - 1]);
+            }
         }
 
     }

@@ -62,7 +62,8 @@ public class WarboatsView {
     private Label shipsRemainingTextField;
     private Label hitsTextField;
     private Label missesTextField;
-    private ArrayList<ShipView> placedShipNodes;
+    private ArrayList<ArrayList<MarkerNode>> placedShipNodes;
+    private ArrayList<ShipView> placedShips;
     private ArrayList<ArrayList<TextField>> shipCoordinates;
     private ArrayList<TextField> carrierCoordinates;
     private ArrayList<TextField> battleshipCoordinates;
@@ -79,11 +80,13 @@ public class WarboatsView {
     public WarboatsView(WarboatsModel theModel) {
         this.theModel = theModel;
 
+        placedShipNodes = new ArrayList<>();
+
         root = new BorderPane();
         root.setPrefSize(800, 800);
 
         shipCoordinates = new ArrayList<>();
-        placedShipNodes = new ArrayList<>();
+        placedShips = new ArrayList<>();
 
         generateMenuBar();
         generateOpponentBoardPane();
@@ -132,7 +135,7 @@ public class WarboatsView {
         carrierView.getInitializedCoordinates().add(carriery1);
         carrierView.getInitializedCoordinates().add(carrierx2);
         carrierView.getInitializedCoordinates().add(carriery2);
-        placedShipNodes.add(carrierView);
+        placedShips.add(carrierView);
 
         //battleship get coordinates
         battleshipCoordinates = new ArrayList<>();
@@ -148,7 +151,7 @@ public class WarboatsView {
         bshipView.getInitializedCoordinates().add(battley1);
         bshipView.getInitializedCoordinates().add(battlex2);
         bshipView.getInitializedCoordinates().add(battley2);
-        placedShipNodes.add(bshipView);
+        placedShips.add(bshipView);
 
         //destroyer get coordinates
         destroyerCoordinates = new ArrayList<>();
@@ -164,7 +167,7 @@ public class WarboatsView {
         destroyView.getInitializedCoordinates().add(destroyery1);
         destroyView.getInitializedCoordinates().add(destroyerx2);
         destroyView.getInitializedCoordinates().add(destroyery2);
-        placedShipNodes.add(destroyView);
+        placedShips.add(destroyView);
 
         //submarine get coordinates
         submarineCoordinates = new ArrayList<>();
@@ -180,7 +183,7 @@ public class WarboatsView {
         subView.getInitializedCoordinates().add(suby1);
         subView.getInitializedCoordinates().add(subx2);
         subView.getInitializedCoordinates().add(suby2);
-        placedShipNodes.add(subView);
+        placedShips.add(subView);
 
         //patrol boat get coordinates
         patrolBoatCoordinates = new ArrayList<>();
@@ -196,7 +199,7 @@ public class WarboatsView {
         ptView.getInitializedCoordinates().add(patroly1);
         ptView.getInitializedCoordinates().add(patrolx2);
         ptView.getInitializedCoordinates().add(patroly2);
-        placedShipNodes.add(ptView);
+        placedShips.add(ptView);
 
         for (TextField field : carrierCoordinates) {
             field.setPrefWidth(40);
@@ -256,6 +259,12 @@ public class WarboatsView {
         destroyView = new DestroyerView();
         subView = new SubmarineView();
         ptView = new PatrolBoatView();
+
+        placedShips.add(ptView);
+        placedShips.add(subView);
+        placedShips.add(destroyView);
+        placedShips.add(bshipView);
+        placedShips.add(carrierView);
 
         Image img = new Image("file:ships/carrierH.png");
         carrierView.image = new ImageView();
@@ -372,8 +381,8 @@ public class WarboatsView {
         return root;
     }
 
-    public ArrayList<ShipView> getPlacedShipNodes() {
-        return placedShipNodes;
+    public ArrayList<ShipView> getPlacedShips() {
+        return placedShips;
     }
 
     public ArrayList<TextField> getCarrierCoordinates() {
