@@ -86,10 +86,22 @@ public class WarboatsModelTest extends TestCase {
      */
     public void testCheckLoss() {
         System.out.println("checkLoss");
-        WarboatsModel instance = null;
-        instance.checkLoss();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        int startX = 2;
+        int endX = 3;
+        int startY = 3;
+        int endY = 3;
+        testModel.addShip(1, startX, startY, endX, endY);
+
+        testModel.checkLoss();
+        boolean result = testModel.isLost();
+        assertEquals(result, false);
+
+        testModel.getNavy().get(0).toggleAlive();
+        testModel.checkLoss();
+        result = testModel.isLost();
+        assertEquals(result, true);
+
     }
 
 }
