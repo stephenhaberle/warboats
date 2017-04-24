@@ -15,7 +15,10 @@
  */
 package warboats.controller;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import warboats.model.WarboatsModel;
 import warboats.view.WarboatsView;
@@ -36,6 +39,18 @@ public class WarboatsController {
         this.theModel = theModel;
         this.theView = theView;
         this.dragCtrl = new DragDropController(this.theView, this.theModel, this);
+
+        theView.getBeginGame().setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                dragCtrl.getTarget().setMouseTransparent(true);
+            }
+        });
+
+        this.theView.getOpponentBoard().setOnMouseClicked(this::handleFireShot);
+
+    }
+
+    public void handleFireShot(MouseEvent event) {
 
     }
 

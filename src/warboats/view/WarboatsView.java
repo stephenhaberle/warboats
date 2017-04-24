@@ -70,7 +70,7 @@ public class WarboatsView {
     private ArrayList<TextField> destroyerCoordinates;
     private ArrayList<TextField> submarineCoordinates;
     private ArrayList<TextField> patrolBoatCoordinates;
-    private Button placeShips;
+    private Button beginGame;
     private CarrierView carrierView;
     private BattleshipView bshipView;
     private DestroyerView destroyView;
@@ -249,10 +249,9 @@ public class WarboatsView {
 
         shipPane.getChildren().add(patrol);
         shipPane.getChildren().add(patrolB);
-
-        placeShips = new Button("Place Ships");
-        shipPane.getChildren().add(placeShips);
          */
+        beginGame = new Button("Begin Game");
+        shipPane.getChildren().add(beginGame);
         //drag and drop
         carrierView = new CarrierView();
         bshipView = new BattleshipView();
@@ -405,8 +404,8 @@ public class WarboatsView {
         return patrolBoatCoordinates;
     }
 
-    public Button getPlaceShips() {
-        return placeShips;
+    public Button getBeginGame() {
+        return beginGame;
     }
 
     public GridPane getPlayerBoard() {
