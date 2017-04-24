@@ -43,6 +43,11 @@ public class WarboatsModel {
 
     //ArrayList of all ships placed on myBoard
     private ArrayList<Boat> navy;
+    private Carrier carrier;
+    private Battleship battleship;
+    private Destroyer destroyer;
+    private Submarine submarine;
+    private PatrolBoat patrolBoat;
     private Coordinates lastShot;
     private boolean lost = false;
     private boolean won = false;
@@ -103,19 +108,46 @@ public class WarboatsModel {
     public void addShip(int boatType, int x1, int y1, int x2, int y2) throws ClassCastException {
         switch (boatType) {
             case 1:
-                navy.add(new PatrolBoat(x1, y1, x2, y2, this.myBoard));
+                patrolBoat = new PatrolBoat(x1, y1, x2, y2, this.myBoard);
+                navy.add(patrolBoat);
                 break;
             case 2:
-                navy.add(new Submarine(x1, y1, x2, y2, this.myBoard));
+                submarine = new Submarine(x1, y1, x2, y2, this.myBoard);
+                navy.add(submarine);
                 break;
             case 3:
-                navy.add(new Destroyer(x1, y1, x2, y2, this.myBoard));
+                destroyer = new Destroyer(x1, y1, x2, y2, this.myBoard);
+                navy.add(destroyer);
                 break;
             case 4:
-                navy.add(new Battleship(x1, y1, x2, y2, this.myBoard));
+                battleship = new Battleship(x1, y1, x2, y2, this.myBoard);
+                navy.add(battleship);
                 break;
             case 5:
-                navy.add(new Carrier(x1, y1, x2, y2, this.myBoard));
+                carrier = new Carrier(x1, y1, x2, y2, this.myBoard);
+                navy.add(carrier);
+                break;
+            default:
+                System.out.println("INVALID BOAT TYPE NUMBER");
+        }
+    }
+
+    public void updateShip(int boatType, int x1, int y1, int x2, int y2) throws ClassCastException {
+        switch (boatType) {
+            case 1:
+                patrolBoat.updatePosition(x1, y1, x2, y2);
+                break;
+            case 2:
+                submarine.updatePosition(x1, y1, x2, y2);
+                break;
+            case 3:
+                destroyer.updatePosition(x1, y1, x2, y2);
+                break;
+            case 4:
+                battleship.updatePosition(x1, y1, x2, y2);
+                break;
+            case 5:
+                carrier.updatePosition(x1, y1, x2, y2);
                 break;
             default:
                 System.out.println("INVALID BOAT TYPE NUMBER");
@@ -223,6 +255,26 @@ public class WarboatsModel {
 
     public void setWon(boolean won) {
         this.won = won;
+    }
+
+    public Carrier getCarrier() {
+        return carrier;
+    }
+
+    public Battleship getBattleship() {
+        return battleship;
+    }
+
+    public Destroyer getDestroyer() {
+        return destroyer;
+    }
+
+    public Submarine getSubmarine() {
+        return submarine;
+    }
+
+    public PatrolBoat getPatrolBoat() {
+        return patrolBoat;
     }
 
 }
