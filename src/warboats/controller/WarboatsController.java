@@ -15,6 +15,10 @@
  */
 package warboats.controller;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import warboats.model.WarboatsModel;
@@ -37,9 +41,32 @@ public class WarboatsController {
         this.theView = theView;
         this.dragCtrl = new DragDropController(this.theView, this.theModel, this);
 
-    }
+        theView.getBeginGame().setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                if (theModel.getNavy().size() == 5) {
+                    dragCtrl.getTarget().setMouseTransparent(true);
+                    theModel.togglePlay();
+                }
+                else {
+                    Alert a = new Alert(AlertType.ERROR);
+                    a.setTitle("Cannot Begin Game");
+                    a.setHeaderText("Unplaced ships remain");
+                    a.setContentText(
+                            "Not all ships placed. Please drag all ships onto \nyour board and position them to begin game");
+                    a.showAndWait();
+                }
+            }
+        });
 
+        //this.theView.getOpponentBoard().setOnMouseClicked(this::handleFireShot);
+    }
     /*
+    public void handleFireShot(MouseEvent event) {
+        Label chosenMarker = (Label)event.getPickResult().getIntersectedNode();
+    }
+     */
+
+ /*
     public void handlePlaceShips(ActionEvent event) {
         //assign inputs to boats
         for (ShipNode ship : theView.getPlacedShipNodes()) {

@@ -322,4 +322,8 @@ public class DragDropController {
 
     }
 
+    public GridPane getTarget() {
+        return target;
+    }
+
 }
