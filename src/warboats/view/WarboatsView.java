@@ -311,7 +311,7 @@ public class WarboatsView {
         boardPane = new VBox(10);
         boardPane.setAlignment(Pos.CENTER);
 
-        opponentBoard = generateBoardPane();
+        opponentBoard = generateBoardPane(1);
 
         opponentBoard.setAlignment(Pos.CENTER);
         boardPane.getChildren().add(new Label("Opponent's Fleet"));
@@ -319,14 +319,19 @@ public class WarboatsView {
     }
 
     private void generatePlayerBoardPane() {
-        playerBoard = generateBoardPane();
+        playerBoard = generateBoardPane(0);
 
         playerBoard.setAlignment(Pos.CENTER);
         boardPane.getChildren().add(new Label("Your Fleet"));
         boardPane.getChildren().add(playerBoard);
     }
 
-    private GridPane generateBoardPane() {
+    /**
+     *
+     * @param player - 0 if for player board, 1 for opp board.
+     * @return GridPane - the grid representation of ships and markers.
+     */
+    private GridPane generateBoardPane(int player) {
         GridPane genBoard = new GridPane();
         genBoard.setGridLinesVisible(true);
         genBoard.setAlignment(Pos.TOP_CENTER);
@@ -355,9 +360,17 @@ public class WarboatsView {
                     }
                 }
                 else {
-                    MarkerNode node = new MarkerNode(new Marker(j, i));
-                    genBoard.add(node, j, i);
-                    GridPane.setHalignment(node, HPos.CENTER);
+                    if (player == 1) {
+                        MarkerNode node = new MarkerNode(new Marker(j, i));
+                        genBoard.add(node, j, i);
+                        GridPane.setHalignment(node, HPos.CENTER);
+                    }
+                    else {
+                        SquareMarkerNode node = new SquareMarkerNode(new Marker(
+                                j, i));
+                        genBoard.add(node, j, i);
+                        GridPane.setHalignment(node, HPos.CENTER);
+                    }
                 }
             }
         }
