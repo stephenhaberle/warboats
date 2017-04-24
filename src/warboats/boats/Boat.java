@@ -147,4 +147,8 @@ public class Boat {
         return endY;
     }
 
+    public void toggleAlive() {
+        this.alive = !this.alive;
+    }
+
 }
