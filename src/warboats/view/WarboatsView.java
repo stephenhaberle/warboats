@@ -30,6 +30,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -54,8 +55,10 @@ public class WarboatsView {
     private Menu fileItem;
     private Menu editItem;
     private Menu helpItem;
-    private VBox boardPane;
+    private HBox boardPane;
     private VBox statsPane;
+    private VBox playerPane;
+    private VBox opPane;
     private GridPane playerBoard;
     private GridPane opponentBoard;
     private VBox shipPane;
@@ -83,14 +86,14 @@ public class WarboatsView {
         placedShipNodes = new ArrayList<>();
 
         root = new BorderPane();
-        root.setPrefSize(800, 800);
+        root.setPrefSize(800, 550);
 
         shipCoordinates = new ArrayList<>();
         placedShips = new ArrayList<>();
 
         generateMenuBar();
-        generateOpponentBoardPane();
         generatePlayerBoardPane();
+        generateOpponentBoardPane();
         generateShipPane();
         root.setCenter(boardPane);
         root.setLeft(shipPane);
@@ -268,62 +271,72 @@ public class WarboatsView {
         Image img = new Image("file:ships/carrierH.png");
         carrierView.image = new ImageView();
         carrierView.image.setImage(img);
-        carrierView.image.setFitWidth(150);
-        carrierView.image.setFitHeight(30);
+        carrierView.image.setFitWidth(200);
+        carrierView.image.setFitHeight(40);
         carrierView.image.setId("5");
         shipPane.getChildren().add(carrierView.image);
 
         img = new Image("file:ships/battleshipH.png");
         bshipView.image = new ImageView();
         bshipView.image.setImage(img);
-        bshipView.image.setFitWidth(120);
-        bshipView.image.setFitHeight(30);
+        bshipView.image.setFitWidth(160);
+        bshipView.image.setFitHeight(40);
         bshipView.image.setId("4");
         shipPane.getChildren().add(bshipView.image);
 
         img = new Image("file:ships/destroyerH.png");
         destroyView.image = new ImageView();
         destroyView.image.setImage(img);
-        destroyView.image.setFitWidth(90);
-        destroyView.image.setFitHeight(30);
+        destroyView.image.setFitWidth(120);
+        destroyView.image.setFitHeight(40);
         destroyView.image.setId("3");
         shipPane.getChildren().add(destroyView.image);
 
         img = new Image("file:ships/subH.png");
         subView.image = new ImageView();
         subView.image.setImage(img);
-        subView.image.setFitWidth(90);
-        subView.image.setFitHeight(30);
+        subView.image.setFitWidth(120);
+        subView.image.setFitHeight(40);
         subView.image.setId("2");
         shipPane.getChildren().add(subView.image);
 
         img = new Image("file:ships/ptH.png");
         ptView.image = new ImageView();
         ptView.image.setImage(img);
-        ptView.image.setFitWidth(60);
-        ptView.image.setFitHeight(30);
+        ptView.image.setFitWidth(80);
+        ptView.image.setFitHeight(40);
         ptView.image.setId("1");
         shipPane.getChildren().add(ptView.image);
 
     }
 
     private void generateOpponentBoardPane() {
-        boardPane = new VBox(10);
-        boardPane.setAlignment(Pos.CENTER);
+
+        opPane = new VBox(10);
 
         opponentBoard = generateBoardPane(1);
 
         opponentBoard.setAlignment(Pos.CENTER);
-        boardPane.getChildren().add(new Label("Opponent's Fleet"));
-        boardPane.getChildren().add(opponentBoard);
+
+        opPane.getChildren().add(new Label("Opponent's Fleet"));
+        opPane.getChildren().add(opponentBoard);
+
+        boardPane.getChildren().add(opPane);
+
     }
 
     private void generatePlayerBoardPane() {
+        boardPane = new HBox(10);
+        boardPane.setAlignment(Pos.CENTER);
+        playerPane = new VBox(10);
+
         playerBoard = generateBoardPane(0);
 
         playerBoard.setAlignment(Pos.CENTER);
-        boardPane.getChildren().add(new Label("Your Fleet"));
-        boardPane.getChildren().add(playerBoard);
+        playerPane.getChildren().add(new Label("Your Fleet"));
+        playerPane.getChildren().add(playerBoard);
+
+        boardPane.getChildren().add(playerPane);
     }
 
     /**
@@ -339,8 +352,8 @@ public class WarboatsView {
 
         //maybe fill with rectangles instead?
         for (int i = 0; i <= 10; i++) {
-            genBoard.getColumnConstraints().add(new ColumnConstraints(30));
-            genBoard.getRowConstraints().add(new RowConstraints(30));
+            genBoard.getColumnConstraints().add(new ColumnConstraints(40));
+            genBoard.getRowConstraints().add(new RowConstraints(40));
 
             String[] boardLetters = {" ", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 

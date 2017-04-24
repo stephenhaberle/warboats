@@ -29,7 +29,7 @@ public class SquareMarkerNode extends Rectangle {
     private Marker marker;
 
     public SquareMarkerNode(Marker marker) {
-        super(28, 28, Color.ORANGE); // MAKE THIS ORANGE TO VIEW CIRCLES
+        super(38, 38, Color.ORANGE); // MAKE THIS ORANGE TO VIEW CIRCLES
         this.marker = marker;
     }
 
