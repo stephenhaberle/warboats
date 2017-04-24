@@ -78,7 +78,7 @@ public class WarboatsController {
                     }
                 });
 
-                Thread.sleep(100);
+                Thread.sleep(500);
 
                 if (theModel.isLost() || theModel.isWon()) {
                     break;
