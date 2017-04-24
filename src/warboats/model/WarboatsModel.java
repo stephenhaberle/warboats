@@ -51,6 +51,7 @@ public class WarboatsModel {
     private Coordinates lastShot;
     private boolean lost = false;
     private boolean won = false;
+    private boolean play = false;
 
     public WarboatsModel(WarboatsClient theClient, WarboatsServer theServer) {
 
@@ -71,25 +72,27 @@ public class WarboatsModel {
      */
     public void sendPlayerMove(int x, int y) throws InterruptedException, Exception {
 
-        Coordinates sendCords = new Coordinates(x, y);
+        if (play) {
+            Coordinates sendCords = new Coordinates(x, y);
 
-        //program is client
-        if (curServer == null) {
-            System.out.println("SENDING CLIENT");
-            this.setLastShot(sendCords);
-            curClient.client.sendTCP(sendCords);
-            WarboatsModel.togglePlayerTurn();
-            Thread.sleep(100);
-            System.out.println("SENT CLIENT");
-        }
-        //program is server
-        else {
-            System.out.println("SENDING SERVER");
-            this.setLastShot(sendCords);
-            curServer.server.sendToTCP(1, sendCords);
-            WarboatsModel.togglePlayerTurn();
-            Thread.sleep(100);
-            System.out.println("SENT SERVER");
+            //program is client
+            if (curServer == null) {
+                System.out.println("SENDING CLIENT");
+                this.setLastShot(sendCords);
+                curClient.client.sendTCP(sendCords);
+                WarboatsModel.togglePlayerTurn();
+                Thread.sleep(100);
+                System.out.println("SENT CLIENT");
+            }
+            //program is server
+            else {
+                System.out.println("SENDING SERVER");
+                this.setLastShot(sendCords);
+                curServer.server.sendToTCP(1, sendCords);
+                WarboatsModel.togglePlayerTurn();
+                Thread.sleep(100);
+                System.out.println("SENT SERVER");
+            }
         }
 
     }
@@ -198,6 +201,8 @@ public class WarboatsModel {
         y2 = 10;//in.nextInt();
         this.addShip(1, x1, y1, x2, y2);
 
+        this.togglePlay();
+
     }
 
     /**
@@ -275,6 +280,10 @@ public class WarboatsModel {
 
     public PatrolBoat getPatrolBoat() {
         return patrolBoat;
+    }
+
+    public void togglePlay() {
+        this.play = !play;
     }
 
 }

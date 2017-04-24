@@ -29,7 +29,6 @@ import warboats.view.WarboatsView;
  */
 public class WarboatsGUI extends Application {
 
-    private WarboatsNetwork theNetwork;
     private WarboatsView theView;
     private WarboatsController theCtrl;
     private WarboatsModel theModel;
@@ -37,7 +36,7 @@ public class WarboatsGUI extends Application {
     @Override
     public void init() throws Exception {
         super.init();
-        theNetwork = new WarboatsNetwork();
+        WarboatsNetwork.buildNetwork();
         theModel = new WarboatsModel(WarboatsNetwork.getActiveClient(),
                                      WarboatsNetwork.getActiveServer());
         //only for when we want preset placements
