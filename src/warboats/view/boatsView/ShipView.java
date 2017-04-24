@@ -25,26 +25,12 @@ import warboats.model.Marker;
  */
 public class ShipView extends ImageView {
 
-    private Marker marker;
-    private ArrayList<Integer> initializedCoordinates;
+    public ArrayList<Marker> nodes;
     private int shipType;
     public ImageView image;
 
     public ShipView() {
-        //super(30, 30, Color.GREY);
-        initializedCoordinates = new ArrayList<>();
 
-    }
-
-    public ShipView(Marker marker) {
-        //super(30, 30, Color.GREY);
-        this.marker = marker;
-        this.marker.toggleShipOn();
-        initializedCoordinates = new ArrayList<>();
-    }
-
-    public ArrayList<Integer> getInitializedCoordinates() {
-        return initializedCoordinates;
     }
 
     public int getShipType() {
@@ -53,11 +39,6 @@ public class ShipView extends ImageView {
 
     public void setShipType(int shipType) {
         this.shipType = shipType;
-    }
-
-    public void setInitializedCoordinates(
-            ArrayList<Integer> initializedCoordinates) {
-        this.initializedCoordinates = initializedCoordinates;
     }
 
 }

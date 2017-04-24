@@ -5,7 +5,7 @@
  */
 package warboats.view.boatsView;
 
-import java.util.ArrayList;
+import warboats.boats.Carrier;
 
 /**
  *
@@ -13,15 +13,17 @@ import java.util.ArrayList;
  */
 public class CarrierView extends ShipView {
 
-    public ArrayList<ShipView> nodes;
+    private Carrier modelCarrier;
 
     public CarrierView() {
-        nodes = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            ShipView temp = new ShipView();
-            temp.setShipType(5);
-            nodes.add(temp);
-        }
+    }
+
+    public Carrier getModelCarrier() {
+        return modelCarrier;
+    }
+
+    public void setModelCarrier(Carrier modelCarrier) {
+        this.modelCarrier = modelCarrier;
     }
 
 }

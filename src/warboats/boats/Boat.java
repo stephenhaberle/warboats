@@ -84,6 +84,20 @@ public class Boat {
         }
     }
 
+    public void updatePosition(int x1, int y1, int x2, int y2) {
+        for (int i = this.positionTiles.size() - 1; i >= 0; i--) {
+            Marker m = this.positionTiles.get(i);
+            m.toggleShipOn();
+            m.setConsoleRepresentation("o");
+            this.positionTiles.remove(m);
+        }
+        this.startX = x1;
+        this.startY = y1;
+        this.endX = x2;
+        this.endY = y2;
+        this.placeBoat(this);
+    }
+
     /**
      * Checks if a boat is sunk by seeing if all Markers on which that boat sits
      * are indicated to be hit. Sets alive field of Boat object appropriately

@@ -5,7 +5,6 @@
  */
 package warboats.controller;
 
-import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -126,6 +125,7 @@ public class DragDropController {
                 }
             }
         } catch (Exception e) {
+            System.out.println(e);
             System.out.println("Invalid click");
         }
     }
@@ -218,17 +218,11 @@ public class DragDropController {
                 ShipView ship = theView.getPlacedShips().get(id - 1);
 
                 //only support for horizontal placement, place ships handles vertical conversion
-                //theModel.addShip(id, x, y, x + (shipLengths[id - 1] - 1), y);
-                //System.out.println(theModel.getMyBoard());
-                board.add(tempShipImage, x, y, shipLengths[id - 1], 1);
-                ArrayList<Integer> coords = new ArrayList<>();
-                coords.add(x);
-                coords.add(y);
-                coords.add(x + shipLengths[id - 1] - 1);
-                coords.add(y);
+                theModel.addShip(id, x, y, x + (shipLengths[id - 1] - 1), y);
+                System.out.println(theModel.getMyBoard());
+                this.assignShipToView(id);
 
-                ship.setInitializedCoordinates(coords);
-                System.out.println(coords);
+                board.add(tempShipImage, x, y, shipLengths[id - 1], 1);
 
                 success = true;
             }
@@ -243,6 +237,18 @@ public class DragDropController {
             throw new ClassCastException("RESET POS");
         }
 
+    }
+
+    public void assignShipToView(int id) {
+        switch (id) {
+            case 5:
+                theView.getCarrierView().setModelCarrier(theModel.getCarrier());
+                break;
+            case 4:
+                theView.getBshipView().setModelBattleship(
+                        theModel.getBattleship());
+        }
+        //need to add further cases
     }
 
     public void placePlayerShip(ImageView image) {
@@ -279,22 +285,38 @@ public class DragDropController {
                                         orientation);
 
         Image img;
+        //if image is vertical then we want to convert to horiz
         if (vImage) {
-            if (col + shipLengths[id - 1] - 1 <= 10) {
-                board.getChildren().remove(image);
+            try {
+                theModel.updateShip(id, col, row,
+                                    col + (shipLengths[id - 1] - 1), row);
                 img = new Image(filename);
                 vImage = false;
                 image.setImage(img);
+                board.getChildren().remove(image);
                 board.add(image, col, row, shipLengths[id - 1], 1);
+            } catch (Exception e) {
+                System.out.println(e);
+                System.out.println("unable to horiz");
+                theModel.updateShip(id, col, row, col,
+                                    row + (shipLengths[id - 1] - 1));
             }
         }
+        //if image is horiz then we want to convert to vertical
         else {
-            if (row + shipLengths[id - 1] - 1 <= 10) {
-                board.getChildren().remove(image);
+            try {
+                theModel.updateShip(id, col, row, col,
+                                    row + (shipLengths[id - 1] - 1));
                 img = new Image(filename);
                 vImage = true;
                 image.setImage(img);
+                board.getChildren().remove(image);
                 board.add(image, col, row, 1, shipLengths[id - 1]);
+            } catch (Exception e) {
+                System.out.println(e);
+                System.out.println("unable to vert");
+                theModel.updateShip(id, col, row,
+                                    col + (shipLengths[id - 1] - 1), row);
             }
         }
 
