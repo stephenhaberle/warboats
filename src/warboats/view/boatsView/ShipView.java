@@ -15,9 +15,8 @@
  */
 package warboats.view.boatsView;
 
-import java.util.ArrayList;
 import javafx.scene.image.ImageView;
-import warboats.model.Marker;
+import warboats.boats.Boat;
 
 /**
  *
@@ -25,9 +24,9 @@ import warboats.model.Marker;
  */
 public class ShipView extends ImageView {
 
-    public ArrayList<Marker> nodes;
+    private Boat model;
     private int shipType;
-    public ImageView image;
+    private ImageView image;
 
     public ShipView() {
 
@@ -39,6 +38,22 @@ public class ShipView extends ImageView {
 
     public void setShipType(int shipType) {
         this.shipType = shipType;
+    }
+
+    public Boat getModel() {
+        return model;
+    }
+
+    public void setModel(Boat model) {
+        this.model = model;
+    }
+
+    public ImageView getBoatImage() {
+        return image;
+    }
+
+    public void setBoatImage(ImageView image) {
+        this.image = image;
     }
 
 }

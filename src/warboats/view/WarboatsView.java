@@ -128,44 +128,44 @@ public class WarboatsView {
         placedShips.add(carrierView);
 
         Image img = new Image("file:ships/carrierH.png");
-        carrierView.image = new ImageView();
-        carrierView.image.setImage(img);
-        carrierView.image.setFitWidth(200);
-        carrierView.image.setFitHeight(40);
-        carrierView.image.setId("5");
-        shipPane.getChildren().add(carrierView.image);
+        carrierView.setBoatImage(new ImageView());
+        carrierView.getBoatImage().setImage(img);
+        carrierView.getBoatImage().setFitWidth(200);
+        carrierView.getBoatImage().setFitHeight(40);
+        carrierView.getBoatImage().setId("5");
+        shipPane.getChildren().add(carrierView.getBoatImage());
 
         img = new Image("file:ships/battleshipH.png");
-        bshipView.image = new ImageView();
-        bshipView.image.setImage(img);
-        bshipView.image.setFitWidth(160);
-        bshipView.image.setFitHeight(40);
-        bshipView.image.setId("4");
-        shipPane.getChildren().add(bshipView.image);
+        bshipView.setBoatImage(new ImageView());
+        bshipView.getBoatImage().setImage(img);
+        bshipView.getBoatImage().setFitWidth(160);
+        bshipView.getBoatImage().setFitHeight(40);
+        bshipView.getBoatImage().setId("4");
+        shipPane.getChildren().add(bshipView.getBoatImage());
 
         img = new Image("file:ships/destroyerH.png");
-        destroyView.image = new ImageView();
-        destroyView.image.setImage(img);
-        destroyView.image.setFitWidth(120);
-        destroyView.image.setFitHeight(40);
-        destroyView.image.setId("3");
-        shipPane.getChildren().add(destroyView.image);
+        destroyView.setBoatImage(new ImageView());
+        destroyView.getBoatImage().setImage(img);
+        destroyView.getBoatImage().setFitWidth(120);
+        destroyView.getBoatImage().setFitHeight(40);
+        destroyView.getBoatImage().setId("3");
+        shipPane.getChildren().add(destroyView.getBoatImage());
 
         img = new Image("file:ships/subH.png");
-        subView.image = new ImageView();
-        subView.image.setImage(img);
-        subView.image.setFitWidth(120);
-        subView.image.setFitHeight(40);
-        subView.image.setId("2");
-        shipPane.getChildren().add(subView.image);
+        subView.setBoatImage(new ImageView());
+        subView.getBoatImage().setImage(img);
+        subView.getBoatImage().setFitWidth(120);
+        subView.getBoatImage().setFitHeight(40);
+        subView.getBoatImage().setId("2");
+        shipPane.getChildren().add(subView.getBoatImage());
 
         img = new Image("file:ships/ptH.png");
-        ptView.image = new ImageView();
-        ptView.image.setImage(img);
-        ptView.image.setFitWidth(80);
-        ptView.image.setFitHeight(40);
-        ptView.image.setId("1");
-        shipPane.getChildren().add(ptView.image);
+        ptView.setBoatImage(new ImageView());
+        ptView.getBoatImage().setImage(img);
+        ptView.getBoatImage().setFitWidth(80);
+        ptView.getBoatImage().setFitHeight(40);
+        ptView.getBoatImage().setId("1");
+        shipPane.getChildren().add(ptView.getBoatImage());
 
     }
 

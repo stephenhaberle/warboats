@@ -46,11 +46,11 @@ public class DragDropController {
 
         target = this.theView.getPlayerBoard();
 
-        cImg = this.theView.getCarrierView().image;
-        bImg = this.theView.getBshipView().image;
-        dImg = this.theView.getDestroyView().image;
-        sImg = this.theView.getSubView().image;
-        pImg = this.theView.getPtView().image;
+        cImg = this.theView.getCarrierView().getBoatImage();
+        bImg = this.theView.getBshipView().getBoatImage();
+        dImg = this.theView.getDestroyView().getBoatImage();
+        sImg = this.theView.getSubView().getBoatImage();
+        pImg = this.theView.getPtView().getBoatImage();
 
         //carrier
         cImg.setOnDragEntered(this::handleSetOnDragEntered);
