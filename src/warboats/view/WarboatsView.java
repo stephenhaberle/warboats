@@ -50,6 +50,7 @@ public class WarboatsView {
 
     private BorderPane root;
     private WarboatsModel theModel;
+    private VBox topBox;
     private MenuBar menuBar;
     private Menu fileItem;
     private Menu editItem;
@@ -76,7 +77,7 @@ public class WarboatsView {
         this.theModel = theModel;
 
         root = new BorderPane();
-        root.setPrefSize(800, 550);
+        root.setPrefSize(800, 700);
 
         placedShips = new ArrayList<>();
 
@@ -270,12 +271,25 @@ public class WarboatsView {
     }
 
     private void generateMenuBar() {
+        topBox = new VBox(10);
+
         menuBar = new MenuBar();
         fileItem = new Menu("File");
         editItem = new Menu("Edit");
         helpItem = new Menu("Help");
         menuBar.getMenus().addAll(fileItem, editItem, helpItem);
-        root.setTop(menuBar);
+        topBox.getChildren().add(menuBar);
+
+        //Adds logo under menubar
+        Image img = new Image("file:images/logo.png");
+        ImageView image = new ImageView();
+        image.setImage(img);
+        image.setFitWidth(600);
+        image.setFitHeight(150);
+        topBox.getChildren().add(image);
+
+        topBox.setAlignment(Pos.CENTER);
+        root.setTop(topBox);
 
     }
 
