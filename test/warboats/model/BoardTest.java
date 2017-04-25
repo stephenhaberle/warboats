@@ -61,10 +61,10 @@ public class BoardTest extends TestCase {
         System.out.println("checkHit");
 
         Board testBoard = testModel.getMyBoard();
-        boolean result = testBoard.checkHit(5, 5, testModel);
+        boolean result = testBoard.checkHit(5, 5);
         assertEquals(false, result);
 
-        result = testBoard.checkHit(4, 3, testModel);
+        result = testBoard.checkHit(4, 3);
         assertEquals(true, result);
 
     }
