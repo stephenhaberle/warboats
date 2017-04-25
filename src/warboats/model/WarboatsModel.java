@@ -55,8 +55,8 @@ public class WarboatsModel {
     private static boolean won = false;
     private static boolean playerReady = false;
     private static boolean opponentReady = false;
-    private static boolean playerRematch = false;
-    private static boolean opponentRematch = false;
+    private static Boolean playerRematch = null;
+    private static Boolean opponentRematch = null;
     private static int shipsRemaining;
 
     public WarboatsModel(WarboatsClient theClient, WarboatsServer theServer) {
@@ -332,19 +332,19 @@ public class WarboatsModel {
         WarboatsModel.opponentReady = opponentReady;
     }
 
-    public static void setPlayerRematch(boolean playerRematch) {
+    public static void setPlayerRematch(Boolean playerRematch) {
         WarboatsModel.playerRematch = playerRematch;
     }
 
-    public static boolean isRematch() {
+    public static Boolean isRematch() {
         return playerRematch;
     }
 
-    public static boolean isOpponentRematch() {
+    public static Boolean isOpponentRematch() {
         return opponentRematch;
     }
 
-    public static void setOpponentRematch(boolean opponentRematch) {
+    public static void setOpponentRematch(Boolean opponentRematch) {
         WarboatsModel.opponentRematch = opponentRematch;
     }
 

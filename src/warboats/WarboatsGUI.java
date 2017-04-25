@@ -57,9 +57,16 @@ public class WarboatsGUI extends Application {
         primaryStage.show();
     }
 
-    @Override
-    public void stop() throws Exception {
-        System.out.println("STOPPING");
+    public void restart() throws Exception {
+        if (restart) {
+            System.out.println("RESTARTING");
+            restart = false;
+            this.init();
+        }
+        else {
+            System.out.println("STOPPING");
+            this.stop();
+        }
     }
 
     /**

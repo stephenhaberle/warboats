@@ -13,6 +13,10 @@ public class Rematch {
 
     public boolean rematch;
 
+    public Rematch() {
+
+    }
+
     public Rematch(boolean redo) {
         rematch = redo;
     }
