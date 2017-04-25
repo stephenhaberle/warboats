@@ -40,6 +40,7 @@ public class WarboatsServer extends Listener {
         server.getKryo().register(Coordinates.class);
         server.getKryo().register(GameOver.class);
         server.getKryo().register(BeginGame.class);
+        server.getKryo().register(Rematch.class);
         //we can only send objects as packets if they are registered
 
         //bind to a port
@@ -128,6 +129,10 @@ public class WarboatsServer extends Listener {
         else if (p instanceof BeginGame) {
             BeginGame packet = (BeginGame) p;
             WarboatsModel.setOpponentReady(packet.isReady);
+        }
+        else if (p instanceof Rematch) {
+            Rematch packet = (Rematch) p;
+            WarboatsModel.setOpponentRematch(packet.rematch);
         }
     }
 

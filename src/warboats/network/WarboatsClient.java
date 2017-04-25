@@ -42,6 +42,7 @@ public class WarboatsClient extends Listener {
         client.getKryo().register(Coordinates.class);
         client.getKryo().register(GameOver.class);
         client.getKryo().register(BeginGame.class);
+        client.getKryo().register(Rematch.class);
 
         //start the client
         client.start();
@@ -117,6 +118,10 @@ public class WarboatsClient extends Listener {
         else if (p instanceof BeginGame) {
             BeginGame packet = (BeginGame) p;
             WarboatsModel.setOpponentReady(packet.isReady);
+        }
+        else if (p instanceof Rematch) {
+            Rematch packet = (Rematch) p;
+            WarboatsModel.setOpponentRematch(packet.rematch);
         }
     }
 }

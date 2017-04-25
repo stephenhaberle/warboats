@@ -75,7 +75,8 @@ public class SendShotController {
                         }
                     }
                     else if (!theModel.isPlayerReady()) {
-                        if (theModel.getNavy().size() == 5) {
+                        //change back to 5 when not testing
+                        if (theModel.getNavy().size() == 1) {
                             Alert a = new Alert(AlertType.INFORMATION);
                             a.setTitle("Cannot Begin Game");
                             a.setHeaderText("Ready up!");

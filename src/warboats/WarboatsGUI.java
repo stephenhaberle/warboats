@@ -32,6 +32,7 @@ public class WarboatsGUI extends Application {
     private WarboatsView theView;
     private WarboatsController theCtrl;
     private static WarboatsModel theModel;
+    private static boolean restart = false;
 
     @Override
     public void init() throws Exception {
@@ -42,7 +43,7 @@ public class WarboatsGUI extends Application {
         //only for when we want preset placements
         //theModel.getConsolePlacements();
         theView = new WarboatsView(this.theModel);
-        theCtrl = new WarboatsController(theModel, theView);
+        theCtrl = new WarboatsController(theModel, theView, this);
 
     }
 
@@ -56,6 +57,11 @@ public class WarboatsGUI extends Application {
         primaryStage.show();
     }
 
+    @Override
+    public void stop() throws Exception {
+        System.out.println("STOPPING");
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -65,6 +71,10 @@ public class WarboatsGUI extends Application {
 
     public static WarboatsModel getTheModel() {
         return theModel;
+    }
+
+    public static void setRestart(boolean restart) {
+        WarboatsGUI.restart = restart;
     }
 
 }

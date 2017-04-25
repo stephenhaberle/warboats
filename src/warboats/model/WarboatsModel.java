@@ -24,6 +24,7 @@ import warboats.boats.PatrolBoat;
 import warboats.boats.Submarine;
 import warboats.network.BeginGame;
 import warboats.network.Coordinates;
+import warboats.network.Rematch;
 import warboats.network.WarboatsClient;
 import warboats.network.WarboatsServer;
 
@@ -54,6 +55,8 @@ public class WarboatsModel {
     private static boolean won = false;
     private static boolean playerReady = false;
     private static boolean opponentReady = false;
+    private static boolean playerRematch = false;
+    private static boolean opponentRematch = false;
     private static int shipsRemaining;
 
     public WarboatsModel(WarboatsClient theClient, WarboatsServer theServer) {
@@ -215,7 +218,7 @@ public class WarboatsModel {
         y2 = 10;//in.nextInt();
         this.addShip(1, x1, y1, x2, y2);
 
-        this.togglePlay();
+        this.setPlayerReady(true);
 
     }
 
@@ -235,6 +238,17 @@ public class WarboatsModel {
 
         if (shipsRemaining == 0) {
             lost = true;
+        }
+    }
+
+    public void sendRematch(boolean choice) {
+        WarboatsModel.playerRematch = choice;
+        Rematch msg = new Rematch(choice);
+        if (curServer == null) {
+            curClient.client.sendTCP(msg);
+        }
+        else {
+            curServer.server.sendToTCP(1, msg);
         }
     }
 
@@ -302,8 +316,8 @@ public class WarboatsModel {
         return playerReady;
     }
 
-    public void togglePlay() {
-        this.playerReady = !playerReady;
+    public void setPlayerReady(boolean ready) {
+        this.playerReady = ready;
     }
 
     public int getShipsRemaining() {
@@ -316,6 +330,22 @@ public class WarboatsModel {
 
     public static void setOpponentReady(boolean opponentReady) {
         WarboatsModel.opponentReady = opponentReady;
+    }
+
+    public static void setPlayerRematch(boolean playerRematch) {
+        WarboatsModel.playerRematch = playerRematch;
+    }
+
+    public static boolean isRematch() {
+        return playerRematch;
+    }
+
+    public static boolean isOpponentRematch() {
+        return opponentRematch;
+    }
+
+    public static void setOpponentRematch(boolean opponentRematch) {
+        WarboatsModel.opponentRematch = opponentRematch;
     }
 
 }
