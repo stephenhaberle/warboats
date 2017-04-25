@@ -35,12 +35,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import warboats.model.Marker;
 import warboats.model.WarboatsModel;
-import warboats.view.boatsView.BattleshipView;
-import warboats.view.boatsView.CarrierView;
-import warboats.view.boatsView.DestroyerView;
-import warboats.view.boatsView.PatrolBoatView;
-import warboats.view.boatsView.ShipView;
-import warboats.view.boatsView.SubmarineView;
 
 /**
  *
@@ -67,11 +61,11 @@ public class WarboatsView {
     private Label missesLabel;
     private ArrayList<ShipView> placedShips;
     private Button beginGame;
-    private CarrierView carrierView;
-    private BattleshipView bshipView;
-    private DestroyerView destroyView;
-    private PatrolBoatView ptView;
-    private SubmarineView subView;
+    private ShipView carrierView;
+    private ShipView bshipView;
+    private ShipView destroyView;
+    private ShipView ptView;
+    private ShipView subView;
 
     public WarboatsView(WarboatsModel theModel) {
         this.theModel = theModel;
@@ -116,11 +110,11 @@ public class WarboatsView {
         shipPane.getChildren().add(beginGame);
 
         //drag and drop
-        carrierView = new CarrierView();
-        bshipView = new BattleshipView();
-        destroyView = new DestroyerView();
-        subView = new SubmarineView();
-        ptView = new PatrolBoatView();
+        carrierView = new ShipView(5);
+        bshipView = new ShipView(4);
+        destroyView = new ShipView(3);
+        subView = new ShipView(2);
+        ptView = new ShipView(1);
 
         placedShips.add(ptView);
         placedShips.add(subView);
@@ -317,23 +311,23 @@ public class WarboatsView {
         return shipPane;
     }
 
-    public CarrierView getCarrierView() {
+    public ShipView getCarrierView() {
         return carrierView;
     }
 
-    public BattleshipView getBshipView() {
+    public ShipView getBshipView() {
         return bshipView;
     }
 
-    public DestroyerView getDestroyView() {
+    public ShipView getDestroyView() {
         return destroyView;
     }
 
-    public PatrolBoatView getPtView() {
+    public ShipView getPtView() {
         return ptView;
     }
 
-    public SubmarineView getSubView() {
+    public ShipView getSubView() {
         return subView;
     }
 

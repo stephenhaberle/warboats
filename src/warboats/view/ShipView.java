@@ -13,7 +13,7 @@
 *
 * ****************************************
  */
-package warboats.view.boatsView;
+package warboats.view;
 
 import javafx.scene.image.ImageView;
 import warboats.boats.Boat;
@@ -29,7 +29,10 @@ public class ShipView extends ImageView {
     private ImageView image;
 
     public ShipView() {
+    }
 
+    public ShipView(int id) {
+        shipType = id;
     }
 
     public int getShipType() {

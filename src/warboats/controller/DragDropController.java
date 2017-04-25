@@ -18,7 +18,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import warboats.model.WarboatsModel;
 import warboats.view.WarboatsView;
-import warboats.view.boatsView.ShipView;
+import warboats.view.ShipView;
 
 /**
  *
@@ -242,13 +242,21 @@ public class DragDropController {
     public void assignShipToView(int id) {
         switch (id) {
             case 5:
-                theView.getCarrierView().setModelCarrier(theModel.getCarrier());
+                theView.getCarrierView().setModel(theModel.getCarrier());
                 break;
             case 4:
-                theView.getBshipView().setModelBattleship(
-                        theModel.getBattleship());
+                theView.getBshipView().setModel(theModel.getBattleship());
+                break;
+            case 3:
+                theView.getDestroyView().setModel(theModel.getDestroyer());
+                break;
+            case 2:
+                theView.getSubView().setModel(theModel.getSubmarine());
+                break;
+            case 1:
+                theView.getPtView().setModel(theModel.getPatrolBoat());
+                break;
         }
-        //need to add further cases
     }
 
     public void placePlayerShip(ImageView image) {
