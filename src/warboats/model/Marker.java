@@ -9,7 +9,7 @@
 * Project: warboats
 * Package: warboats
 * File: Marker
-* Description: Class meant to represent tiles on the boards. 
+* Description: Class meant to represent tiles on the boards.
 *
 * ****************************************
  */
@@ -27,6 +27,7 @@ public class Marker {
     private int posY;
     private String consoleRepresentation = "o"; //can determine if tile has been shot at based on consoleRepresentation
 
+    private boolean isHit = false;
     //simple boolean value to determine if a boat is placed on the tile
     private boolean isShipOn = false;
 
@@ -75,6 +76,14 @@ public class Marker {
 
     public Boat getBoat() {
         return boatOn;
+    }
+
+    public boolean isHit() {
+        return isHit;
+    }
+
+    public void setHit(boolean hit) {
+        this.isHit = hit;
     }
 
 }

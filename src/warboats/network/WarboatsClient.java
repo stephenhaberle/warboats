@@ -20,7 +20,6 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import java.net.InetAddress;
-import warboats.WarboatsConsole;
 import warboats.model.WarboatsModel;
 
 /**
@@ -42,6 +41,7 @@ public class WarboatsClient extends Listener {
         //register the packet object
         client.getKryo().register(Coordinates.class);
         client.getKryo().register(GameOver.class);
+        client.getKryo().register(BeginGame.class);
 
         //start the client
         client.start();
@@ -78,11 +78,12 @@ public class WarboatsClient extends Listener {
             System.out.println(" Y: " + packet.y);
             //we have now received the message
 
-            boolean hitIndicator = WarboatsConsole.getTheModel().getMyBoard().checkHit(packet.x, packet.y, WarboatsConsole.getTheModel());
+            boolean hitIndicator = WarboatsModel.getMyBoard().checkHit(
+                    packet.x, packet.y);
 
             c.sendTCP(hitIndicator);
 
-            if (WarboatsConsole.getTheModel().isLost()) {
+            if (WarboatsModel.isLost()) {
                 c.sendTCP(new GameOver());
             }
 
@@ -100,17 +101,22 @@ public class WarboatsClient extends Listener {
         }
         else if (p instanceof GameOver) {
             GameOver packet = (GameOver) p;
-            WarboatsConsole.getTheModel().setWon(packet.winFlag);
+            WarboatsModel.setWon(packet.winFlag);
         }
         //For receiving hit/miss confirmation
         else if (p instanceof Boolean) {
             Boolean packet = (Boolean) p;
-            WarboatsConsole.getTheModel().getOpponentBoard().hitMiss(packet.booleanValue(),
-                    WarboatsConsole.getTheModel().getLastShot());
+            WarboatsModel.getOpponentBoard().hitMiss(
+                    packet.booleanValue(),
+                    WarboatsModel.getLastShot());
             System.out.println("THEIR BOARD");
-            System.out.println(WarboatsConsole.getTheModel().getOpponentBoard());
+            System.out.println(WarboatsModel.getOpponentBoard());
             System.out.println("MY BOARD");
-            System.out.println(WarboatsConsole.getTheModel().getMyBoard());
+            System.out.println(WarboatsModel.getMyBoard());
+        }
+        else if (p instanceof BeginGame) {
+            BeginGame packet = (BeginGame) p;
+            WarboatsModel.setOpponentReady(packet.isReady);
         }
     }
 }

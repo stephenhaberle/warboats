@@ -31,7 +31,7 @@ public class WarboatsGUI extends Application {
 
     private WarboatsView theView;
     private WarboatsController theCtrl;
-    private WarboatsModel theModel;
+    private static WarboatsModel theModel;
 
     @Override
     public void init() throws Exception {
@@ -61,6 +61,10 @@ public class WarboatsGUI extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public static WarboatsModel getTheModel() {
+        return theModel;
     }
 
 }

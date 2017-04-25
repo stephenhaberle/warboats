@@ -31,8 +31,9 @@ public class SquareMarkerNode extends Rectangle {
     public ImageView image;
 
     public SquareMarkerNode(Marker marker) {
-        super(38, 38, Color.ORANGE); // MAKE THIS ORANGE TO VIEW SQUARES
+        super(38, 38, Color.TRANSPARENT); // MAKE THIS ORANGE TO VIEW SQUARES
         this.marker = marker;
+        this.setMouseTransparent(true);
     }
 
     public Marker getMarker() {

@@ -22,6 +22,7 @@ import warboats.boats.Carrier;
 import warboats.boats.Destroyer;
 import warboats.boats.PatrolBoat;
 import warboats.boats.Submarine;
+import warboats.network.BeginGame;
 import warboats.network.Coordinates;
 import warboats.network.WarboatsClient;
 import warboats.network.WarboatsServer;
@@ -33,26 +34,27 @@ import warboats.network.WarboatsServer;
 public class WarboatsModel {
 
     //Board with all of player's ships on it along with necessary hit indicators
-    private Board myBoard;
+    private static Board myBoard;
     //Board keeping track of shots taken at opponent's board (hits/misses)
-    private Board opponentBoard;
+    private static Board opponentBoard;
 
     private WarboatsClient curClient = null;
     private WarboatsServer curServer = null;
     public static boolean playerTurn = false;
 
     //ArrayList of all ships placed on myBoard
-    private ArrayList<Boat> navy;
+    private static ArrayList<Boat> navy;
     private Carrier carrier;
     private Battleship battleship;
     private Destroyer destroyer;
     private Submarine submarine;
     private PatrolBoat patrolBoat;
-    private Coordinates lastShot;
-    private boolean lost = false;
-    private boolean won = false;
-    private boolean play = false;
-    private int shipsRemaining;
+    private static Coordinates lastShot;
+    private static boolean lost = false;
+    private static boolean won = false;
+    private static boolean playerReady = false;
+    private static boolean opponentReady = false;
+    private static int shipsRemaining;
 
     public WarboatsModel(WarboatsClient theClient, WarboatsServer theServer) {
 
@@ -73,7 +75,7 @@ public class WarboatsModel {
      */
     public void sendPlayerMove(int x, int y) throws InterruptedException, Exception {
 
-        if (play) {
+        if (playerReady) {
             Coordinates sendCords = new Coordinates(x, y);
 
             //program is client
@@ -96,6 +98,16 @@ public class WarboatsModel {
             }
         }
 
+    }
+
+    public void signalBeginGame() {
+        BeginGame indicator = new BeginGame();
+        if (curServer == null) {
+            curClient.client.sendTCP(indicator);
+        }
+        else {
+            curServer.server.sendToTCP(1, indicator);
+        }
     }
 
     /**
@@ -211,7 +223,7 @@ public class WarboatsModel {
      * Checks if all ships in navy have been sunk, if so, sets lost field to
      * true.
      */
-    public void checkLoss() {
+    public static void checkLoss() {
         int shipsLeft = navy.size();
         for (Boat temp : navy) {
             if (!(temp.isAlive())) {
@@ -222,31 +234,31 @@ public class WarboatsModel {
         shipsRemaining = shipsLeft;
 
         if (shipsRemaining == 0) {
-            this.lost = true;
+            lost = true;
         }
     }
 
-    public Board getMyBoard() {
+    public static Board getMyBoard() {
         return myBoard;
     }
 
-    public Board getOpponentBoard() {
+    public static Board getOpponentBoard() {
         return opponentBoard;
     }
 
-    public Coordinates getLastShot() {
+    public static Coordinates getLastShot() {
         return lastShot;
     }
 
-    public void setLastShot(Coordinates lastShot) {
-        this.lastShot = lastShot;
+    public static void setLastShot(Coordinates lastShot) {
+        WarboatsModel.lastShot = lastShot;
     }
 
     public ArrayList<Boat> getNavy() {
         return navy;
     }
 
-    public boolean isLost() {
+    public static boolean isLost() {
         return lost;
     }
 
@@ -258,12 +270,12 @@ public class WarboatsModel {
         WarboatsModel.playerTurn = !playerTurn;
     }
 
-    public boolean isWon() {
+    public static boolean isWon() {
         return won;
     }
 
-    public void setWon(boolean won) {
-        this.won = won;
+    public static void setWon(boolean won) {
+        WarboatsModel.won = won;
     }
 
     public Carrier getCarrier() {
@@ -286,16 +298,24 @@ public class WarboatsModel {
         return patrolBoat;
     }
 
-    public boolean isPlay() {
-        return play;
+    public static boolean isPlayerReady() {
+        return playerReady;
     }
 
     public void togglePlay() {
-        this.play = !play;
+        this.playerReady = !playerReady;
     }
 
     public int getShipsRemaining() {
         return shipsRemaining;
+    }
+
+    public static boolean isOpponentReady() {
+        return opponentReady;
+    }
+
+    public static void setOpponentReady(boolean opponentReady) {
+        WarboatsModel.opponentReady = opponentReady;
     }
 
 }

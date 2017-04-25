@@ -73,7 +73,7 @@ public class Board {
      * @param y y coordinate
      * @return boolean if hit or not
      */
-    public boolean checkHit(int x, int y, WarboatsModel theModel) {
+    public boolean checkHit(int x, int y) {
         Marker tile = markerArray.get(x - 1).get(y - 1);
 
         if (tile.isShipOn()) {
@@ -82,7 +82,7 @@ public class Board {
             Boat boat = tile.getBoat();
 
             if (boat.checkSunk()) {
-                theModel.checkLoss();
+                WarboatsModel.checkLoss();
             }
 
             return true;
@@ -105,6 +105,7 @@ public class Board {
 
         if (isHit) {
             System.out.println("HIT");
+            tile.setHit(true);
             this.numHits++;
             tile.setConsoleRepresentation("H");
         }
