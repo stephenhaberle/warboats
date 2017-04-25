@@ -20,7 +20,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import warboats.controller.WarboatsController;
 import warboats.model.WarboatsModel;
+import warboats.network.WarboatsClient;
 import warboats.network.WarboatsNetwork;
+import warboats.network.WarboatsServer;
 import warboats.view.WarboatsView;
 
 /**
@@ -33,6 +35,7 @@ public class WarboatsGUI extends Application {
     private WarboatsController theCtrl;
     private static WarboatsModel theModel;
     private static boolean restart = false;
+    private Stage theStage;
 
     @Override
     public void init() throws Exception {
@@ -50,6 +53,8 @@ public class WarboatsGUI extends Application {
     @Override
     public void start(Stage primaryStage) {
 
+        theStage = primaryStage;
+
         Scene scene = new Scene(this.theView.getRootNode());
 
         primaryStage.setTitle("WARBOATS");
@@ -57,15 +62,38 @@ public class WarboatsGUI extends Application {
         primaryStage.show();
     }
 
-    public void restart() throws Exception {
-        if (restart) {
-            System.out.println("RESTARTING");
-            restart = false;
-            this.init();
-        }
-        else {
-            System.out.println("STOPPING");
-            this.stop();
+    void cleanup() {
+        theModel = new WarboatsModel(WarboatsNetwork.getActiveClient(),
+                                     WarboatsNetwork.getActiveServer());
+        //only for when we want preset placements
+        //theModel.getConsolePlacements();
+        theView = new WarboatsView(this.theModel);
+        theCtrl = new WarboatsController(theModel, theView, this);
+    }
+
+    public void restart() {
+        try {
+            if (restart) {
+                System.out.println("RESTARTING");
+                restart = false;
+                this.cleanup();
+                start(theStage);
+            }
+            else {
+                System.out.println("STOPPING");
+                theStage.close();
+                if (WarboatsNetwork.getActiveClient() == null) {
+                    WarboatsServer.server.stop();
+                }
+                else {
+                    WarboatsClient.client.stop();
+                }
+                this.stop();
+                System.exit(0);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("Unsupported exception thrown in restart()");
         }
     }
 

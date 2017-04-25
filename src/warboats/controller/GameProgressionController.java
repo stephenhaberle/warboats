@@ -73,7 +73,16 @@ public class GameProgressionController {
                     pendingTasks.set(pendingTasks.get() + 1);
                     rematchTask.setOnSucceeded(taskEvent -> pendingTasks.set(
                             pendingTasks.get() - 1));
+                    try {
+                        rematchTask.setOnSucceeded(
+                                taskEvent -> theMain.restart());
+                    } catch (Exception e) {
+                        System.out.println(
+                                "Unsupported exception thrown by restart() in controller");
+                    }
                     exec.submit(rematchTask);
+
+                    exec.shutdown();
                 }
                 else {
                     Alert a = new Alert(Alert.AlertType.ERROR);
@@ -189,7 +198,7 @@ public class GameProgressionController {
         }
     }
 
-    //contains debugging print statements, remove for final product 
+    //contains debugging print statements, remove for final product
     class notifyRematch extends Task<Void> {
 
         final int taskNumber = taskCount.incrementAndGet();
@@ -284,6 +293,10 @@ public class GameProgressionController {
             }
             return null;
         }
+    }
+
+    public ExecutorService getExec() {
+        return exec;
     }
 
 }

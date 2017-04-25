@@ -76,4 +76,9 @@ public class WarboatsController {
             return null;
         }
     }
+
+    public GameProgressionController getGameCtrl() {
+        return gameCtrl;
+    }
+
 }

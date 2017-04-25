@@ -39,8 +39,8 @@ public class WarboatsModel {
     //Board keeping track of shots taken at opponent's board (hits/misses)
     private static Board opponentBoard;
 
-    private WarboatsClient curClient = null;
-    private WarboatsServer curServer = null;
+    private WarboatsClient curClient;
+    private WarboatsServer curServer;
     public static boolean playerTurn = false;
 
     //ArrayList of all ships placed on myBoard
@@ -51,12 +51,12 @@ public class WarboatsModel {
     private Submarine submarine;
     private PatrolBoat patrolBoat;
     private static Coordinates lastShot;
-    private static boolean lost = false;
-    private static boolean won = false;
-    private static boolean playerReady = false;
-    private static boolean opponentReady = false;
-    private static Boolean playerRematch = null;
-    private static Boolean opponentRematch = null;
+    private static boolean lost;
+    private static boolean won;
+    private static boolean playerReady;
+    private static boolean opponentReady;
+    private static Boolean playerRematch;
+    private static Boolean opponentRematch;
     private static int shipsRemaining;
 
     public WarboatsModel(WarboatsClient theClient, WarboatsServer theServer) {
@@ -66,8 +66,14 @@ public class WarboatsModel {
 
         myBoard = new Board();
         opponentBoard = new Board();
-
         navy = new ArrayList<>();
+
+        lost = false;
+        won = false;
+        playerReady = false;
+        opponentReady = false;
+        playerRematch = null;
+        opponentRematch = null;
     }
 
     /**

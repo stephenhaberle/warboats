@@ -242,6 +242,7 @@ public class WarboatsView {
                         MarkerNode node2 = new MarkerNode(new Marker(j, i));
                         genBoard.add(node2, j, i);
                         GridPane.setHalignment(node.image, HPos.CENTER);
+                        GridPane.setHalignment(node2, HPos.CENTER);
                     }
                     else {
                         SquareMarkerNode node = new SquareMarkerNode(new Marker(
