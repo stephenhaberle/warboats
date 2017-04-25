@@ -17,8 +17,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import warboats.model.WarboatsModel;
-import warboats.view.WarboatsView;
 import warboats.view.ShipView;
+import warboats.view.WarboatsView;
 
 /**
  *
@@ -187,56 +187,62 @@ public class DragDropController {
 
         boolean success = false;
 
-        Node node = event.getPickResult().getIntersectedNode();
+        try {
+            Node node = event.getPickResult().getIntersectedNode();
 
-        GridPane board = (GridPane) node.getParent();
+            GridPane board = (GridPane) node.getParent();
 
-        if (node != target && db.hasImage()) {
+            if (node != target && db.hasImage()) {
 
-            Integer cIndex = GridPane.getColumnIndex(node);
-            Integer rIndex = GridPane.getRowIndex(node);
+                Integer cIndex = GridPane.getColumnIndex(node);
+                Integer rIndex = GridPane.getRowIndex(node);
 
-            int x = cIndex == null ? 0 : cIndex;
-            int y = rIndex == null ? 0 : rIndex;
+                int x = cIndex == null ? 0 : cIndex;
+                int y = rIndex == null ? 0 : rIndex;
 
-            tempShipImage = new ImageView(db.getImage());
+                tempShipImage = new ImageView(db.getImage());
 
-            int id = Integer.parseInt(source.getId());
-            tempShipImage.setId(source.getId());
+                int id = Integer.parseInt(source.getId());
+                tempShipImage.setId(source.getId());
 
-            Integer[] shipLengths = {2, 3, 3, 4, 5};
+                Integer[] shipLengths = {2, 3, 3, 4, 5};
 
-            // TODO: set image size; use correct column/row span
-            // need to do this check based on if piece or horizontal or vertical
-            // currently only capable of
-            if (cIndex + shipLengths[id - 1] - 1 > 10 || cIndex == 0 || rIndex == 0) {
-                throw new ClassCastException("SHIP CANT BE OFF BOARD");
+                // TODO: set image size; use correct column/row span
+                // need to do this check based on if piece or horizontal or vertical
+                // currently only capable of
+                if (cIndex + shipLengths[id - 1] - 1 > 10 || cIndex == 0 || rIndex == 0) {
+                    throw new ClassCastException("SHIP CANT BE OFF BOARD");
+                }
+                else {
+                    System.out.println("ID " + id);
+
+                    ShipView ship = theView.getPlacedShips().get(id - 1);
+
+                    //only support for horizontal placement, place ships handles vertical conversion
+                    theModel.addShip(id, x, y, x + (shipLengths[id - 1] - 1), y);
+                    System.out.println(theModel.getMyBoard());
+                    this.assignShipToView(id);
+
+                    board.add(tempShipImage, x, y, shipLengths[id - 1], 1);
+
+                    success = true;
+                }
+
             }
-            else {
-                System.out.println("ID " + id);
 
-                ShipView ship = theView.getPlacedShips().get(id - 1);
-
-                //only support for horizontal placement, place ships handles vertical conversion
-                theModel.addShip(id, x, y, x + (shipLengths[id - 1] - 1), y);
-                System.out.println(theModel.getMyBoard());
-                this.assignShipToView(id);
-
-                board.add(tempShipImage, x, y, shipLengths[id - 1], 1);
-
-                success = true;
-            }
-
+        } catch (ClassCastException e) {
+            System.out.println(e);
+            System.out.println("Invalid node selection. Try again");
         }
         //let the source know whether the image was successfully transferred and used
         event.setDropCompleted(success);
 
         event.consume();
 
+        //this throws an error in the console that is undesirable but is the only way to get the ships to reset
         if (!success) {
             throw new ClassCastException("RESET POS");
         }
-
     }
 
     public void assignShipToView(int id) {
