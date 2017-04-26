@@ -160,7 +160,7 @@ public class DragDropController {
         cbContent.putImage(source.getImage());
         //cbContent.put(DataFormat.)
         db.setContent(cbContent);
-        //source.setVisible(false); //WAS MAKING BOATS DISSAPEAR
+        //source.setVisible(false); //WAS MAKING BOATS DISSAPEAR FOREVER
         event.consume();
 
     }
