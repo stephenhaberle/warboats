@@ -48,6 +48,13 @@ public class WarboatsGUI extends Application {
         theView = new WarboatsView(this.theModel);
         theCtrl = new WarboatsController(theModel, theView, this);
     }
+    
+    @Override
+    public void stop() {
+        //Not elegant and if there's time I want to add shutdown hooks to threads -Christian
+        //However, it does manage to effectively kill the program. 
+        System.exit(0);      
+    }
 
     @Override
     public void start(Stage primaryStage) {
@@ -88,7 +95,6 @@ public class WarboatsGUI extends Application {
                     WarboatsClient.client.stop();
                 }
                 this.stop();
-                System.exit(0);
             }
         } catch (Exception e) {
             System.out.println(e);
