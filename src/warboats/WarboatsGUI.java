@@ -9,7 +9,7 @@
 * Project: warboats
 * Package: warboats
 * File: WarboatsGUI
-* Description:
+* Description: Main class to test WarboatsConsole using GUI IO techniques.
 *
 * ****************************************
  */
@@ -24,6 +24,7 @@ import warboats.network.WarboatsNetwork;
 import warboats.view.WarboatsView;
 
 /**
+ * Main class for the game. Sets up basic stage and MVC architecture
  *
  * @author clo006
  */
@@ -33,6 +34,11 @@ public class WarboatsGUI extends Application {
     private WarboatsController theCtrl;
     private static WarboatsModel theModel;
 
+    /**
+     * Initializer for the game. Sets up the MVC architecture
+     *
+     * @throws Exception mostly for network failure
+     */
     @Override
     public void init() throws Exception {
         super.init();
@@ -46,10 +52,16 @@ public class WarboatsGUI extends Application {
 
     }
 
+    /**
+     * At this point, the system is ready for the application to begin running.
+     * Extracts the root node from the view and displays it in a window.
+     *
+     * @param primaryStage The window that everything will be displayed in
+     */
     @Override
     public void start(Stage primaryStage) {
 
-        Scene scene = new Scene(this.theView.getRootNode());
+        Scene scene = new Scene(this.theView.getRootNode()); //extract GUI from view
 
         primaryStage.setTitle("WARBOATS");
         primaryStage.setScene(scene);
@@ -57,12 +69,19 @@ public class WarboatsGUI extends Application {
     }
 
     /**
-     * @param args the command line arguments
+     * Starts the game
+     *
+     * @param args the command line arguments. Does nothing.
      */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Getter for the model of the game
+     *
+     * @return a WarboatsModel object
+     */
     public static WarboatsModel getTheModel() {
         return theModel;
     }
