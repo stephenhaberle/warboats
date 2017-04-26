@@ -47,7 +47,6 @@ public class WarboatsGUI extends Application {
         //theModel.getConsolePlacements();
         theView = new WarboatsView(this.theModel);
         theCtrl = new WarboatsController(theModel, theView, this);
-
     }
 
     @Override
