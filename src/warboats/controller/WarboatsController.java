@@ -15,10 +15,21 @@
  */
 package warboats.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import warboats.WarboatsGUI;
 import warboats.model.WarboatsModel;
 import warboats.utility.ValueUpdateUtility;
@@ -54,6 +65,45 @@ public class WarboatsController {
         Thread updateLabelsThread = new Thread(new updateStatsTask());
         updateLabelsThread.setDaemon(true);
         updateLabelsThread.start();
+
+        this.theView.getLogo().setOnMouseClicked(
+                new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                AudioInputStream audioIn = null;
+                try {
+                    File soundFile = new File("sounds/nobody.wav");
+                    audioIn = AudioSystem.getAudioInputStream(
+                            soundFile);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioIn);
+                    clip.start();
+                } catch (UnsupportedAudioFileException ex) {
+                    Logger.getLogger(WarboatsController.class.getName()).log(
+                            Level.SEVERE,
+                            null,
+                            ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(WarboatsController.class.getName()).log(
+                            Level.SEVERE,
+                            null,
+                            ex);
+                } catch (LineUnavailableException ex) {
+                    Logger.getLogger(WarboatsController.class.getName()).log(
+                            Level.SEVERE,
+                            null,
+                            ex);
+                } finally {
+                    try {
+                        audioIn.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(WarboatsController.class.getName()).log(
+                                Level.SEVERE,
+                                null,
+                                ex);
+                    }
+                }
+            }
+        });
     }
 
     class updateStatsTask extends Task<Void> {

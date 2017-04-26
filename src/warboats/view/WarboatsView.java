@@ -66,6 +66,7 @@ public class WarboatsView {
     private ShipView destroyView;
     private ShipView ptView;
     private ShipView subView;
+    private ImageView logo;
 
     public WarboatsView(WarboatsModel theModel) {
         this.theModel = theModel;
@@ -277,11 +278,11 @@ public class WarboatsView {
 
         //Adds logo under menubar
         Image img = new Image("file:images/logo.png");
-        ImageView image = new ImageView();
-        image.setImage(img);
-        image.setFitWidth(600);
-        image.setFitHeight(150);
-        topBox.getChildren().add(image);
+        logo = new ImageView();
+        logo.setImage(img);
+        logo.setFitWidth(600);
+        logo.setFitHeight(150);
+        topBox.getChildren().add(logo);
 
         topBox.setAlignment(Pos.CENTER);
         root.setTop(topBox);
@@ -342,6 +343,10 @@ public class WarboatsView {
 
     public Label getMissesLabel() {
         return missesLabel;
+    }
+
+    public ImageView getLogo() {
+        return logo;
     }
 
 }

@@ -46,6 +46,7 @@ public class SendShotController {
                             try {
                                 theModel.sendPlayerMove(x, y);
                             } catch (Exception e) {
+                                System.out.println(e);
                                 System.out.println(
                                         "sending move failed. unsupported exception");
                             }

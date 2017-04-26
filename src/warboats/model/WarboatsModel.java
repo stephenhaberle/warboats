@@ -15,7 +15,11 @@
  */
 package warboats.model;
 
+import java.io.File;
 import java.util.ArrayList;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import warboats.boats.Battleship;
 import warboats.boats.Boat;
 import warboats.boats.Carrier;
@@ -83,6 +87,14 @@ public class WarboatsModel {
      * @param y y coordinate (letter axis)
      */
     public void sendPlayerMove(int x, int y) throws InterruptedException, Exception {
+
+        File soundFile = new File("sounds/shotFired.wav");
+        AudioInputStream audioIn = AudioSystem.getAudioInputStream(
+                soundFile);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioIn);
+        clip.start();
+        audioIn.close();
 
         if (playerReady) {
             Coordinates sendCords = new Coordinates(x, y);
