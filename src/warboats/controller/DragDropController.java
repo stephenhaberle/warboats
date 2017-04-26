@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* *****************************************
+* CSCI205 - Software Engineering and Design
+* Spring 2017 - Final Project
+*
+* Name: Christian Ouellette, Keller Chambers, Stephen Haberle, Peyton Rumachik
+* Date: Apr 14, 2017
+* Time: 1:25:33 PM
+*
+* Project: warboats
+* Package: warboats.controller
+* File: DragDropController
+* Description: Sub controller to handle the dragging and dropping of ships onto the user's board
+*
+* ****************************************
  */
 package warboats.controller;
 
@@ -21,6 +31,8 @@ import warboats.view.WarboatsView;
 import warboats.view.boatsView.ShipView;
 
 /**
+ * Main controller for handling the dragging and dropping of ships for the user
+ * in the setup period of the game
  *
  * @author clo006
  */
@@ -29,16 +41,27 @@ public class DragDropController {
     private WarboatsView theView;
     private WarboatsModel theModel;
     private WarboatsController theCtrl;
+
+    //images of the boats
     private ImageView cImg;
     private ImageView bImg;
     private ImageView dImg;
     private ImageView sImg;
     private ImageView pImg;
+
     private GridPane target;
     private ImageView source;
     private ImageView tempShipImage = new ImageView();
     private boolean vImage = false;
 
+    /**
+     * Initializes the sub controller and sets up the images of the respective
+     * boats
+     *
+     * @param theView The view to be changed
+     * @param theModel The model of the game
+     * @param theCtrl The main controller that is passed in
+     */
     public DragDropController(WarboatsView theView, WarboatsModel theModel,
                               WarboatsController theCtrl) {
         this.theModel = theModel;
@@ -97,6 +120,7 @@ public class DragDropController {
         pImg.setOnDragDropped(this::handleDragShips);
         pImg.setOnMousePressed(this::handleSetOnMouseClicked);
 
+        //event handler for drag events
         target.setOnDragOver(new EventHandler<DragEvent>() {
             public void handle(DragEvent event) {
                 //System.out.println("Event on Target: mouse drag over");
@@ -104,9 +128,13 @@ public class DragDropController {
                     //allow for moving
                     event.acceptTransferModes(TransferMode.MOVE);
                 }
+
+                //stops the event from further propogation once it is completed
                 event.consume();
             }
         });
+
+        //sets up remaining event handling operations for various actions
         target.setOnDragEntered(this::handleSetOnDragEntered);
         target.setOnDragDropped(this::handleDragShips);
         target.setOnDragExited(this::handleSetOnDragExited);
@@ -114,6 +142,11 @@ public class DragDropController {
 
     }
 
+    /**
+     * //TODO: FINISH THIS JAVADOC
+     *
+     * @param event
+     */
     public void targetSetMouseClicked(MouseEvent event) {
         try {
             if (event.getButton().equals(MouseButton.PRIMARY)) {
@@ -130,11 +163,20 @@ public class DragDropController {
         }
     }
 
+    /**
+     * Handler that sets the source based on what boat image was selected
+     *
+     * @param event
+     */
     public void handleSetOnMouseClicked(MouseEvent event) {
         ImageView source = (ImageView) event.getSource();
         this.source = source;
     }
 
+    /**
+     *
+     * @param event
+     */
     public void handleSetOnDragEntered(DragEvent event) {
         //System.out.println("Event on Target: mouse dragged");
         if (event.getGestureSource() != target && event.getDragboard().hasImage()) {
@@ -146,11 +188,23 @@ public class DragDropController {
         event.consume();
     }
 
+    /**
+     * Updates the transparency of the mouse once the ship has been dropped on
+     * the gridpane
+     *
+     * @param event a Mouse event (release)
+     */
     public void handleSetOnMouseReleased(MouseEvent event) {
         source.setMouseTransparent(false);
         System.out.println("Event on Source: mouse released");
     }
 
+    /**
+     * Handler that instantiates a dragboard so that images of boats can be
+     * dragged from the right pane.
+     *
+     * @param event Mouse event (click + move)
+     */
     public void handleSetOnDragDetected(MouseEvent event) {
         Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
         //source.startFullDrag();
@@ -165,8 +219,12 @@ public class DragDropController {
 
     }
 
+    /**
+     * Handler that checks for completion of the drag/drop gesture
+     *
+     * @param event DragEvent (release of mouse)
+     */
     public void handleSetOnDragDone(DragEvent event) {
-        //the drag and drop gesture has ended
         //if the data was successfully moved, clear it
         if (event.getTransferMode() == TransferMode.MOVE) {
             source.setVisible(false);
@@ -174,6 +232,10 @@ public class DragDropController {
         event.consume();
     }
 
+    /**
+     *
+     * @param event
+     */
     public void handleSetOnDragExited(DragEvent event) {
         System.out.println("Event on Target: mouse drag exited");
         source.setVisible(true);
@@ -182,6 +244,12 @@ public class DragDropController {
         event.consume();
     }
 
+    /**
+     * Main handler for dragging and dropping horizontal boats implementing
+     * logic to prevent wonky placements
+     *
+     * @param event DragEvent
+     */
     public void handleDragShips(DragEvent event) {
         Dragboard db = event.getDragboard();
 
@@ -212,12 +280,14 @@ public class DragDropController {
             if (cIndex + shipLengths[id - 1] - 1 > 10 || cIndex == 0 || rIndex == 0) {
                 throw new ClassCastException("SHIP CANT BE OFF BOARD");
             }
+
+            //correct placement
             else {
                 System.out.println("ID " + id);
 
                 ShipView ship = theView.getPlacedShips().get(id - 1);
 
-                //only support for horizontal placement, place ships handles vertical conversion
+                //add ship to the model and view (gridpane)
                 theModel.addShip(id, x, y, x + (shipLengths[id - 1] - 1), y);
                 System.out.println(theModel.getMyBoard());
                 this.assignShipToView(id);
@@ -239,6 +309,11 @@ public class DragDropController {
 
     }
 
+    /**
+     * Assigns the respective boat to the view Updates the GUI
+     *
+     * @param id ID of the ship to be placed
+     */
     public void assignShipToView(int id) {
         switch (id) {
             case 5:
@@ -251,6 +326,12 @@ public class DragDropController {
         //need to add further cases
     }
 
+    /**
+     * Places a ship once it has been dropped to be either horizontal or
+     * vertical and updates image of the boat if needed
+     *
+     * @param image
+     */
     public void placePlayerShip(ImageView image) {
         Integer[] shipLengths = {2, 3, 3, 4, 5};
         int id = Integer.parseInt(image.getId());
@@ -260,6 +341,7 @@ public class DragDropController {
         System.out.println(row);
         GridPane board = (GridPane) image.getParent();
 
+        //set up images of the ships to be either vertical or horizontal based on user input
         String orientation = vImage ? "H" : "V";
         String boatFile = "";
 
@@ -281,15 +363,19 @@ public class DragDropController {
                 break;
         }
 
+        //assemble the filename of the respective boat png files
         String filename = String.format("file:ships/%s%s.png", boatFile,
                                         orientation);
 
         Image img;
-        //if image is vertical then we want to convert to horiz
+        //if image is vertical, convert it to a horizontal orientation
         if (vImage) {
             try {
+                //updates the coordinates of the ship being rotated
                 theModel.updateShip(id, col, row,
                                     col + (shipLengths[id - 1] - 1), row);
+
+                //updates the orientation of the image
                 img = new Image(filename);
                 vImage = false;
                 image.setImage(img);
@@ -298,15 +384,20 @@ public class DragDropController {
             } catch (Exception e) {
                 System.out.println(e);
                 System.out.println("unable to horiz");
+
+                //reverts to the old position
                 theModel.updateShip(id, col, row, col,
                                     row + (shipLengths[id - 1] - 1));
             }
         }
-        //if image is horiz then we want to convert to vertical
+        //if image is horizontal, convert it to a vertical orientation
         else {
             try {
+                //updates the coordinates of the ship being rotated
                 theModel.updateShip(id, col, row, col,
                                     row + (shipLengths[id - 1] - 1));
+
+                //updates the orientation of the image
                 img = new Image(filename);
                 vImage = true;
                 image.setImage(img);
@@ -315,6 +406,8 @@ public class DragDropController {
             } catch (Exception e) {
                 System.out.println(e);
                 System.out.println("unable to vert");
+
+                //reverts to the old position
                 theModel.updateShip(id, col, row,
                                     col + (shipLengths[id - 1] - 1), row);
             }
@@ -322,6 +415,11 @@ public class DragDropController {
 
     }
 
+    /**
+     * Getter for the target (opponent's board)
+     *
+     * @return a GridPane representing the opponent's board
+     */
     public GridPane getTarget() {
         return target;
     }
