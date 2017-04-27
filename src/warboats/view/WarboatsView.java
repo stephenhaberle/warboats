@@ -125,11 +125,14 @@ public class WarboatsView {
         shipLabel.setAlignment(Pos.CENTER);
 
         buttonPane = new HBox();
+        buttonPane.getStyleClass().add("botHBox");
 
         beginGame = new ToggleButton("Begin Game");
+        beginGame.getStyleClass().add("startButton");
         buttonPane.getChildren().add(beginGame);
 
         resetGame = new Button("Reset Ships");
+        resetGame.getStyleClass().add("resetButton");
         buttonPane.getChildren().add(resetGame);
 
         root.setBottom(buttonPane);
