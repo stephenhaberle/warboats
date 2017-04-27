@@ -192,7 +192,6 @@ public class GameProgressionController {
                 else if (!WarboatsModel.isPlayerTurn()) {
                     inTurn = false;
                 }
-
                 Thread.sleep(100);
             }
 

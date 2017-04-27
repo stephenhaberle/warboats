@@ -16,9 +16,11 @@
 package warboats.model;
 
 import java.util.ArrayList;
+import javafx.application.Platform;
 import warboats.boats.Boat;
 import warboats.network.Coordinates;
 import warboats.utility.SoundUtility;
+import warboats.utility.ViewUpdateUtility;
 
 /**
  * Creates a 2D array representing all of the tiles on the board and introduces
@@ -90,6 +92,10 @@ public class Board {
             //CHANGE MARKER TO HIT COLOR
             tile.setConsoleRepresentation("H");
             Boat boat = tile.getBoat();
+
+            Platform.runLater(() -> {
+                ViewUpdateUtility.updatePlayerBoard(x, y);
+            });
 
             //if the entire boat is destroyed, check to see if it was the last and if the game is over
             if (boat.checkSunk()) {

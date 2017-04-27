@@ -8,13 +8,18 @@
 *
 * Project: warboats
 * Package: warboats.utility
-* File: ValueUpdateUtility
+* File: ViewUpdateUtility
 * Description: Updates the values stored in the statistical part of the GUI
 *
 * ****************************************
  */
 package warboats.utility;
 
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import warboats.model.WarboatsModel;
 import warboats.view.WarboatsView;
 
@@ -23,7 +28,16 @@ import warboats.view.WarboatsView;
  *
  * @author clo006
  */
-public final class ValueUpdateUtility {
+public final class ViewUpdateUtility {
+
+    public static WarboatsModel curModel;
+    public static WarboatsView curView;
+
+    public static void updateModelView(WarboatsModel theModel,
+                                       WarboatsView theView) {
+        curModel = theModel;
+        curView = theView;
+    }
 
     /**
      * static method that can be called to update the values in the textboxes
@@ -48,5 +62,27 @@ public final class ValueUpdateUtility {
         theView.getShipRemainingLabel().textProperty().setValue(String.format(
                 "%d", temp));
 
+    }
+
+    public static void updatePlayerBoard(int x, int y) {
+        /*
+        Node result = null;
+        ObservableList<Node> childrens = curView.getPlayerBoard().getChildren();
+
+        for (Node node : childrens) {
+            if (curView.getPlayerBoard().getRowIndex(node) == y && curView.getPlayerBoard().getColumnIndex(
+                    node) == x) {
+                result = node;
+                break;
+            }
+        }
+         */
+
+        Image hit = new Image("file:ships/hit.png");
+        ImageView hitMarker = new ImageView();
+        hitMarker.setImage(hit);
+        WarboatsView.getPlayerBoard().add(hitMarker, x, y);
+        GridPane.setHalignment(hitMarker, HPos.CENTER);
+        GridPane.setValignment(hitMarker, VPos.CENTER);
     }
 }

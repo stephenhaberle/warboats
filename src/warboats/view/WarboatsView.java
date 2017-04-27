@@ -52,8 +52,8 @@ public class WarboatsView {
     private VBox playerPane;
     private VBox opPane;
     private HBox buttonPane;
-    private GridPane playerBoard;
-    private GridPane opponentBoard;
+    private static GridPane playerBoard;
+    private static GridPane opponentBoard;
     private VBox shipPane;
     private Label shipRemainingLabel;
     private Label hitsLabel;
@@ -365,7 +365,7 @@ public class WarboatsView {
      * @return GridPane object representing the visual aspect of the player's
      * board
      */
-    public GridPane getPlayerBoard() {
+    public static GridPane getPlayerBoard() {
         return playerBoard;
     }
 
@@ -375,7 +375,7 @@ public class WarboatsView {
      * @return GridPane object representing the visual aspect of the opponent's
      * board
      */
-    public GridPane getOpponentBoard() {
+    public static GridPane getOpponentBoard() {
         return opponentBoard;
     }
 

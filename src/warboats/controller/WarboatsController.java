@@ -23,7 +23,7 @@ import javafx.scene.layout.GridPane;
 import warboats.WarboatsGUI;
 import warboats.model.WarboatsModel;
 import warboats.utility.SoundUtility;
-import warboats.utility.ValueUpdateUtility;
+import warboats.utility.ViewUpdateUtility;
 import warboats.view.WarboatsView;
 
 /**
@@ -56,6 +56,9 @@ public class WarboatsController {
         this.theModel = theModel;
         this.theView = theView;
 
+        //assign view and model to utility
+        ViewUpdateUtility.updateModelView(this.theModel, this.theView);
+
         //setup sub-controllers
         this.dragCtrl = new DragDropController(this.theView, this.theModel, this);
         this.shotCtrl = new SendShotController(this.theView, this.theModel, this);
@@ -87,8 +90,8 @@ public class WarboatsController {
             while (true) {
                 Platform.runLater(new Runnable() {
                     public void run() {
-                        ValueUpdateUtility.updateStatsLabels(theModel,
-                                                             theView);
+                        ViewUpdateUtility.updateStatsLabels(theModel,
+                                                            theView);
                     }
                 });
 

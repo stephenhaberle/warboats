@@ -24,7 +24,7 @@ import warboats.network.WarboatsClient;
 import warboats.network.WarboatsNetwork;
 import warboats.network.WarboatsServer;
 import warboats.utility.SoundUtility;
-import warboats.utility.ValueUpdateUtility;
+import warboats.utility.ViewUpdateUtility;
 import warboats.view.WarboatsView;
 
 /**
@@ -95,7 +95,7 @@ public class WarboatsGUI extends Application {
         //theModel.getConsolePlacements();
         theView = new WarboatsView(this.theModel);
         theCtrl = new WarboatsController(theModel, theView, this);
-        ValueUpdateUtility.updateStatsLabels(theModel, theView);
+        ViewUpdateUtility.updateStatsLabels(theModel, theView);
         start(theStage);
     }
 
