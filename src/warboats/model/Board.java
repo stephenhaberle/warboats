@@ -18,6 +18,7 @@ package warboats.model;
 import java.util.ArrayList;
 import warboats.boats.Boat;
 import warboats.network.Coordinates;
+import warboats.utility.SoundUtility;
 
 /**
  *
@@ -105,12 +106,14 @@ public class Board {
 
         if (isHit) {
             System.out.println("HIT");
+            SoundUtility.hit();
             tile.setHit(true);
             this.numHits++;
             tile.setConsoleRepresentation("H");
         }
         else {
             System.out.println("MISS");
+            SoundUtility.miss();
             this.numMisses++;
             tile.setConsoleRepresentation("M");
         }

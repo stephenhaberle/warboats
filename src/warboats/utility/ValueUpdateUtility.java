@@ -12,7 +12,7 @@ import warboats.view.WarboatsView;
  *
  * @author clo006
  */
-public class ValueUpdateUtility {
+public final class ValueUpdateUtility {
 
     public static void updateStatsLabels(WarboatsModel theModel,
                                          WarboatsView theView) {

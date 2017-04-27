@@ -31,6 +31,7 @@ import warboats.network.Coordinates;
 import warboats.network.Rematch;
 import warboats.network.WarboatsClient;
 import warboats.network.WarboatsServer;
+import warboats.utility.SoundUtility;
 
 /**
  *
@@ -86,16 +87,13 @@ public class WarboatsModel {
      * @param x x coordinate (number axis)
      * @param y y coordinate (letter axis)
      */
-    public void sendPlayerMove(int x, int y) throws InterruptedException, Exception {
+    public void sendPlayerMove(int x, int y) throws Exception {
 
-        File soundFile = new File("sounds/shotFired.wav");
-        AudioInputStream audioIn = AudioSystem.getAudioInputStream(
-                soundFile);
-        Clip clip = AudioSystem.getClip();
-        clip.open(audioIn);
-        clip.start();
-        audioIn.close();
-
+        //Taken out until I can figure out how to queue sound clips -Christian
+        //Perhaps we should add a suspense factor to getting a hit or miss?
+        //Even better: a firing animation??
+        //SoundUtility.shotFired(); 
+        
         if (playerReady) {
             Coordinates sendCords = new Coordinates(x, y);
 

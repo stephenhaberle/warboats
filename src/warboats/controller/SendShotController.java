@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import warboats.model.Marker;
 import warboats.model.WarboatsModel;
+import warboats.utility.SoundUtility;
 import warboats.view.MarkerNode;
 import warboats.view.WarboatsView;
 
@@ -60,6 +61,7 @@ public class SendShotController {
                             }
                         }
                         else if (!WarboatsModel.isPlayerTurn() && WarboatsModel.isOpponentReady()) {
+                            SoundUtility.waitTurn();
                             Alert a = new Alert(AlertType.INFORMATION);
                             a.setTitle("Waiting for opponent");
                             a.setHeaderText("WAIT YOUR TURN");
@@ -67,6 +69,7 @@ public class SendShotController {
                             a.showAndWait();
                         }
                         else if (!WarboatsModel.isOpponentReady()) {
+                            SoundUtility.playerNotReady(); 
                             System.out.println("OPPONENT ISNT READY");
                             Alert a = new Alert(AlertType.INFORMATION);
 

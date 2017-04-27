@@ -32,6 +32,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import warboats.WarboatsGUI;
 import warboats.model.WarboatsModel;
+import warboats.utility.SoundUtility;
 import warboats.utility.ValueUpdateUtility;
 import warboats.view.WarboatsView;
 
@@ -66,43 +67,8 @@ public class WarboatsController {
         updateLabelsThread.setDaemon(true);
         updateLabelsThread.start();
 
-        this.theView.getLogo().setOnMouseClicked(
-                new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                AudioInputStream audioIn = null;
-                try {
-                    File soundFile = new File("sounds/nobody.wav");
-                    audioIn = AudioSystem.getAudioInputStream(
-                            soundFile);
-                    Clip clip = AudioSystem.getClip();
-                    clip.open(audioIn);
-                    clip.start();
-                } catch (UnsupportedAudioFileException ex) {
-                    Logger.getLogger(WarboatsController.class.getName()).log(
-                            Level.SEVERE,
-                            null,
-                            ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(WarboatsController.class.getName()).log(
-                            Level.SEVERE,
-                            null,
-                            ex);
-                } catch (LineUnavailableException ex) {
-                    Logger.getLogger(WarboatsController.class.getName()).log(
-                            Level.SEVERE,
-                            null,
-                            ex);
-                } finally {
-                    try {
-                        audioIn.close();
-                    } catch (IOException ex) {
-                        Logger.getLogger(WarboatsController.class.getName()).log(
-                                Level.SEVERE,
-                                null,
-                                ex);
-                    }
-                }
-            }
+        this.theView.getLogo().setOnMouseClicked((MouseEvent event) -> {
+            SoundUtility.logoClick();
         });
     }
 
