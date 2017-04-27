@@ -9,13 +9,14 @@
 * Project: warboats
 * Package: warboats.network
 * File: GameOver
-* Description:
+* Description: Simple boolean message to send between the server and client
 *
 * ****************************************
  */
 package warboats.network;
 
 /**
+ * Simple boolean message to signal that the game is over
  *
  * @author clo006
  */
