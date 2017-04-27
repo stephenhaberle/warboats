@@ -134,7 +134,7 @@ public class Boat {
      *
      * @return boolean of whether or not the boat has been sunk
      */
-    public boolean checkSunk() throws InterruptedException {
+    public boolean checkSunk() {
         int hitCount = 0;
         for (Marker temp : positionTiles) {
             if (temp.getConsoleRepresentation().equals("H")) {

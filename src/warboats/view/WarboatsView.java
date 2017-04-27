@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -45,13 +46,12 @@ public class WarboatsView {
     private WarboatsModel theModel;
     private VBox topBox;
     private MenuBar menuBar;
-    private Menu fileItem;
-    private Menu editItem;
     private Menu helpItem;
     private HBox boardPane;
     private VBox statsPane;
     private VBox playerPane;
     private VBox opPane;
+    private HBox buttonPane;
     private GridPane playerBoard;
     private GridPane opponentBoard;
     private VBox shipPane;
@@ -59,7 +59,8 @@ public class WarboatsView {
     private Label hitsLabel;
     private Label missesLabel;
     private ArrayList<ShipView> placedShips;
-    private Button beginGame;
+    private ToggleButton beginGame;
+    private Button resetGame;
     private ShipView carrierView;
     private ShipView bshipView;
     private ShipView destroyView;
@@ -121,10 +122,16 @@ public class WarboatsView {
         shipPane.setPadding(new Insets(10, 10, 10, 10));
         shipLabel.setAlignment(Pos.CENTER);
 
-        beginGame = new Button("Begin Game");
-        root.setBottom(beginGame);
-        BorderPane.setMargin(beginGame, new Insets(10, 10, 30, 60));
-        //shipPane.getChildren().add(beginGame);
+        buttonPane = new HBox();
+
+        beginGame = new ToggleButton("Begin Game");
+        buttonPane.getChildren().add(beginGame);
+
+        resetGame = new Button("Reset Ships");
+        buttonPane.getChildren().add(resetGame);
+
+        root.setBottom(buttonPane);
+        BorderPane.setMargin(buttonPane, new Insets(10, 10, 10, 10));
 
         //#####################
         //### drag and drop ###
@@ -307,10 +314,8 @@ public class WarboatsView {
         topBox = new VBox(10);
 
         menuBar = new MenuBar();
-        fileItem = new Menu("File");
-        editItem = new Menu("Edit");
         helpItem = new Menu("Help");
-        menuBar.getMenus().addAll(fileItem, editItem, helpItem);
+        menuBar.getMenus().addAll(helpItem);
         topBox.getChildren().add(menuBar);
 
         //Adds logo under menubar
@@ -350,7 +355,7 @@ public class WarboatsView {
      *
      * @return Button object that allows the game to be started
      */
-    public Button getBeginGame() {
+    public ToggleButton getBeginGame() {
         return beginGame;
     }
 
@@ -468,6 +473,10 @@ public class WarboatsView {
      */
     public ImageView getLogo() {
         return logo;
+    }
+
+    public Button getResetGame() {
+        return resetGame;
     }
 
 }

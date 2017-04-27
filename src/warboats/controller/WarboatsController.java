@@ -68,6 +68,10 @@ public class WarboatsController {
         updateLabelsThread.setDaemon(true);
         updateLabelsThread.start();
 
+        this.theView.getResetGame().setOnMouseClicked((MouseEvent event) -> {
+            this.theMain.cleanup();
+        });
+
         this.theView.getLogo().setOnMouseClicked((MouseEvent event) -> {
             SoundUtility.logoClick();
         });

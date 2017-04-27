@@ -24,6 +24,7 @@ import warboats.network.WarboatsClient;
 import warboats.network.WarboatsNetwork;
 import warboats.network.WarboatsServer;
 import warboats.utility.SoundUtility;
+import warboats.utility.ValueUpdateUtility;
 import warboats.view.WarboatsView;
 
 /**
@@ -48,6 +49,7 @@ public class WarboatsGUI extends Application {
     public void init() throws Exception {
         super.init();
         WarboatsNetwork.buildNetwork();
+        SoundUtility.startup();
         theModel = new WarboatsModel(WarboatsNetwork.getActiveClient(),
                                      WarboatsNetwork.getActiveServer());
         //only for when we want preset placements
@@ -84,18 +86,17 @@ public class WarboatsGUI extends Application {
 
         //scene.getStylesheets().add("file:src/css/win7glass.css");
         primaryStage.show();
-
-        SoundUtility.startup();
     }
 
-    void cleanup() {
+    public void cleanup() {
         theModel = new WarboatsModel(WarboatsNetwork.getActiveClient(),
                                      WarboatsNetwork.getActiveServer());
         //only for when we want preset placements
         //theModel.getConsolePlacements();
         theView = new WarboatsView(this.theModel);
         theCtrl = new WarboatsController(theModel, theView, this);
-        SoundUtility.restart();
+        ValueUpdateUtility.updateStatsLabels(theModel, theView);
+        start(theStage);
     }
 
     public void restart() {
@@ -103,8 +104,8 @@ public class WarboatsGUI extends Application {
             if (restart) {
                 System.out.println("RESTARTING");
                 restart = false;
+                SoundUtility.restart();
                 this.cleanup();
-                start(theStage);
             }
             else {
                 System.out.println("STOPPING");

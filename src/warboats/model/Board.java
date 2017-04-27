@@ -99,7 +99,6 @@ public class Board {
             return true;
         }
         else {
-            //CHANGE MARKER TO MISS COLOR
             return false;
         }
     }

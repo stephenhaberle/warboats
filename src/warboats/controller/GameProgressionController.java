@@ -59,6 +59,10 @@ public class GameProgressionController {
                     dragCtrl.getTarget().setMouseTransparent(true);
                     theModel.setPlayerReady(true);
                     theModel.signalBeginGame();
+                    theView.getResetGame().setMouseTransparent(true);
+                    theView.getResetGame().setVisible(false);
+
+                    theView.getBeginGame().setMouseTransparent(true);
 
                     Thread notifyBegin = new Thread(new notifyBeginGame());
                     notifyBegin.setDaemon(true);
@@ -225,23 +229,25 @@ public class GameProgressionController {
                     Runnable noRematch = new Runnable() {
                         @Override
                         public void run() {
-                            Alert exitAlert = new Alert(Alert.AlertType.INFORMATION);
+                            Alert exitAlert = new Alert(
+                                    Alert.AlertType.INFORMATION);
                             exitAlert.setTitle("Exit");
                             exitAlert.setHeaderText("Thanks for playing!");
-                            exitAlert.setContentText("Opponent has denied rematch");
+                            exitAlert.setContentText(
+                                    "Opponent has denied rematch");
                             exitAlert.showAndWait();
-                        
+
                             synchronized (this) {
                                 this.notify();
                             }
                         }
                     };
-                    
-                    synchronized(noRematch) {
+
+                    synchronized (noRematch) {
                         Platform.runLater(noRematch);
                         noRematch.wait();
-                        WarboatsGUI.setRestart(false); 
-                        break; 
+                        WarboatsGUI.setRestart(false);
+                        break;
                     }
                 }
                 else if (WarboatsModel.isRematch() && (WarboatsModel.isOpponentRematch() == null) && !alreadyShown) {
