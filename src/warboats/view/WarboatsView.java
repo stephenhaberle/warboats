@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -45,21 +46,21 @@ public class WarboatsView {
     private WarboatsModel theModel;
     private VBox topBox;
     private MenuBar menuBar;
-    private Menu fileItem;
-    private Menu editItem;
     private Menu helpItem;
     private HBox boardPane;
     private VBox statsPane;
     private VBox playerPane;
     private VBox opPane;
-    private GridPane playerBoard;
-    private GridPane opponentBoard;
+    private HBox buttonPane;
+    private static GridPane playerBoard;
+    private static GridPane opponentBoard;
     private VBox shipPane;
     private Label shipRemainingLabel;
     private Label hitsLabel;
     private Label missesLabel;
     private ArrayList<ShipView> placedShips;
-    private Button beginGame;
+    private ToggleButton beginGame;
+    private Button resetGame;
     private ShipView carrierView;
     private ShipView bshipView;
     private ShipView destroyView;
@@ -117,13 +118,22 @@ public class WarboatsView {
         shipPane.getChildren().add(missesLabel);
 
         Label shipLabel = new Label("Ships");
+        shipLabel.setPadding(new Insets(30, 0, 15, 0));
         shipLabel.setFont(new Font("Ariel", 32));
         shipPane.getChildren().add(shipLabel);
         shipPane.setPadding(new Insets(10, 10, 10, 10));
         shipLabel.setAlignment(Pos.CENTER);
 
-        beginGame = new Button("Begin Game");
-        shipPane.getChildren().add(beginGame);
+        buttonPane = new HBox();
+
+        beginGame = new ToggleButton("Begin Game");
+        buttonPane.getChildren().add(beginGame);
+
+        resetGame = new Button("Reset Ships");
+        buttonPane.getChildren().add(resetGame);
+
+        root.setBottom(buttonPane);
+        BorderPane.setMargin(buttonPane, new Insets(10, 10, 10, 10));
 
         //#####################
         //### drag and drop ###
@@ -306,10 +316,8 @@ public class WarboatsView {
         topBox = new VBox(10);
 
         menuBar = new MenuBar();
-        fileItem = new Menu("File");
-        editItem = new Menu("Edit");
         helpItem = new Menu("Help");
-        menuBar.getMenus().addAll(fileItem, editItem, helpItem);
+        menuBar.getMenus().addAll(helpItem);
         topBox.getChildren().add(menuBar);
 
         //Adds logo under menubar
@@ -349,7 +357,7 @@ public class WarboatsView {
      *
      * @return Button object that allows the game to be started
      */
-    public Button getBeginGame() {
+    public ToggleButton getBeginGame() {
         return beginGame;
     }
 
@@ -359,7 +367,7 @@ public class WarboatsView {
      * @return GridPane object representing the visual aspect of the player's
      * board
      */
-    public GridPane getPlayerBoard() {
+    public static GridPane getPlayerBoard() {
         return playerBoard;
     }
 
@@ -369,7 +377,7 @@ public class WarboatsView {
      * @return GridPane object representing the visual aspect of the opponent's
      * board
      */
-    public GridPane getOpponentBoard() {
+    public static GridPane getOpponentBoard() {
         return opponentBoard;
     }
 
@@ -467,6 +475,10 @@ public class WarboatsView {
      */
     public ImageView getLogo() {
         return logo;
+    }
+
+    public Button getResetGame() {
+        return resetGame;
     }
 
 }

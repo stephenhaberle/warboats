@@ -23,6 +23,8 @@ import warboats.model.WarboatsModel;
 import warboats.network.WarboatsClient;
 import warboats.network.WarboatsNetwork;
 import warboats.network.WarboatsServer;
+import warboats.utility.SoundUtility;
+import warboats.utility.ViewUpdateUtility;
 import warboats.view.WarboatsView;
 
 /**
@@ -47,6 +49,7 @@ public class WarboatsGUI extends Application {
     public void init() throws Exception {
         super.init();
         WarboatsNetwork.buildNetwork();
+        SoundUtility.startup();
         theModel = new WarboatsModel(WarboatsNetwork.getActiveClient(),
                                      WarboatsNetwork.getActiveServer());
         //only for when we want preset placements
@@ -56,9 +59,12 @@ public class WarboatsGUI extends Application {
     }
 
     @Override
-    public void stop() {
+    public void stop() throws InterruptedException {
         //Not elegant and if there's time I want to add shutdown hooks to threads -Christian
         //However, it does manage to effectively kill the program.
+        SoundUtility.shutdown();
+        //wait for sound to finish
+        Thread.sleep(1500);
         System.exit(0);
     }
 
@@ -83,13 +89,15 @@ public class WarboatsGUI extends Application {
         primaryStage.show();
     }
 
-    void cleanup() {
+    public void cleanup() {
         theModel = new WarboatsModel(WarboatsNetwork.getActiveClient(),
                                      WarboatsNetwork.getActiveServer());
         //only for when we want preset placements
         //theModel.getConsolePlacements();
         theView = new WarboatsView(this.theModel);
         theCtrl = new WarboatsController(theModel, theView, this);
+        ViewUpdateUtility.updateStatsLabels(theModel, theView);
+        start(theStage);
     }
 
     public void restart() {
@@ -97,8 +105,8 @@ public class WarboatsGUI extends Application {
             if (restart) {
                 System.out.println("RESTARTING");
                 restart = false;
+                SoundUtility.restart();
                 this.cleanup();
-                start(theStage);
             }
             else {
                 System.out.println("STOPPING");

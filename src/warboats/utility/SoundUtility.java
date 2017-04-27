@@ -20,56 +20,71 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * @author clo006
  */
 public final class SoundUtility {
-    
-    private static File soundFile; 
-    private static AudioInputStream audioIn; 
-    private static Clip clip; 
-    
-    public static void shotFired() {
-        soundFile = new File("sounds/shotFired.wav");
-        playAudio(); 
+
+    private static File soundFile;
+    private static AudioInputStream audioIn;
+    private static Clip clip;
+
+    public static void startup() {
+        soundFile = new File("sounds/startup.wav");
+        playAudio();
     }
-    
+
+    public static void shutdown() {
+        soundFile = new File("sounds/shutdown.wav");
+        playAudio();
+    }
+
+    public static void restart() {
+        soundFile = new File("sounds/restart.wav");
+        playAudio();
+    }
+
     public static void waitTurn() {
         soundFile = new File("sounds/waitTurn.wav");
-        playAudio(); 
+        playAudio();
     }
-    
+
     public static void logoClick() {
-        soundFile = new File("sounds/logoClick.wav"); 
-        playAudio(); 
+        soundFile = new File("sounds/logoClick.wav");
+        playAudio();
     }
-    
+
     public static void win() {
-        soundFile = new File("sounds/win.wav"); 
-        playAudio(); 
+        soundFile = new File("sounds/win.wav");
+        playAudio();
     }
-    
+
     public static void loss() {
-        soundFile = new File("sounds/loss.wav"); 
-        playAudio(); 
+        soundFile = new File("sounds/loss.wav");
+        playAudio();
     }
-    
+
     public static void hit() {
-        soundFile = new File("sounds/hit.wav"); 
-        playAudio(); 
+        soundFile = new File("sounds/hit.wav");
+        playAudio();
     }
-    
+
     public static void miss() {
-        soundFile = new File("sounds/miss.wav"); 
-        playAudio(); 
+        soundFile = new File("sounds/miss.wav");
+        playAudio();
     }
-    
+
+    public static void sunk() {
+        soundFile = new File("sounds/sunk.wav");
+        playAudio();
+    }
+
     public static void playerNotReady() {
-        soundFile = new File("sounds/playerNotReady.wav"); 
-        playAudio(); 
+        soundFile = new File("sounds/playerNotReady.wav");
+        playAudio();
     }
-    
+
     public static void beginGame() {
-        soundFile = new File("sounds/beginGame.wav"); 
-        playAudio(); 
+        soundFile = new File("sounds/beginGame.wav");
+        playAudio();
     }
-    
+
     private static void playAudio() {
         try {
             audioIn = AudioSystem.getAudioInputStream(
@@ -79,12 +94,15 @@ public final class SoundUtility {
             clip.start();
             audioIn.close();
         } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(SoundUtility.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SoundUtility.class.getName()).log(Level.SEVERE,
+                                                               null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(SoundUtility.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SoundUtility.class.getName()).log(Level.SEVERE,
+                                                               null, ex);
         } catch (LineUnavailableException ex) {
-            Logger.getLogger(SoundUtility.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SoundUtility.class.getName()).log(Level.SEVERE,
+                                                               null, ex);
         }
     }
-    
+
 }

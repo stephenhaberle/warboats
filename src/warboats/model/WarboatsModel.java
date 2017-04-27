@@ -15,11 +15,7 @@
  */
 package warboats.model;
 
-import java.io.File;
 import java.util.ArrayList;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import warboats.boats.Battleship;
 import warboats.boats.Boat;
 import warboats.boats.Carrier;
@@ -31,7 +27,6 @@ import warboats.network.Coordinates;
 import warboats.network.Rematch;
 import warboats.network.WarboatsClient;
 import warboats.network.WarboatsServer;
-import warboats.utility.SoundUtility;
 
 /**
  * The main model that creates the user and opponent boards, handles adding and
@@ -78,6 +73,8 @@ public class WarboatsModel {
         curClient = theClient;
         curServer = theServer;
 
+        shipsRemaining = 0;
+
         myBoard = new Board();
         opponentBoard = new Board();
         navy = new ArrayList<>();
@@ -104,8 +101,7 @@ public class WarboatsModel {
         //Taken out until I can figure out how to queue sound clips -Christian
         //Perhaps we should add a suspense factor to getting a hit or miss?
         //Even better: a firing animation??
-        //SoundUtility.shotFired(); 
-        
+        //SoundUtility.shotFired();
         if (playerReady) {
             Coordinates sendCords = new Coordinates(x, y);
 

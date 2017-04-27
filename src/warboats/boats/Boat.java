@@ -19,6 +19,7 @@ import static java.lang.Math.abs;
 import java.util.ArrayList;
 import warboats.model.Board;
 import warboats.model.Marker;
+import warboats.utility.SoundUtility;
 
 /**
  * Generic boat class containing methods specific to all boats
@@ -143,6 +144,7 @@ public class Boat {
 
         if (hitCount == this.size) {
             this.alive = false;
+            SoundUtility.sunk();
             return true;
         }
         else {
