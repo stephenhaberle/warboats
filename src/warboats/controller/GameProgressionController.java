@@ -17,6 +17,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import warboats.WarboatsGUI;
 import warboats.model.WarboatsModel;
+import warboats.utility.SoundUtility;
 import warboats.view.WarboatsView;
 
 /**
@@ -128,6 +129,7 @@ public class GameProgressionController {
                 if (WarboatsModel.isLost()) {
                     Runnable loser = new Runnable() {
                         public void run() {
+                            SoundUtility.loss();
                             Alert a = new Alert(Alert.AlertType.INFORMATION);
                             a.setTitle("LOSER");
                             a.setHeaderText("You've been outplayed, fool");
@@ -149,6 +151,7 @@ public class GameProgressionController {
                 else if (WarboatsModel.isWon()) {
                     Runnable winner = new Runnable() {
                         public void run() {
+                            SoundUtility.win();
                             Alert a = new Alert(Alert.AlertType.INFORMATION);
                             a.setTitle("WINNER");
                             a.setHeaderText("You have won the battle!");
@@ -219,14 +222,27 @@ public class GameProgressionController {
                 }
                 else if (WarboatsModel.isRematch() && WarboatsModel.isOpponentRematch() != null && !WarboatsModel.isOpponentRematch()) {
                     System.out.println("in denied situation");
-                    Platform.runLater(() -> {
-                        Alert exitAlert = new Alert(Alert.AlertType.INFORMATION);
-                        exitAlert.setTitle("Exit");
-                        exitAlert.setHeaderText("Thanks for playing!");
-                        exitAlert.setContentText("Opponent has denied rematch");
-                        exitAlert.showAndWait();
-                    });
-                    break;
+                    Runnable noRematch = new Runnable() {
+                        @Override
+                        public void run() {
+                            Alert exitAlert = new Alert(Alert.AlertType.INFORMATION);
+                            exitAlert.setTitle("Exit");
+                            exitAlert.setHeaderText("Thanks for playing!");
+                            exitAlert.setContentText("Opponent has denied rematch");
+                            exitAlert.showAndWait();
+                        
+                            synchronized (this) {
+                                this.notify();
+                            }
+                        }
+                    };
+                    
+                    synchronized(noRematch) {
+                        Platform.runLater(noRematch);
+                        noRematch.wait();
+                        WarboatsGUI.setRestart(false); 
+                        break; 
+                    }
                 }
                 else if (WarboatsModel.isRematch() && (WarboatsModel.isOpponentRematch() == null) && !alreadyShown) {
                     System.out.println("IN NULL SITUATION");
@@ -280,6 +296,7 @@ public class GameProgressionController {
                 if (WarboatsModel.isOpponentReady()) {
                     Platform.runLater(new Runnable() {
                         public void run() {
+                            SoundUtility.beginGame();
                             Alert a = new Alert(Alert.AlertType.INFORMATION);
                             a.setTitle("Begin");
                             a.setHeaderText("Opponent has confirmed fleet");

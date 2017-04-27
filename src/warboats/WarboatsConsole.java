@@ -20,6 +20,9 @@ import warboats.network.WarboatsClient;
 import warboats.network.WarboatsServer;
 
 /**
+ * Main console class that sets up a server between self and dummy computer
+ * Tests the basic functionality of the game (taking shots, win/loss, server,
+ * etc...)
  *
  * @author clo006
  */
@@ -30,15 +33,17 @@ public class WarboatsConsole {
     private static WarboatsModel theModel;
 
     /**
-     * @param args the command line arguments
+     * @param args the command line arguments. Does nothing
+     * @throws java.lang.Exception if there is an issue with connecting the
+     * client to the server
      */
     public static void main(String[] args) throws Exception {
-        try {
+        try { //checks to see if there is a server already running and tries to connect.
             System.out.println("Checking if server is online");
             activeClient = new WarboatsClient();
             activeClient.run();
 
-        } catch (Exception e) {
+        } catch (Exception e) { // creates a new server
             System.out.println(
                     "Connection failed. No existing server. Building server.");
             activeServer = new WarboatsServer();
@@ -47,8 +52,7 @@ public class WarboatsConsole {
 
         }
 
-        //does not begin playing until client connected, there may be a more
-        //elegant way to accomplish this
+        //does not begin playing until client connected
         if (activeServer != null) {
             while (activeServer.server.getConnections().length == 0) {
                 Thread.sleep(50);
@@ -73,7 +77,7 @@ public class WarboatsConsole {
         Integer[] xMoves = {2, 3, 4, 5, 6, 2, 3, 4, 5, 3, 3, 3, 8, 8, 8, 9, 9};
         Integer[] yMoves = {1, 1, 1, 1, 1, 3, 3, 3, 3, 5, 6, 7, 5, 6, 7, 9, 10};
 
-        while (true) {
+        while (true) {//tests whether one player can win and the opther can lose
             try {
                 if (theModel.isLost()) {
                     throw new Exception("YOU LOSE, NO MORE TURNS");
@@ -81,7 +85,7 @@ public class WarboatsConsole {
                 else if (theModel.isWon()) {
                     throw new Exception("YOU WIN, NO MORE TURNS");
                 }
-                else if (WarboatsModel.isPlayerTurn()) {
+                else if (WarboatsModel.isPlayerTurn()) {//advances the game if nobody has won and it is players turn
                     int x = xMoves[xCounter];
                     int y = yMoves[yCounter];
                     theModel.sendPlayerMove(x, y);
@@ -89,7 +93,7 @@ public class WarboatsConsole {
                     xCounter++;
                     yCounter++;
                 }
-                else {
+                else { // wait for opponent to complete move
                     Thread.sleep(100);
                 }
 
@@ -98,7 +102,7 @@ public class WarboatsConsole {
                     break;
                 }
                  */
-            } catch (Exception e) {
+            } catch (Exception e) { // else the game must be over
                 System.out.println("GAME OVER");
                 System.out.println(e);
                 break;
@@ -111,6 +115,11 @@ public class WarboatsConsole {
          */
     }
 
+    /**
+     * Getter for the model of the console game
+     *
+     * @return a WarboatsModel object
+     */
     public static WarboatsModel getTheModel() {
         return theModel;
     }

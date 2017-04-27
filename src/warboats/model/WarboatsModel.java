@@ -31,17 +31,19 @@ import warboats.network.Coordinates;
 import warboats.network.Rematch;
 import warboats.network.WarboatsClient;
 import warboats.network.WarboatsServer;
+import warboats.utility.SoundUtility;
 
 /**
+ * The main model that creates the user and opponent boards, handles adding and
+ * updating ship placement within the backend, and allows for shots to be sent
+ * to the opponent
  *
  * @author clo006
  */
 public class WarboatsModel {
 
-    //Board with all of player's ships on it along with necessary hit indicators
-    private static Board myBoard;
-    //Board keeping track of shots taken at opponent's board (hits/misses)
-    private static Board opponentBoard;
+    private static Board myBoard;//Board with all of player's ships on it along with necessary hit indicators
+    private static Board opponentBoard; //Board keeping track of shots taken at opponent's board (hits/misses)
 
     private WarboatsClient curClient;
     private WarboatsServer curServer;
@@ -49,11 +51,14 @@ public class WarboatsModel {
 
     //ArrayList of all ships placed on myBoard
     private static ArrayList<Boat> navy;
+
+    //the boat types
     private Carrier carrier;
     private Battleship battleship;
     private Destroyer destroyer;
     private Submarine submarine;
     private PatrolBoat patrolBoat;
+
     private static Coordinates lastShot;
     private static boolean lost;
     private static boolean won;
@@ -63,6 +68,11 @@ public class WarboatsModel {
     private static Boolean opponentRematch;
     private static int shipsRemaining;
 
+    /**
+     *
+     * @param theClient The user's client
+     * @param theServer The server that connects the clients together
+     */
     public WarboatsModel(WarboatsClient theClient, WarboatsServer theServer) {
 
         curClient = theClient;
@@ -85,17 +95,17 @@ public class WarboatsModel {
      *
      * @param x x coordinate (number axis)
      * @param y y coordinate (letter axis)
+     *
+     * @throws java.lang.InterruptedException
+     * @throws java.lang.Exception
      */
-    public void sendPlayerMove(int x, int y) throws InterruptedException, Exception {
+    public void sendPlayerMove(int x, int y) throws Exception {
 
-        File soundFile = new File("sounds/shotFired.wav");
-        AudioInputStream audioIn = AudioSystem.getAudioInputStream(
-                soundFile);
-        Clip clip = AudioSystem.getClip();
-        clip.open(audioIn);
-        clip.start();
-        audioIn.close();
-
+        //Taken out until I can figure out how to queue sound clips -Christian
+        //Perhaps we should add a suspense factor to getting a hit or miss?
+        //Even better: a firing animation??
+        //SoundUtility.shotFired(); 
+        
         if (playerReady) {
             Coordinates sendCords = new Coordinates(x, y);
 
@@ -103,8 +113,8 @@ public class WarboatsModel {
             if (curServer == null) {
                 System.out.println("SENDING CLIENT");
                 this.setLastShot(sendCords);
-                curClient.client.sendTCP(sendCords);
-                WarboatsModel.togglePlayerTurn();
+                curClient.client.sendTCP(sendCords); // sends shot coordinates to opponent
+                WarboatsModel.togglePlayerTurn(); // let opponent make next move
                 Thread.sleep(100);
                 System.out.println("SENT CLIENT");
             }
@@ -113,7 +123,7 @@ public class WarboatsModel {
                 System.out.println("SENDING SERVER");
                 this.setLastShot(sendCords);
                 curServer.server.sendToTCP(1, sendCords);
-                WarboatsModel.togglePlayerTurn();
+                WarboatsModel.togglePlayerTurn(); // let user make next move
                 Thread.sleep(100);
                 System.out.println("SENT SERVER");
             }
@@ -121,6 +131,10 @@ public class WarboatsModel {
 
     }
 
+    /**
+     * Sends a boolean value to the client/server indicating that they are ready
+     * to begin
+     */
     public void signalBeginGame() {
         BeginGame indicator = new BeginGame();
         if (curServer == null) {
@@ -167,9 +181,21 @@ public class WarboatsModel {
             default:
                 System.out.println("INVALID BOAT TYPE NUMBER");
         }
+
         shipsRemaining = navy.size();
     }
 
+    /**
+     * Updates the current positions of the ships in case of rotation
+     *
+     * @param boatType indicates type of ship to be built
+     * @param x1 starting x coordinate
+     * @param y1 starting y coordinate
+     * @param x2 ending x coordinate
+     * @param y2 ending y coordinate
+     *
+     * @throws ClassCastException
+     */
     public void updateShip(int boatType, int x1, int y1, int x2, int y2) throws ClassCastException {
         switch (boatType) {
             case 1:
@@ -194,7 +220,7 @@ public class WarboatsModel {
 
     /**
      * Only used when playing game in console so players can manually build
-     * navy.
+     * navy, THIS METHOD IS NOT USED ELSEWHERE.
      *
      * Can be setup to auto-construct navy for testing purposes.
      */
@@ -270,66 +296,151 @@ public class WarboatsModel {
         }
     }
 
+    /**
+     * Getter for myBoard attribute
+     *
+     * @return Board object representing the user's gridpane and ship placements
+     */
     public static Board getMyBoard() {
         return myBoard;
     }
 
+    /**
+     * Getter for opponentBoard attribute
+     *
+     * @return Board object representing the opponent's gridpane and ship
+     * placements
+     */
     public static Board getOpponentBoard() {
         return opponentBoard;
     }
 
+    /**
+     * Getter for lastShot attribute
+     *
+     * @return Coordinates object representing the tile on the gridpane that was
+     * last shot at
+     */
     public static Coordinates getLastShot() {
         return lastShot;
     }
 
+    /**
+     * Setter for lastShot attribute
+     *
+     * @param lastShot Coordinates object representing the tile on the gridpane
+     * that was last shot at
+     */
     public static void setLastShot(Coordinates lastShot) {
         WarboatsModel.lastShot = lastShot;
     }
 
+    /**
+     * Getter for navy attribute
+     *
+     * @return an ArrayList of Boat objects representing the fleet placed on a
+     * gridpane
+     */
     public ArrayList<Boat> getNavy() {
         return navy;
     }
 
+    /**
+     * Getter for isLost attribute
+     *
+     * @return a boolean representing whether the player has lost or not.
+     */
     public static boolean isLost() {
         return lost;
     }
 
+    /**
+     * Getter for isPlayerTurn attribute
+     *
+     * @return a boolean representing whether or not it is time for the player
+     * to shoot
+     */
     public static boolean isPlayerTurn() {
         return playerTurn;
     }
 
+    /**
+     * Flips the boolean isPlayerTurn attribute
+     */
     public static void togglePlayerTurn() {
         WarboatsModel.playerTurn = !playerTurn;
     }
 
+    /**
+     * Getter for won attribute
+     *
+     * @return a boolean representing whether the player has won or not.
+     */
     public static boolean isWon() {
         return won;
     }
 
+    /**
+     * Setter for won attribute
+     *
+     * @param won a boolean value representing whether the player has won or
+     * not.
+     */
     public static void setWon(boolean won) {
         WarboatsModel.won = won;
     }
 
+    /**
+     * Getter for the Carrier object in one's navy
+     *
+     * @return carrier object
+     */
     public Carrier getCarrier() {
         return carrier;
     }
 
+    /**
+     * Getter for the battleship object in one's navy
+     *
+     * @return battleship object
+     */
     public Battleship getBattleship() {
         return battleship;
     }
 
+    /**
+     * Getter for the destroyer object in one's navy
+     *
+     * @return destroyer object
+     */
     public Destroyer getDestroyer() {
         return destroyer;
     }
 
+    /**
+     * Getter for the submarine object in one's navy
+     *
+     * @return Submarine object
+     */
     public Submarine getSubmarine() {
         return submarine;
     }
 
+    /**
+     * Getter for the patrol boat object in one's navy
+     *
+     * @return Patrol Boat object
+     */
     public PatrolBoat getPatrolBoat() {
         return patrolBoat;
     }
 
+    /**
+     * Getter for isPlayerReady attribute
+     *
+     * @return a boolean value representing whether or not the user is ready to
+     * begin playing
+     */
     public static boolean isPlayerReady() {
         return playerReady;
     }
@@ -338,14 +449,31 @@ public class WarboatsModel {
         this.playerReady = ready;
     }
 
+    /**
+     * Getter for the shipsRemaining attribute
+     *
+     * @return int representing the number of ships left in your navy/fleet
+     */
     public int getShipsRemaining() {
         return shipsRemaining;
     }
 
+    /**
+     * Getter for opponentReady attribute
+     *
+     * @return boolean value representing whether or not the opponent is ready
+     * to begin playing
+     */
     public static boolean isOpponentReady() {
         return opponentReady;
     }
 
+    /**
+     * Setter for opponentReady attribute
+     *
+     * @param opponentReady boolean value representing whether or not the
+     * opponent is ready to begin playing
+     */
     public static void setOpponentReady(boolean opponentReady) {
         WarboatsModel.opponentReady = opponentReady;
     }

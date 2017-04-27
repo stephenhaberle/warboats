@@ -9,7 +9,7 @@
 * Project: warboats
 * Package: warboats.view
 * File: MarkerNode
-* Description:
+* Description: SquareMarkerNode object is a visual represetation of an individual tile in the gridpane
 *
 * ****************************************
  */
@@ -30,12 +30,22 @@ public class SquareMarkerNode extends Rectangle {
     private Marker marker;
     public ImageView image;
 
+    /**
+     *
+     * @param marker a marker object to be visualized
+     */
     public SquareMarkerNode(Marker marker) {
         super(38, 38, Color.TRANSPARENT); // MAKE THIS ORANGE TO VIEW SQUARES
         this.marker = marker;
         this.setMouseTransparent(true);
     }
 
+    /**
+     * Getter for marker object encapsulated in the SquareMarkerNode object
+     *
+     * @return Marker object representing the information present in that
+     * specific tile of the gridpane
+     */
     public Marker getMarker() {
         return marker;
     }
