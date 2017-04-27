@@ -278,8 +278,29 @@ public class WarboatsView {
                         SquareMarkerNode node = new SquareMarkerNode(new Marker(
                                 j, i));
 
-                        Image img = new Image(
-                                "file:src/resources/markers/water.png");
+                        //creates broken up pattern of water tiles
+                        Image img;
+                        if (i % 2 == 0) {
+                            if (j % 2 == 0) {
+                                img = new Image(
+                                        "file:src/resources/markers/water1.png");
+                            }
+                            else {
+                                img = new Image(
+                                        "file:src/resources/markers/water2.png");
+                            }
+                        }
+                        else {
+                            if (j % 2 == 0) {
+                                img = new Image(
+                                        "file:src/resources/markers/water2.png");
+                            }
+                            else {
+                                img = new Image(
+                                        "file:src/resources/markers/water1.png");
+                            }
+                        }
+
                         node.image = new ImageView();
                         node.image.setImage(img);
                         node.image.setFitWidth(38);
@@ -296,8 +317,29 @@ public class WarboatsView {
                         SquareMarkerNode node = new SquareMarkerNode(new Marker(
                                 j, i));
 
-                        Image img = new Image(
-                                "file:src/resources/markers/water.png");
+                        Image img;
+                        //creates broken up pattern of water tiles
+                        if (i % 2 == 0) {
+                            if (j % 2 == 0) {
+                                img = new Image(
+                                        "file:src/resources/markers/water1.png");
+                            }
+                            else {
+                                img = new Image(
+                                        "file:src/resources/markers/water2.png");
+                            }
+                        }
+                        else {
+                            if (j % 2 == 0) {
+                                img = new Image(
+                                        "file:src/resources/markers/water2.png");
+                            }
+                            else {
+                                img = new Image(
+                                        "file:src/resources/markers/water1.png");
+                            }
+                        }
+
                         node.image = new ImageView();
                         node.image.setImage(img);
                         node.image.setFitWidth(38);
