@@ -265,6 +265,11 @@ public class WarboatsView {
             for (int j = 0; j <= 10; j++) {
                 //set up numbers
                 if (j == 0) {
+                    Image img = new Image("file:src/resources/markers/steel.png");
+                    ImageView view = new ImageView(img);
+                    genBoard.add(view, j, i);
+                    GridPane.setHalignment(view, HPos.CENTER);
+
                     Label numLabel = new Label(String.format("%d", i));
                     numLabel.setFont(labelFont);
                     numLabel.setTextFill(Color.WHITE);
@@ -273,6 +278,11 @@ public class WarboatsView {
                 }
                 //set up letters
                 else if (i == 0) {
+                    Image img = new Image("file:src/resources/markers/steel.png");
+                    ImageView view = new ImageView(img);
+                    genBoard.add(view, j, i);
+                    GridPane.setHalignment(view, HPos.CENTER);
+
                     Label tempLabel = new Label(boardLetters[j]);
                     tempLabel.setFont(labelFont);
                     tempLabel.setTextFill(Color.WHITE);
