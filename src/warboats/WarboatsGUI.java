@@ -23,6 +23,7 @@ import warboats.model.WarboatsModel;
 import warboats.network.WarboatsClient;
 import warboats.network.WarboatsNetwork;
 import warboats.network.WarboatsServer;
+import warboats.utility.SoundUtility;
 import warboats.view.WarboatsView;
 
 /**
@@ -54,12 +55,15 @@ public class WarboatsGUI extends Application {
         theView = new WarboatsView(this.theModel);
         theCtrl = new WarboatsController(theModel, theView, this);
     }
-    
+
     @Override
-    public void stop() {
+    public void stop() throws InterruptedException {
         //Not elegant and if there's time I want to add shutdown hooks to threads -Christian
-        //However, it does manage to effectively kill the program. 
-        System.exit(0);      
+        //However, it does manage to effectively kill the program.
+        SoundUtility.shutdown();
+        //wait for sound to finish
+        Thread.sleep(1500);
+        System.exit(0);
     }
 
     /**
@@ -78,6 +82,8 @@ public class WarboatsGUI extends Application {
         primaryStage.setTitle("WARBOATS");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        SoundUtility.startup();
     }
 
     void cleanup() {
@@ -87,6 +93,7 @@ public class WarboatsGUI extends Application {
         //theModel.getConsolePlacements();
         theView = new WarboatsView(this.theModel);
         theCtrl = new WarboatsController(theModel, theView, this);
+        SoundUtility.restart();
     }
 
     public void restart() {
