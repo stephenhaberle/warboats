@@ -152,7 +152,7 @@ public class WarboatsView {
         placedShips.add(carrierView);
 
         //setup images and add them to the view
-        Image img = new Image("file:ships/carrierH.png");
+        Image img = new Image("file:src/resources/ships/carrierH.png");
         carrierView.setBoatImage(new ImageView());
         carrierView.getBoatImage().setImage(img);
         carrierView.getBoatImage().setFitWidth(200);
@@ -161,7 +161,7 @@ public class WarboatsView {
         shipPane.getChildren().add(carrierView.getBoatImage());
 
         //setup images and add them to the view
-        img = new Image("file:ships/battleshipH.png");
+        img = new Image("file:src/resources/ships/battleshipH.png");
         bshipView.setBoatImage(new ImageView());
         bshipView.getBoatImage().setImage(img);
         bshipView.getBoatImage().setFitWidth(160);
@@ -170,7 +170,7 @@ public class WarboatsView {
         shipPane.getChildren().add(bshipView.getBoatImage());
 
         //setup images and add them to the view
-        img = new Image("file:ships/destroyerH.png");
+        img = new Image("file:src/resources/ships/destroyerH.png");
         destroyView.setBoatImage(new ImageView());
         destroyView.getBoatImage().setImage(img);
         destroyView.getBoatImage().setFitWidth(120);
@@ -179,7 +179,7 @@ public class WarboatsView {
         shipPane.getChildren().add(destroyView.getBoatImage());
 
         //setup images and add them to the view
-        img = new Image("file:ships/subH.png");
+        img = new Image("file:src/resources/ships/subH.png");
         subView.setBoatImage(new ImageView());
         subView.getBoatImage().setImage(img);
         subView.getBoatImage().setFitWidth(120);
@@ -188,7 +188,7 @@ public class WarboatsView {
         shipPane.getChildren().add(subView.getBoatImage());
 
         //setup images and add them to the view
-        img = new Image("file:ships/ptH.png");
+        img = new Image("file:src/resources/ships/ptH.png");
         ptView.setBoatImage(new ImageView());
         ptView.getBoatImage().setImage(img);
         ptView.getBoatImage().setFitWidth(80);
@@ -275,7 +275,8 @@ public class WarboatsView {
                         SquareMarkerNode node = new SquareMarkerNode(new Marker(
                                 j, i));
 
-                        Image img = new Image("file:markers/water.png");
+                        Image img = new Image(
+                                "file:src/resources/markers/water.png");
                         node.image = new ImageView();
                         node.image.setImage(img);
                         node.image.setFitWidth(38);
@@ -292,7 +293,8 @@ public class WarboatsView {
                         SquareMarkerNode node = new SquareMarkerNode(new Marker(
                                 j, i));
 
-                        Image img = new Image("file:markers/water.png");
+                        Image img = new Image(
+                                "file:src/resources/markers/water.png");
                         node.image = new ImageView();
                         node.image.setImage(img);
                         node.image.setFitWidth(38);
@@ -321,7 +323,7 @@ public class WarboatsView {
         topBox.getChildren().add(menuBar);
 
         //Adds logo under menubar
-        Image img = new Image("file:images/logo.png");
+        Image img = new Image("file:src/resources/images/logo.png");
         logo = new ImageView();
         logo.setImage(img);
         logo.setFitWidth(600);

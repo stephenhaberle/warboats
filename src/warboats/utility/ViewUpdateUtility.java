@@ -64,10 +64,10 @@ public final class ViewUpdateUtility {
     public static void updatePlayerBoard(int x, int y, boolean hit) {
         Image hitMiss;
         if (hit) {
-            hitMiss = new Image("file:ships/hit.png");
+            hitMiss = new Image("file:src/resources/markers/hit.png");
         }
         else {
-            hitMiss = new Image("file:ships/miss.png");
+            hitMiss = new Image("file:src/resources/markers/miss.png");
         }
         ImageView hitMarker = new ImageView();
         hitMarker.setImage(hitMiss);

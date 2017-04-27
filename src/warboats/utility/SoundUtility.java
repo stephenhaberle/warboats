@@ -26,62 +26,62 @@ public final class SoundUtility {
     private static Clip clip;
 
     public static void startup() {
-        soundFile = new File("sounds/startup.wav");
+        soundFile = new File("src/resources/sounds/startup.wav");
         playAudio();
     }
 
     public static void shutdown() {
-        soundFile = new File("sounds/shutdown.wav");
+        soundFile = new File("src/resources/sounds/shutdown.wav");
         playAudio();
     }
 
     public static void restart() {
-        soundFile = new File("sounds/restart.wav");
+        soundFile = new File("src/resources/sounds/restart.wav");
         playAudio();
     }
 
     public static void waitTurn() {
-        soundFile = new File("sounds/waitTurn.wav");
+        soundFile = new File("src/resources/sounds/waitTurn.wav");
         playAudio();
     }
 
     public static void logoClick() {
-        soundFile = new File("sounds/logoClick.wav");
+        soundFile = new File("src/resources/sounds/logoClick.wav");
         playAudio();
     }
 
     public static void win() {
-        soundFile = new File("sounds/win.wav");
+        soundFile = new File("src/resources/sounds/win.wav");
         playAudio();
     }
 
     public static void loss() {
-        soundFile = new File("sounds/loss.wav");
+        soundFile = new File("src/resources/sounds/loss.wav");
         playAudio();
     }
 
     public static void hit() {
-        soundFile = new File("sounds/hit.wav");
+        soundFile = new File("src/resources/sounds/hit.wav");
         playAudio();
     }
 
     public static void miss() {
-        soundFile = new File("sounds/miss.wav");
+        soundFile = new File("src/resources/sounds/miss.wav");
         playAudio();
     }
 
     public static void sunk() {
-        soundFile = new File("sounds/sunk.wav");
+        soundFile = new File("src/resources/sounds/sunk.wav");
         playAudio();
     }
 
     public static void playerNotReady() {
-        soundFile = new File("sounds/playerNotReady.wav");
+        soundFile = new File("src/resources/sounds/playerNotReady.wav");
         playAudio();
     }
 
     public static void beginGame() {
-        soundFile = new File("sounds/beginGame.wav");
+        soundFile = new File("src/resources/sounds/beginGame.wav");
         playAudio();
     }
 
