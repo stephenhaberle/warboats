@@ -9,27 +9,17 @@
 * Project: warboats
 * Package: warboats.controller
 * File: WarboatsController
-* Description:
+* Description: Main controller for the Warboats game
 *
 * ****************************************
  */
 package warboats.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import warboats.WarboatsGUI;
 import warboats.model.WarboatsModel;
 import warboats.utility.SoundUtility;
@@ -37,6 +27,8 @@ import warboats.utility.ValueUpdateUtility;
 import warboats.view.WarboatsView;
 
 /**
+ * Sets up the main controller and sub-controllers for the game and updates the
+ * shot statistics as well as gameplay logic
  *
  * @author clo006
  */
@@ -51,11 +43,20 @@ public class WarboatsController {
     private WarboatsGUI theMain;
     private GameProgressionController gameCtrl;
 
+    /**
+     * Instantiates the main controller for the game and prepares threads for
+     * updating the statistics
+     *
+     * @param theModel Model object of the game
+     * @param theView View object of the game
+     */
     public WarboatsController(WarboatsModel theModel, WarboatsView theView,
                               WarboatsGUI theMain) {
         this.theMain = theMain;
         this.theModel = theModel;
         this.theView = theView;
+
+        //setup sub-controllers
         this.dragCtrl = new DragDropController(this.theView, this.theModel, this);
         this.shotCtrl = new SendShotController(this.theView, this.theModel, this);
         this.gameCtrl = new GameProgressionController(this.theModel,
@@ -72,6 +73,10 @@ public class WarboatsController {
         });
     }
 
+    /**
+     * Updates the shot statistics until the game is over. Implements the
+     * utility class to update the values
+     */
     class updateStatsTask extends Task<Void> {
 
         protected Void call() throws Exception {
@@ -83,6 +88,7 @@ public class WarboatsController {
                     }
                 });
 
+                //Continuous updating causes too much overhead. Updates every half a second.
                 Thread.sleep(500);
 
                 if (theModel.isLost() || theModel.isWon()) {

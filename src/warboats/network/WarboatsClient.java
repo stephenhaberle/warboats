@@ -7,10 +7,10 @@
 * Time: 12:17:28 PM
 *
 * Project: warboats
-* Package: warboats
+* Package: warboats.network
 * File: WarboatsClient
 * Description: Handles running the client side of the program. Connect to
-*               available server. Uses kryonet which threads this process.
+*              available server. Uses kryonet which threads this process.
 *
 * ****************************************
  */
@@ -23,6 +23,8 @@ import java.net.InetAddress;
 import warboats.model.WarboatsModel;
 
 /**
+ * Handles connecting to the server and receiving info from the server on the
+ * client's side
  *
  * @author clo006
  */
@@ -92,9 +94,11 @@ public class WarboatsClient extends Listener {
             try {
                 Thread.sleep(1000);
             } catch (Exception e) {
+                //should never get here
                 System.out.println("SLEEP DIDNT WORK");
             }
         }
+
         //For receiving server connect or win confirmation
         else if (p instanceof String) {
             String packet = (String) p;
@@ -104,6 +108,7 @@ public class WarboatsClient extends Listener {
             GameOver packet = (GameOver) p;
             WarboatsModel.setWon(packet.winFlag);
         }
+
         //For receiving hit/miss confirmation
         else if (p instanceof Boolean) {
             Boolean packet = (Boolean) p;
@@ -115,6 +120,8 @@ public class WarboatsClient extends Listener {
             System.out.println("MY BOARD");
             System.out.println(WarboatsModel.getMyBoard());
         }
+
+        //communicates that the user is ready to play
         else if (p instanceof BeginGame) {
             BeginGame packet = (BeginGame) p;
             WarboatsModel.setOpponentReady(packet.isReady);

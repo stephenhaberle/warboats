@@ -10,7 +10,7 @@
 * Package: warboats
 * File: WarboatsServer
 * Description: Class that handles running the server side of the program.
-*               Uses kryonet which threads this process.
+*              Uses kryonet which threads this process.
 *
 * ****************************************
  */
@@ -22,6 +22,8 @@ import com.esotericsoftware.kryonet.Server;
 import warboats.model.WarboatsModel;
 
 /**
+ * Handles connecting to the client and receiving info from the client on the
+ * server's side
  *
  * @author clo006
  */
