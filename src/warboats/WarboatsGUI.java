@@ -81,6 +81,8 @@ public class WarboatsGUI extends Application {
 
         primaryStage.setTitle("WARBOATS");
         primaryStage.setScene(scene);
+
+        //scene.getStylesheets().add("file:src/css/win7glass.css");
         primaryStage.show();
 
         SoundUtility.startup();
