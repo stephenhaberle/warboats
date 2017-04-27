@@ -70,6 +70,11 @@ public final class SoundUtility {
         playAudio();
     }
 
+    public static void sunk() {
+        soundFile = new File("sounds/sunk.wav");
+        playAudio();
+    }
+
     public static void playerNotReady() {
         soundFile = new File("sounds/playerNotReady.wav");
         playAudio();

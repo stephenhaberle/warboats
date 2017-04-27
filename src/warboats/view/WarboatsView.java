@@ -115,13 +115,16 @@ public class WarboatsView {
         shipPane.getChildren().add(missesLabel);
 
         Label shipLabel = new Label("Ships");
+        shipLabel.setPadding(new Insets(30, 0, 15, 0));
         shipLabel.setFont(new Font("Ariel", 32));
         shipPane.getChildren().add(shipLabel);
         shipPane.setPadding(new Insets(10, 10, 10, 10));
         shipLabel.setAlignment(Pos.CENTER);
 
         beginGame = new Button("Begin Game");
-        shipPane.getChildren().add(beginGame);
+        root.setBottom(beginGame);
+        BorderPane.setMargin(beginGame, new Insets(10, 10, 30, 60));
+        //shipPane.getChildren().add(beginGame);
 
         //#####################
         //### drag and drop ###

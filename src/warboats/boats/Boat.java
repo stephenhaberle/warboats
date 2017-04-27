@@ -19,6 +19,7 @@ import static java.lang.Math.abs;
 import java.util.ArrayList;
 import warboats.model.Board;
 import warboats.model.Marker;
+import warboats.utility.SoundUtility;
 
 /**
  * Generic boat class containing methods specific to all boats
@@ -133,7 +134,7 @@ public class Boat {
      *
      * @return boolean of whether or not the boat has been sunk
      */
-    public boolean checkSunk() {
+    public boolean checkSunk() throws InterruptedException {
         int hitCount = 0;
         for (Marker temp : positionTiles) {
             if (temp.getConsoleRepresentation().equals("H")) {
@@ -143,6 +144,7 @@ public class Boat {
 
         if (hitCount == this.size) {
             this.alive = false;
+            SoundUtility.sunk();
             return true;
         }
         else {
