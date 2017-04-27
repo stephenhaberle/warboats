@@ -376,8 +376,8 @@ public class DragDropController {
         }
 
         //assemble the filename of the respective boat png files
-        String filename = String.format("file:ships/%s%s.png", boatFile,
-                                        orientation);
+        String filename = String.format("file:src/resources/ships/%s%s.png",
+                                        boatFile, orientation);
 
         Image img;
         //if image is vertical, convert it to a horizontal orientation
