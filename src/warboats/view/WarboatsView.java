@@ -32,6 +32,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import warboats.model.Marker;
 import warboats.model.WarboatsModel;
@@ -255,17 +256,23 @@ public class WarboatsView {
 
             String[] boardLetters = {" ", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 
+            Font labelFont = new Font("Impact", 20);
+
             //set up indexing labels
             for (int j = 0; j <= 10; j++) {
                 //set up numbers
                 if (j == 0) {
                     Label numLabel = new Label(String.format("%d", i));
+                    numLabel.setFont(labelFont);
+                    numLabel.setTextFill(Color.WHITE);
                     genBoard.add(numLabel, j, i);
                     GridPane.setHalignment(numLabel, HPos.CENTER);
                 }
                 //set up letters
                 else if (i == 0) {
                     Label tempLabel = new Label(boardLetters[j]);
+                    tempLabel.setFont(labelFont);
+                    tempLabel.setTextFill(Color.WHITE);
                     genBoard.add(tempLabel, j, i);
                     labels.add(tempLabel);
 
