@@ -2,6 +2,11 @@
     -fx-background-color: linear-gradient(#ffff00, #f0f000);
     -fx-background-radius: 30;
     -fx-background-insets: 0;
+    
+    -fx-border-color: #0A0A0A;
+    -fx-border-radius: 30;
+    -fx-border-width: 1;
+    
     -fx-text-fill: black;
 }
 
@@ -9,6 +14,11 @@
     -fx-background-color: linear-gradient(#00ff00, #00f010);
     -fx-background-radius: 30;
     -fx-background-insets: 0;
+    
+    -fx-border-color: #0A0A0A;
+    -fx-border-radius: 30;
+    -fx-border-width: 1;
+    
     -fx-text-fill: black;
 }
 
@@ -19,7 +29,7 @@
 .root{
     
     -fx-base: rgb(132, 145, 47);
-    -fx-background: rgb(48, 146, 202);
+    -fx-background-color: linear-gradient(#0066cc, #99ccff);
 }
 
 
