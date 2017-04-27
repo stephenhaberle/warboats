@@ -9,11 +9,10 @@
 * Project: warboats
 * Package: warboats.view
 * File: WarboatsView
-* Description:The dopest view that you could ever view
+* Description: The dopest view that you could ever view. Creates the GUI
 *
 * ****************************************
  */
-//fill board with custom marker object
 package warboats.view;
 
 import java.util.ArrayList;
@@ -73,6 +72,11 @@ public class WarboatsView {
     private PatrolBoatView ptView;
     private SubmarineView subView;
 
+    /**
+     * Constructor for the view of the game. Sets up the entire GUI
+     *
+     * @param theModel the model that the view will implement
+     */
     public WarboatsView(WarboatsModel theModel) {
         this.theModel = theModel;
 
@@ -81,18 +85,27 @@ public class WarboatsView {
 
         placedShips = new ArrayList<>();
 
+        //generate various parts of the GUI
         generateMenuBar();
         generatePlayerBoardPane();
         generateOpponentBoardPane();
         generateShipPane();
+
+        //set alignments
         root.setCenter(boardPane);
         root.setLeft(shipPane);
 
-        //
         //PEYTON: Peyton would like to refactor the code so that the method names are more easily understandable
     }
 
+    /**
+     * Creates the statistical information for the game and holds the ship
+     * images that are draggable
+     */
     private void generateShipPane() {
+        //##################
+        //### Statistics ###
+        //##################
         shipPane = new VBox();
         shipPane.setPrefSize(150, 200);
         shipPane.getChildren().add(new Label("Ships Remaining"));
@@ -115,19 +128,23 @@ public class WarboatsView {
         beginGame = new Button("Begin Game");
         shipPane.getChildren().add(beginGame);
 
-        //drag and drop
+        //#####################
+        //### drag and drop ###
+        //#####################
         carrierView = new CarrierView();
         bshipView = new BattleshipView();
         destroyView = new DestroyerView();
         subView = new SubmarineView();
         ptView = new PatrolBoatView();
 
+        //add ships to an ArrayList to be referenced later
         placedShips.add(ptView);
         placedShips.add(subView);
         placedShips.add(destroyView);
         placedShips.add(bshipView);
         placedShips.add(carrierView);
 
+        //setup images and add them to the view
         Image img = new Image("file:ships/carrierH.png");
         carrierView.image = new ImageView();
         carrierView.image.setImage(img);
@@ -136,6 +153,7 @@ public class WarboatsView {
         carrierView.image.setId("5");
         shipPane.getChildren().add(carrierView.image);
 
+        //setup images and add them to the view
         img = new Image("file:ships/battleshipH.png");
         bshipView.image = new ImageView();
         bshipView.image.setImage(img);
@@ -144,6 +162,7 @@ public class WarboatsView {
         bshipView.image.setId("4");
         shipPane.getChildren().add(bshipView.image);
 
+        //setup images and add them to the view
         img = new Image("file:ships/destroyerH.png");
         destroyView.image = new ImageView();
         destroyView.image.setImage(img);
@@ -152,6 +171,7 @@ public class WarboatsView {
         destroyView.image.setId("3");
         shipPane.getChildren().add(destroyView.image);
 
+        //setup images and add them to the view
         img = new Image("file:ships/subH.png");
         subView.image = new ImageView();
         subView.image.setImage(img);
@@ -160,6 +180,7 @@ public class WarboatsView {
         subView.image.setId("2");
         shipPane.getChildren().add(subView.image);
 
+        //setup images and add them to the view
         img = new Image("file:ships/ptH.png");
         ptView.image = new ImageView();
         ptView.image.setImage(img);
@@ -170,11 +191,14 @@ public class WarboatsView {
 
     }
 
+    /**
+     * Generates the opponent's board (right gridpane in the view)
+     */
     private void generateOpponentBoardPane() {
 
         opPane = new VBox(10);
 
-        opponentBoard = generateBoardPane(1);
+        opponentBoard = generateBoardPane(1); // 1 is for the opponent
 
         opponentBoard.setAlignment(Pos.CENTER);
 
@@ -182,15 +206,17 @@ public class WarboatsView {
         opPane.getChildren().add(opponentBoard);
 
         boardPane.getChildren().add(opPane);
-
     }
 
+    /**
+     * Generates the user's board (left gridpane in the view)
+     */
     private void generatePlayerBoardPane() {
         boardPane = new HBox(10);
         boardPane.setAlignment(Pos.CENTER);
         playerPane = new VBox(10);
 
-        playerBoard = generateBoardPane(0);
+        playerBoard = generateBoardPane(0); // 0 is for the user
 
         playerBoard.setAlignment(Pos.CENTER);
         playerPane.getChildren().add(new Label("Your Fleet"));
@@ -200,6 +226,8 @@ public class WarboatsView {
     }
 
     /**
+     * Generates the boarderpane that holds the respective player's gridpane
+     * Introduces numbers and letters to index the columns and rows
      *
      * @param player - 0 if for player board, 1 for opp board.
      * @return GridPane - the grid representation of ships and markers.
@@ -217,12 +245,15 @@ public class WarboatsView {
 
             String[] boardLetters = {" ", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 
+            //set up indexing labels
             for (int j = 0; j <= 10; j++) {
+                //set up numbers
                 if (j == 0) {
                     Label numLabel = new Label(String.format("%d", i));
                     genBoard.add(numLabel, j, i);
                     GridPane.setHalignment(numLabel, HPos.CENTER);
                 }
+                //set up letters
                 else if (i == 0) {
                     Label tempLabel = new Label(boardLetters[j]);
                     genBoard.add(tempLabel, j, i);
@@ -233,7 +264,7 @@ public class WarboatsView {
                     }
                 }
                 else {
-                    if (player == 1) {
+                    if (player == 1) { //opponent
                         SquareMarkerNode node = new SquareMarkerNode(new Marker(
                                 j, i));
 
@@ -270,6 +301,9 @@ public class WarboatsView {
 
     }
 
+    /**
+     * Creates the menu bar and aligns the logo appropriately
+     */
     private void generateMenuBar() {
         topBox = new VBox(10);
 
@@ -293,58 +327,137 @@ public class WarboatsView {
 
     }
 
+    /**
+     * Getter for the rootNode attribute
+     *
+     * @return a BoarderPane object representing the entire GUI
+     */
     public BorderPane getRootNode() {
         return root;
     }
 
+    /**
+     * Getter for the placedShips attribute
+     *
+     * @return ArrayList of ShipViews, representing the images, placements, and
+     * types of the ships
+     */
     public ArrayList<ShipView> getPlacedShips() {
         return placedShips;
     }
 
+    /**
+     * Getter for the beginGame attribute
+     *
+     * @return Button object that allows the game to be started
+     */
     public Button getBeginGame() {
         return beginGame;
     }
 
+    /**
+     * Getter for the playerBoard attribute
+     *
+     * @return GridPane object representing the visual aspect of the player's
+     * board
+     */
     public GridPane getPlayerBoard() {
         return playerBoard;
     }
 
+    /**
+     * Getter for the opponnentBoard attribute
+     *
+     * @return GridPane object representing the visual aspect of the opponent's
+     * board
+     */
     public GridPane getOpponentBoard() {
         return opponentBoard;
     }
 
+    /**
+     * Getter for the shipPane attribute
+     *
+     * @return VBox object representing the place in the GUI where the ship
+     * images are stored
+     */
     public VBox getShipPane() {
         return shipPane;
     }
 
+    /**
+     * Getter for the carrierView attribute
+     *
+     * @return CarrierView object representing the image, placement, and type of
+     * the ship
+     */
     public CarrierView getCarrierView() {
         return carrierView;
     }
 
+    /**
+     * Getter for the bshipView attribute
+     *
+     * @return BattleshipView object representing the image, placement, and type
+     * of the ship
+     */
     public BattleshipView getBshipView() {
         return bshipView;
     }
 
+    /**
+     * Getter for the destroyView attribute
+     *
+     * @return DestroyerView object representing the image, placement, and type
+     * of the ship
+     */
     public DestroyerView getDestroyView() {
         return destroyView;
     }
 
+    /**
+     * Getter for the ptView attribute
+     *
+     * @return PatrolBoatView object representing the image, placement, and type
+     * of the ship
+     */
     public PatrolBoatView getPtView() {
         return ptView;
     }
 
+    /**
+     * Getter for the subView attribute
+     *
+     * @return SubarineView object representing the image, placement, and type
+     * of the ship
+     */
     public SubmarineView getSubView() {
         return subView;
     }
 
+    /**
+     * Getter for shipsRemainingLabel
+     *
+     * @return Label representing the number of ships the user has left
+     */
     public Label getShipRemainingLabel() {
         return shipRemainingLabel;
     }
 
+    /**
+     * Getter for the hitsLabel
+     *
+     * @return Label representing the number of hits the user has
+     */
     public Label getHitsLabel() {
         return hitsLabel;
     }
 
+    /**
+     * Getter for missedLabel
+     *
+     * @return Label representing the number of misses the user has
+     */
     public Label getMissesLabel() {
         return missesLabel;
     }
