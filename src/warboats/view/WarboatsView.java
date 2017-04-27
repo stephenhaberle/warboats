@@ -76,7 +76,7 @@ public class WarboatsView {
         this.theModel = theModel;
 
         root = new BorderPane();
-        root.setPrefSize(800, 700);
+        root.setPrefSize(1150, 700); //Set to actual size.
 
         placedShips = new ArrayList<>();
 
@@ -103,6 +103,8 @@ public class WarboatsView {
         //##################
         shipPane = new VBox();
         shipPane.setPrefSize(150, 200);
+        shipPane.getStyleClass().add("shipPane");
+
         shipPane.getChildren().add(new Label("Ships Remaining"));
         shipRemainingLabel = new Label();
         shipPane.getChildren().add(shipRemainingLabel);

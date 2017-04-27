@@ -54,12 +54,12 @@ public class WarboatsGUI extends Application {
         theView = new WarboatsView(this.theModel);
         theCtrl = new WarboatsController(theModel, theView, this);
     }
-    
+
     @Override
     public void stop() {
         //Not elegant and if there's time I want to add shutdown hooks to threads -Christian
-        //However, it does manage to effectively kill the program. 
-        System.exit(0);      
+        //However, it does manage to effectively kill the program.
+        System.exit(0);
     }
 
     /**
@@ -78,7 +78,8 @@ public class WarboatsGUI extends Application {
         primaryStage.setTitle("WARBOATS");
         primaryStage.setScene(scene);
 
-        //scene.getStylesheets().add("file:src/css/win7glass.css");
+        scene.getStylesheets().add("file:src/css/style.css"); //LOAD CSS FILE
+
         primaryStage.show();
     }
 
