@@ -30,15 +30,6 @@ import warboats.view.WarboatsView;
  */
 public final class ViewUpdateUtility {
 
-    public static WarboatsModel curModel;
-    public static WarboatsView curView;
-
-    public static void updateModelView(WarboatsModel theModel,
-                                       WarboatsView theView) {
-        curModel = theModel;
-        curView = theView;
-    }
-
     /**
      * static method that can be called to update the values in the textboxes
      *
@@ -64,23 +55,22 @@ public final class ViewUpdateUtility {
 
     }
 
-    public static void updatePlayerBoard(int x, int y) {
-        /*
-        Node result = null;
-        ObservableList<Node> childrens = curView.getPlayerBoard().getChildren();
-
-        for (Node node : childrens) {
-            if (curView.getPlayerBoard().getRowIndex(node) == y && curView.getPlayerBoard().getColumnIndex(
-                    node) == x) {
-                result = node;
-                break;
-            }
+    /**
+     * Update hits on player board using explosion png.
+     *
+     * @param x x coordinate of shot
+     * @param y y coordinate of shot
+     */
+    public static void updatePlayerBoard(int x, int y, boolean hit) {
+        Image hitMiss;
+        if (hit) {
+            hitMiss = new Image("file:ships/hit.png");
         }
-         */
-
-        Image hit = new Image("file:ships/hit.png");
+        else {
+            hitMiss = new Image("file:ships/miss.png");
+        }
         ImageView hitMarker = new ImageView();
-        hitMarker.setImage(hit);
+        hitMarker.setImage(hitMiss);
         WarboatsView.getPlayerBoard().add(hitMarker, x, y);
         GridPane.setHalignment(hitMarker, HPos.CENTER);
         GridPane.setValignment(hitMarker, VPos.CENTER);

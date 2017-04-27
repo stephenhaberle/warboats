@@ -94,7 +94,7 @@ public class Board {
             Boat boat = tile.getBoat();
 
             Platform.runLater(() -> {
-                ViewUpdateUtility.updatePlayerBoard(x, y);
+                ViewUpdateUtility.updatePlayerBoard(x, y, true);
             });
 
             //if the entire boat is destroyed, check to see if it was the last and if the game is over
@@ -105,6 +105,9 @@ public class Board {
             return true;
         }
         else {
+            Platform.runLater(() -> {
+                ViewUpdateUtility.updatePlayerBoard(x, y, false);
+            });
             return false;
         }
     }
