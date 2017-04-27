@@ -107,13 +107,16 @@ public class WarboatsView {
         shipPane.setPrefSize(150, 200);
         shipPane.getStyleClass().add("shipPane");
 
-        shipPane.getChildren().add(new Label("Ships Remaining"));
+        Label remainTitle = new Label("Ships Remaining");
+        //remainTitle.getStyleClass().add("label1");
+        shipPane.getChildren().add(remainTitle);
         shipRemainingLabel = new Label();
         shipPane.getChildren().add(shipRemainingLabel);
-        shipPane.getChildren().add(new Label("Number of Hits"));
 
+        shipPane.getChildren().add(new Label("Number of Hits"));
         hitsLabel = new Label();
         shipPane.getChildren().add(hitsLabel);
+
         shipPane.getChildren().add(new Label("Number of Misses"));
         missesLabel = new Label();
         shipPane.getChildren().add(missesLabel);
