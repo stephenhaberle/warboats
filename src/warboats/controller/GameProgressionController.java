@@ -55,7 +55,7 @@ public class GameProgressionController {
         theView.getBeginGame().setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 //change back to 5
-                if (theModel.getNavy().size() == 1) {
+                if (theModel.getNavy().size() == 3) {
                     dragCtrl.getTarget().setMouseTransparent(true);
                     theModel.setPlayerReady(true);
                     theModel.signalBeginGame();

@@ -99,7 +99,7 @@ public class SendShotController {
 
                         //notify user that the opponent still needs to place their ships
                         else if (!WarboatsModel.isOpponentReady()) {
-                            SoundUtility.playerNotReady(); 
+                            SoundUtility.playerNotReady();
                             System.out.println("OPPONENT ISNT READY");
                             Alert a = new Alert(AlertType.INFORMATION);
 
@@ -113,7 +113,8 @@ public class SendShotController {
                     else if (!theModel.isPlayerReady()) {
 
                         //User has not confirmed the placement of their ships. Must hit button
-                        if (theModel.getNavy().size() == 5) {
+                        //CHANGE BACK TO 5
+                        if (theModel.getNavy().size() == 3) {
                             Alert a = new Alert(AlertType.INFORMATION);
                             a.setTitle("Cannot Begin Game");
                             a.setHeaderText("Ready up!");
