@@ -15,6 +15,8 @@
  */
 package warboats.view;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -23,6 +25,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.Separator;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -56,6 +59,9 @@ public class WarboatsView {
     private static GridPane playerBoard;
     private static GridPane opponentBoard;
     private VBox shipPane;
+    private HBox sPane1;
+    private HBox sPane2;
+    private HBox sPane3;
     private Label shipRemainingLabel;
     private Label hitsLabel;
     private Label missesLabel;
@@ -104,26 +110,65 @@ public class WarboatsView {
         //### Statistics ###
         //##################
         shipPane = new VBox();
+        sPane1 = new HBox(10);
+        sPane2 = new HBox(10);
+        sPane3 = new HBox(10);
         shipPane.setPrefSize(150, 200);
         shipPane.getStyleClass().add("shipPane");
 
-        shipPane.getChildren().add(new Label("Ships Remaining"));
-        shipRemainingLabel = new Label();
-        shipPane.getChildren().add(shipRemainingLabel);
-        shipPane.getChildren().add(new Label("Number of Hits"));
+        try {
+            final Font f = Font.loadFont(new FileInputStream(new File(
+                    "src/resources/fonts/crystal.ttf")), 20);
 
-        hitsLabel = new Label();
-        shipPane.getChildren().add(hitsLabel);
-        shipPane.getChildren().add(new Label("Number of Misses"));
-        missesLabel = new Label();
-        shipPane.getChildren().add(missesLabel);
+            Label remainTitle = new Label("Ships Remaining:");
+            remainTitle.setFont(f);
+            remainTitle.getStyleClass().add("label1");
+            sPane1.getChildren().add(remainTitle);
+            shipRemainingLabel = new Label();
+            shipRemainingLabel.setFont(f);
+            sPane1.getChildren().add(shipRemainingLabel);
+            shipPane.getChildren().add(sPane1);
 
-        Label shipLabel = new Label("Ships");
-        shipLabel.setPadding(new Insets(30, 0, 15, 0));
-        shipLabel.setFont(new Font("Ariel", 32));
-        shipPane.getChildren().add(shipLabel);
+            Label hitNumber = new Label("Number of Hits:");
+            hitNumber.setFont(f);
+            hitNumber.getStyleClass().add("label1");
+            sPane2.getChildren().add(hitNumber);
+            hitsLabel = new Label();
+            hitsLabel.setFont(f);
+            sPane2.getChildren().add(hitsLabel);
+            shipPane.getChildren().add(sPane2);
+
+            Label missNumber = new Label("Number of Misses:");
+            missNumber.setFont(f);
+            missNumber.getStyleClass().add("label1");
+            sPane3.getChildren().add(missNumber);
+            missesLabel = new Label();
+            missesLabel.setFont(f);
+            sPane3.getChildren().add(missesLabel);
+            shipPane.getChildren().add(sPane3);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Separator separator = new Separator();
+        separator.setPadding(new Insets(5, 0, 0, 0));
+        shipPane.getChildren().add(separator);
+
+        try {
+            final Font f = Font.loadFont(new FileInputStream(new File(
+                    "src/resources/fonts/crystal.ttf")), 36);
+            Label shipLabel = new Label("Ships");
+            shipLabel.setPadding(new Insets(10, 0, 10, 0));
+            //shipLabel.setFont(new Font("Ariel", 32));
+
+            shipLabel.setFont(f);
+            shipLabel.setAlignment(Pos.CENTER);
+            shipPane.getChildren().add(shipLabel);
+        } catch (Exception e) {
+
+        }
         shipPane.setPadding(new Insets(10, 10, 10, 10));
-        shipLabel.setAlignment(Pos.CENTER);
 
         buttonPane = new HBox();
         buttonPane.getStyleClass().add("botHBox");
