@@ -113,8 +113,7 @@ public class SendShotController {
                     else if (!theModel.isPlayerReady()) {
 
                         //User has not confirmed the placement of their ships. Must hit button
-                        //CHANGE BACK TO 5
-                        if (theModel.getNavy().size() == 3) {
+                        if (theModel.getNavy().size() == 5) {
                             Alert a = new Alert(AlertType.INFORMATION);
                             a.setTitle("Cannot Begin Game");
                             a.setHeaderText("Ready up!");

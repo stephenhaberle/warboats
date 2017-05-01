@@ -15,6 +15,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import warboats.WarboatsGUI;
 import warboats.model.WarboatsModel;
 import warboats.utility.SoundUtility;
@@ -54,8 +55,7 @@ public class GameProgressionController {
 
         theView.getBeginGame().setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                //change back to 5
-                if (theModel.getNavy().size() == 3) {
+                if (theModel.getNavy().size() == 5) {
                     dragCtrl.getTarget().setMouseTransparent(true);
                     theModel.setPlayerReady(true);
                     theModel.signalBeginGame();
@@ -177,7 +177,7 @@ public class GameProgressionController {
 
                 }
                 else if (WarboatsModel.isOpponentReady() && WarboatsModel.isPlayerReady() && WarboatsModel.playerTurn && !inTurn) {
-                    /*
+
                     Platform.runLater(new Runnable() {
                         public void run() {
                             Alert a = new Alert(AlertType.INFORMATION);
@@ -186,7 +186,6 @@ public class GameProgressionController {
                             a.showAndWait();
                         }
                     });
-                     */
                     inTurn = true;
                 }
                 else if (!WarboatsModel.isPlayerTurn()) {
